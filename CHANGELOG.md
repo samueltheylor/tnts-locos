@@ -1,5 +1,11 @@
 # TNTs Locos — Changelog
 
+## v1.9.8 — Items en espiral hacia el Agujero Negro (solo Java)
+
+- **Estela blanca en espiral:** los items y orbes de XP que entran en la zona de captura (6 bloques) ya no desaparecen al instante — quedan **atrapados en una espiral que acelera** hacia el núcleo: giran cada vez más rápido y caen cada vez más fuerte cuanto más cerca están (velocidad tangencial + radial no lineal).
+- **Efecto de estiramiento:** cada item suelta una **estela de partículas blancas brillantes** (END_ROD) que se hace más densa y rápida al acercarse al centro — parecen estirados mientras giran.
+- **Consumido en el núcleo:** al llegar al centro (radio 0.9) desaparecen con destello, chispas blancas y el sonido de orbe.
+
 ## v1.9.7 — Agujero Negro con NUCLEO REAL (solo Java)
 
 - **🕳️ Núcleo negro real:** ya no es una esfera de partículas — el modelo 3D ahora es un **disco negro plano** (el portal) con **anillo de acreción morado** exterior e **interior rosa/blanco**, inclinado 25° como un portal, brillo completo y girando en direcciones opuestas mientras pulsa.

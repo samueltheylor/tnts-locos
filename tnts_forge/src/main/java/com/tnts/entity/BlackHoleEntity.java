@@ -89,13 +89,39 @@ public class BlackHoleEntity extends Entity {
 
             double hd = Math.sqrt((p.x - x) * (p.x - x) + (p.z - z) * (p.z - z));
 
-            // Item u orb de XP que cae al nucleo: consumido con destello
-            if ((e instanceof ItemEntity || e instanceof ExperienceOrb) && hd < 2.5 && p.y < y + 3.0) {
-                e.discard();
-                serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 3, 0, 0, 0, 0);
-                serverLevel.sendParticles(ParticleTypes.END_ROD, p.x, p.y + 0.3, p.z, 4, 0.2, 0.2, 0.2, 0);
-                serverLevel.playSound(null, p.x, p.y, p.z, SoundEvents.EXPERIENCE_ORB_PICKUP,
-                        SoundSource.AMBIENT, 0.7F, 2.0F);
+            // === ITEMS/ORBES DE XP CAPTURADOS: espiral acelerada + estela blanca ===
+            if ((e instanceof ItemEntity || e instanceof ExperienceOrb) && hd < 6.0 && p.y < y + 4.0) {
+                // devorado al llegar al nucleo
+                if (hd < 0.9) {
+                    e.discard();
+                    serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 4, 0, 0, 0, 0);
+                    serverLevel.sendParticles(ParticleTypes.END_ROD, p.x, p.y + 0.3, p.z, 6, 0.2, 0.2, 0.2, 0);
+                    serverLevel.playSound(null, p.x, p.y, p.z, SoundEvents.EXPERIENCE_ORB_PICKUP,
+                            SoundSource.AMBIENT, 0.7F, 2.0F);
+                } else {
+                    // 0 lejos, 1 en el nucleo: la espiral ACELERA al acercarse
+                    double capture = 1.0 - Math.min(1.0, hd / 6.0);
+                    double orbit = 0.14 + capture * 0.5;   // giro cada vez mas rapido
+                    double inward = 0.08 + capture * 0.45;  // caida cada vez mas fuerte
+                    // tangencial (orbita) + radial (hacia el centro) en el plano del disco
+                    double tx = -(p.z - z) / hd;
+                    double tz = (p.x - x) / hd;
+                    double rx = dir.x / dist;
+                    double rz = dir.z / dist;
+                    double vy = (y - p.y) * 0.12;
+                    e.setDeltaMovement(tx * orbit + rx * inward, vy, tz * orbit + rz * inward);
+                    e.hurtMarked = true;
+                    // estela blanca: mas densa cuanto mas cerca (parece estirado)
+                    int trail = 1 + (int) (capture * 3);
+                    Vec3 mv = e.getDeltaMovement();
+                    for (int ti = 0; ti < trail; ti++) {
+                        serverLevel.sendParticles(ParticleTypes.END_ROD,
+                                p.x + (serverLevel.random.nextDouble() - 0.5) * 0.3,
+                                p.y + 0.1 + (serverLevel.random.nextDouble() - 0.5) * 0.2,
+                                p.z + (serverLevel.random.nextDouble() - 0.5) * 0.3,
+                                1, -mv.x * 0.25, -mv.y * 0.25, -mv.z * 0.25, 0);
+                    }
+                }
                 continue;
             }
 
