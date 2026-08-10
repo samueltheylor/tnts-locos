@@ -32,6 +32,9 @@
   "block.tnts.tormenta_tnt": "Storm TNT",
   "block.tnts.colosal_tnt": "Colossal TNT",
   "block.tnts.supernova_tnt": "Supernova TNT",
+  "block.tnts.toxica_tnt": "Toxic TNT",
+  "block.tnts.fuegos_tnt": "Fireworks TNT",
+  "block.tnts.gravitatoria_tnt": "Gravity TNT",
   "item.tnts.detonator": "Remote Detonator",
   "item.tnts.launcher": "TNT Launcher",
   "item.tnts.tnt_arrow": "TNT Arrow",
@@ -118,5 +121,11 @@
   "advancements.tnts.craft.colosal_tnt.title": "Craft the Colossal TNT",
   "advancements.tnts.craft.colosal_tnt.description": "Craft a Colossal TNT",
   "advancements.tnts.craft.supernova_tnt.title": "Craft the Supernova TNT",
-  "advancements.tnts.craft.supernova_tnt.description": "Craft a Supernova TNT"
+  "advancements.tnts.craft.supernova_tnt.description": "Craft a Supernova TNT",
+  "advancements.tnts.craft.toxica_tnt.title": "Craft the Toxic TNT",
+  "advancements.tnts.craft.toxica_tnt.description": "Craft a Toxic TNT",
+  "advancements.tnts.craft.fuegos_tnt.title": "Craft the Fireworks TNT",
+  "advancements.tnts.craft.fuegos_tnt.description": "Craft a Fireworks TNT",
+  "advancements.tnts.craft.gravitatoria_tnt.title": "Craft the Gravity TNT",
+  "advancements.tnts.craft.gravitatoria_tnt.description": "Craft a Gravity TNT"
 }

@@ -264,6 +264,29 @@ public class TntsGameTest {
         helper.succeed();
     }
 
+    /** TNTs nuevas 1.9.3: Toxica, Fuegos y Gravitatoria explotan sin crashear. */
+    @GameTest(template = "empty", timeoutTicks = 300)
+    public static void new_tnts_193_explode_safely(GameTestHelper helper) {
+        BlockPos t1 = new BlockPos(5, 2, 5);
+        BlockPos t2 = new BlockPos(8, 2, 8);
+        BlockPos t3 = new BlockPos(11, 2, 11);
+        helper.setBlock(t1, ModBlocks.TOXICA_TNT.get());
+        helper.setBlock(t2, ModBlocks.FUEGOS_TNT.get());
+        helper.setBlock(t3, ModBlocks.GRAVITATORIA_TNT.get());
+        ((TntBlock) helper.getBlockState(t1).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t1), helper.getBlockState(t1), null);
+        ((TntBlock) helper.getBlockState(t2).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t2), helper.getBlockState(t2), null);
+        ((TntBlock) helper.getBlockState(t3).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t3), helper.getBlockState(t3), null);
+        helper.runAfterDelay(160, () -> {
+            helper.assertTrue(helper.getBlockState(t1).isAir(), "La Toxica deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t2).isAir(), "La Fuegos deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t3).isAir(), "La Gravitatoria deberia haber explotado");
+            helper.succeed();
+        });
+    }
+
     /** El bunker de TNT esta registrado (datapack: estructura + structure set). */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void bunker_structure_registered(GameTestHelper helper) {

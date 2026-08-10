@@ -49,6 +49,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> TORMENTA_TNT = register("tormenta_tnt", MapColor.COLOR_BLUE);
     public static final RegistryObject<Block> COLOSAL_TNT = register("colosal_tnt", MapColor.COLOR_RED);
     public static final RegistryObject<Block> SUPERNOVA_TNT = register("supernova_tnt", MapColor.COLOR_PURPLE);
+    public static final RegistryObject<Block> TOXICA_TNT = register("toxica_tnt", MapColor.COLOR_GREEN);
+    public static final RegistryObject<Block> FUEGOS_TNT = register("fuegos_tnt", MapColor.COLOR_MAGENTA);
+    public static final RegistryObject<Block> GRAVITATORIA_TNT = register("gravitatoria_tnt", MapColor.COLOR_PURPLE);
 
     private static RegistryObject<Block> register(String name, MapColor color) {
         Supplier<Block> supplier = () -> new TntBlock(name, TntDefaults.DEFAULTS.get(name), color);
@@ -65,7 +68,8 @@ public class ModBlocks {
                 INFERNO_TNT.get(), HONGO_TNT.get(), MIEL_TNT.get(), HEAL_TNT.get(),
                 TELEPORT_TNT.get(), CONFETI_TNT.get(), MINA_TNT.get(),
                 TERREMOTO_TNT.get(), METEORITO_TNT.get(), TORMENTA_TNT.get(),
-                COLOSAL_TNT.get(), SUPERNOVA_TNT.get());
+                COLOSAL_TNT.get(), SUPERNOVA_TNT.get(),
+                TOXICA_TNT.get(), FUEGOS_TNT.get(), GRAVITATORIA_TNT.get());
     }
 
     /** Nombres de todas las variantes (orden de la config). */

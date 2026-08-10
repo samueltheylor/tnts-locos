@@ -32,6 +32,9 @@
   "block.tnts.tormenta_tnt": "TNT Tormenta",
   "block.tnts.colosal_tnt": "TNT Colosal",
   "block.tnts.supernova_tnt": "TNT Supernova",
+  "block.tnts.toxica_tnt": "TNT T\u00f3xica",
+  "block.tnts.fuegos_tnt": "TNT de Fuegos Artificiales",
+  "block.tnts.gravitatoria_tnt": "TNT Gravitatoria",
   "item.tnts.detonator": "Detonador Remoto",
   "item.tnts.launcher": "Lanzador de TNT",
   "item.tnts.tnt_arrow": "Flecha de TNT",
@@ -118,5 +121,11 @@
   "advancements.tnts.craft.colosal_tnt.title": "Craftea la TNT Colosal",
   "advancements.tnts.craft.colosal_tnt.description": "Consigue una TNT Colosal crafte\u00e1ndola",
   "advancements.tnts.craft.supernova_tnt.title": "Craftea la TNT Supernova",
-  "advancements.tnts.craft.supernova_tnt.description": "Consigue una TNT Supernova crafte\u00e1ndola"
+  "advancements.tnts.craft.supernova_tnt.description": "Consigue una TNT Supernova crafte\u00e1ndola",
+  "advancements.tnts.craft.toxica_tnt.title": "Craftea la TNT T\u00f3xica",
+  "advancements.tnts.craft.toxica_tnt.description": "Consigue una TNT T\u00f3xica crafte\u00e1ndola",
+  "advancements.tnts.craft.fuegos_tnt.title": "Craftea la TNT de Fuegos Artificiales",
+  "advancements.tnts.craft.fuegos_tnt.description": "Consigue una TNT de Fuegos Artificiales crafte\u00e1ndola",
+  "advancements.tnts.craft.gravitatoria_tnt.title": "Craftea la TNT Gravitatoria",
+  "advancements.tnts.craft.gravitatoria_tnt.description": "Consigue una TNT Gravitatoria crafte\u00e1ndola"
 }

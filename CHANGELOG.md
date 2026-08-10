@@ -1,5 +1,14 @@
 # TNTs Locos — Changelog
 
+## v1.9.3 — Reacción en cadena + 3 TNTs nuevas + efectos 3D para TODAS las TNTs (solo Java)
+
+- **Reacción en cadena:** al explotar una TNT, enciende automáticamente otras TNTs del mod cercanas (radio ~5) creando un efecto dominó espectacular.
+- **☠️ TNT Tóxica:** nube verde venenosa que envenena y debilita a los seres vivos cercanos. No rompe bloques. Receta: TNT + ojo de araña + ojo de araña fermentado.
+- **🎆 TNT de Fuegos Artificiales:** lanza 8-16 cohetes de colores aleatorios al cielo. No rompe bloques. Receta: TNT + fuego artificial.
+- **🌌 TNT Gravitatoria:** aplasta a todas las entidades contra el suelo con una fuerza brutal, crea un cráter profundo. Receta: TNT + yunque.
+- **✨ Efecto 3D genérico para TODAS las 35 TNTs:** ahora cada variante (incluyendo mini, oro, diamante, confeti, etc.) tiene un **fantasma 3D** que reproduce su propia textura de bloque, crece y gira sobre el cráter al explotar. Entidad genérica `TntBlastEntity` + renderer que usa `BlockRenderDispatcher` para dibujar el bloque real.
+- 35 TNTs totales, 75 sonidos sintetizados.
+
 ## v1.9.2 — Efectos 3D para las TNTs masivas (solo Java)
 
 - **☄️ Meteorito 3D:** ahora caen 5-8 **meteoritos visibles** (entidad propia: roca ardiente que gira y vibra mientras cae con estela de fuego y humo) y explotan al impactar dejando cráteres con lava.

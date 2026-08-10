@@ -65,7 +65,8 @@ public class TntsConfig {
                             "Efectos especiales (lista). Valores: " +
                             "FREEZES, SNOW, LAVA, LAUNCH, NUCLEAR, LIGHTNING, GOLD, TRAP, " +
                             "OBSIDIAN, CRYO, XP, WATER, SAND, DIAMOND, EMERALD, BLACKHOLE, " +
-                            "WIND, INFERNO, FUNGI, HONEY, HEAL, TELEPORT, CONFETTI")
+                            "WIND, INFERNO, FUNGI, HONEY, HEAL, TELEPORT, CONFETTI, " +
+                            "TOXIC, FIREWORKS, GRAVITY")
                     .defineList("effects",
                             d.effects().stream().map(Enum::name).toList(),
                             obj -> obj instanceof String);

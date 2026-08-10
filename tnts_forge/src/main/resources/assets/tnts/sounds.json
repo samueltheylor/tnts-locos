@@ -343,5 +343,35 @@
     "sounds": [
       "tnts:block/tnt/explode_supernova_tnt"
     ]
+  },
+  "block.tnt.fuse.toxica_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_toxica_tnt"
+    ]
+  },
+  "block.tnt.explode.toxica_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_toxica_tnt"
+    ]
+  },
+  "block.tnt.fuse.fuegos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_fuegos_tnt"
+    ]
+  },
+  "block.tnt.explode.fuegos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_fuegos_tnt"
+    ]
+  },
+  "block.tnt.fuse.gravitatoria_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_gravitatoria_tnt"
+    ]
+  },
+  "block.tnt.explode.gravitatoria_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_gravitatoria_tnt"
+    ]
   }
 }

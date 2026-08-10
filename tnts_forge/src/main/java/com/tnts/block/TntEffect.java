@@ -57,5 +57,11 @@ public enum TntEffect {
     /** Colosal: explosion en oleadas progresivas sin lag (TNT Colosal). */
     COLOSSAL,
     /** Supernova: expansion de luz seguida de colapso, drops masivos de XP (TNT Supernova). */
-    SUPERNOVA
+    SUPERNOVA,
+    /** Toxica: nube verde que envenena y debilita a los seres vivos (TNT Toxica). */
+    TOXIC,
+    /** Fuegos Artificiales: lanza cohetes de colores al cielo (TNT de Fuegos Artificiales). */
+    FIREWORKS,
+    /** Gravitatoria: gravedad brutal que aplasta a todo contra el suelo (TNT Gravitatoria). */
+    GRAVITY
 }

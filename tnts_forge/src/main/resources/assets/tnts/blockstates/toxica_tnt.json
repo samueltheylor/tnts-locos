@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/toxica_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/toxica_tnt_lit"
+    }
+  }
+}

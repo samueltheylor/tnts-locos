@@ -32,5 +32,6 @@ public class ClientSetup {
         event.registerEntityRenderer(TntsEntities.STORM_CLOUD.get(), StormCloudRenderer::new);
         event.registerEntityRenderer(TntsEntities.SHOCKWAVE.get(), ShockwaveRenderer::new);
         event.registerEntityRenderer(TntsEntities.SUPERNOVA.get(), SupernovaRenderer::new);
+        event.registerEntityRenderer(TntsEntities.TNT_BLAST.get(), TntBlastRenderer::new);
     }
 }

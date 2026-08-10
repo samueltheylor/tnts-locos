@@ -207,6 +207,24 @@
       "conditions": {
         "block": "tnts:supernova_tnt"
       }
+    },
+    "explode_toxica_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:toxica_tnt"
+      }
+    },
+    "explode_fuegos_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:fuegos_tnt"
+      }
+    },
+    "explode_gravitatoria_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:gravitatoria_tnt"
+      }
     }
   }
 }

@@ -21,7 +21,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "oro_tnt", "obsidiana_tnt", "crio_tnt", "xp_tnt", "agua_tnt", "arena_tnt",
          "diamante_tnt", "esmeralda_tnt", "negra_tnt", "viento_tnt", "inferno_tnt",
          "hongo_tnt", "miel_tnt", "heal_tnt", "teleport_tnt", "confeti_tnt", "mina_tnt",
-         "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt"]
+         "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
+         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt"]
 
 # mecha: (duracion segundos, velocidad del siseo)
 FUSES = {
@@ -37,6 +38,9 @@ FUSES = {
     "terremoto_tnt": (1.50, 0.70), "meteorito_tnt": (1.40, 0.75),
     "tormenta_tnt": (1.30, 0.80), "colosal_tnt": (1.80, 0.60),
     "supernova_tnt": (1.60, 0.65),
+    "toxica_tnt": (1.10, 0.85),
+    "fuegos_tnt": (0.90, 1.10),
+    "gravitatoria_tnt": (1.30, 0.75),
 }
 
 # explosion: (duracion, frecuencia del retumbo, ganancia, crepitar, cola larga, extra)
@@ -73,6 +77,9 @@ EXPLOSIONS = {
     "tormenta_tnt":   (2.40, 34, 1.15, 1.40, 0.60, [("crack", ())]),
     "colosal_tnt":    (3.40, 26, 1.30, 1.20, 1.40, []),
     "supernova_tnt":  (3.00, 36, 1.10, 0.80, 1.20, [("shimmer", (2600.0,)), ("sparkle", ())]),
+    "toxica_tnt":     (1.80, 42, 0.90, 0.40, 0.40, [("sparkle", ())]),
+    "fuegos_tnt":     (1.60, 55, 0.80, 0.90, 0.20, [("sparkle", ())]),
+    "gravitatoria_tnt":(2.20, 34, 1.10, 0.60, 0.80, []),
 }
 
 

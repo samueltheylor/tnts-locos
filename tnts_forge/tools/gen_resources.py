@@ -23,7 +23,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "obsidiana_tnt", "crio_tnt", "xp_tnt", "agua_tnt", "arena_tnt",
          "diamante_tnt", "esmeralda_tnt", "negra_tnt", "viento_tnt", "inferno_tnt",
          "hongo_tnt", "miel_tnt", "heal_tnt", "teleport_tnt", "confeti_tnt", "mina_tnt",
-         "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt"]
+         "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
+         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt"]
 
 # Recetas: nombre -> (ingredientes, cantidad). Cada ingrediente ("item", id) o ("tag", id).
 TNT_RECIPES = {
@@ -59,6 +60,9 @@ TNT_RECIPES = {
     "tormenta_tnt":   ([("item", "minecraft:tnt"), ("item", "minecraft:lightning_rod"), ("tag", "forge:dusts/redstone")], 1),
     "colosal_tnt":    ([("item", "tnts:mega_tnt"), ("item", "tnts:mega_tnt"), ("item", "minecraft:tnt")], 1),
     "supernova_tnt":  ([("item", "minecraft:tnt"), ("item", "minecraft:nether_star"), ("item", "minecraft:glowstone")], 1),
+    "toxica_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:spider_eye"), ("item", "minecraft:fermented_spider_eye")], 1),
+    "fuegos_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:firework_rocket")], 1),
+    "gravitatoria_tnt":([("item", "minecraft:tnt"), ("item", "minecraft:anvil")], 1),
     "grenade":       ([("item", "minecraft:tnt"), ("item", "minecraft:string")], 2),
     "detonator":     ([("tag", "forge:ingots/iron"), ("tag", "forge:dusts/redstone"), ("item", "minecraft:tnt")], 1),
 }
@@ -97,6 +101,9 @@ PALETTES = {
     "tormenta_tnt":   ("#1e1b4b", "#fde047", "#0c0a2a", "#facc15", "#0c0a2a"),  # tormenta/relampago
     "colosal_tnt":    ("#7f1d1d", "#fef9c3", "#450a0a", "#fde047", "#450a0a"),  # colosal/rojo oscuro
     "supernova_tnt":  ("#4c1d95", "#fef9c3", "#2e1065", "#fcd34d", "#2e1065"),  # supernova/purpura dorada
+    "toxica_tnt":     ("#14532d", "#dcfce7", "#052e16", "#84cc16", "#052e16"),  # toxica/verde veneno
+    "fuegos_tnt":     ("#831843", "#fce7f3", "#4c0519", "#f472b6", "#4c0519"),  # fuegos artificiales/rosa
+    "gravitatoria_tnt":("#3b0764", "#e9d5ff", "#1e1b4b", "#a855f7", "#1e1b4b"),  # gravitatoria/purpura
 }
 
 
@@ -977,6 +984,9 @@ LANG_ES = {
     "block.tnts.tormenta_tnt": "TNT Tormenta",
     "block.tnts.colosal_tnt": "TNT Colosal",
     "block.tnts.supernova_tnt": "TNT Supernova",
+    "block.tnts.toxica_tnt": "TNT Tóxica",
+    "block.tnts.fuegos_tnt": "TNT de Fuegos Artificiales",
+    "block.tnts.gravitatoria_tnt": "TNT Gravitatoria",
     "item.tnts.detonator": "Detonador Remoto",
     "item.tnts.launcher": "Lanzador de TNT",
     "item.tnts.tnt_arrow": "Flecha de TNT",
@@ -1036,6 +1046,9 @@ LANG_EN = {
     "block.tnts.tormenta_tnt": "Storm TNT",
     "block.tnts.colosal_tnt": "Colossal TNT",
     "block.tnts.supernova_tnt": "Supernova TNT",
+    "block.tnts.toxica_tnt": "Toxic TNT",
+    "block.tnts.fuegos_tnt": "Fireworks TNT",
+    "block.tnts.gravitatoria_tnt": "Gravity TNT",
     "item.tnts.detonator": "Remote Detonator",
     "item.tnts.launcher": "TNT Launcher",
     "item.tnts.tnt_arrow": "TNT Arrow",

@@ -52,6 +52,9 @@ public class ModItems {
     public static final RegistryObject<Item> TORMENTA_TNT = blockItem("tormenta_tnt", ModBlocks.TORMENTA_TNT);
     public static final RegistryObject<Item> COLOSAL_TNT = blockItem("colosal_tnt", ModBlocks.COLOSAL_TNT);
     public static final RegistryObject<Item> SUPERNOVA_TNT = blockItem("supernova_tnt", ModBlocks.SUPERNOVA_TNT);
+    public static final RegistryObject<Item> TOXICA_TNT = blockItem("toxica_tnt", ModBlocks.TOXICA_TNT);
+    public static final RegistryObject<Item> FUEGOS_TNT = blockItem("fuegos_tnt", ModBlocks.FUEGOS_TNT);
+    public static final RegistryObject<Item> GRAVITATORIA_TNT = blockItem("gravitatoria_tnt", ModBlocks.GRAVITATORIA_TNT);
 
     public static final RegistryObject<Item> DETONATOR = ITEMS.register("detonator",
             () -> new DetonatorItem(new Item.Properties().stacksTo(1)));

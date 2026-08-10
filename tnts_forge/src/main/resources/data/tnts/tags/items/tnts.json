@@ -32,6 +32,9 @@
     "tnts:meteorito_tnt",
     "tnts:tormenta_tnt",
     "tnts:colosal_tnt",
-    "tnts:supernova_tnt"
+    "tnts:supernova_tnt",
+    "tnts:toxica_tnt",
+    "tnts:fuegos_tnt",
+    "tnts:gravitatoria_tnt"
   ]
 }

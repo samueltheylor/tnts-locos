@@ -31,6 +31,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -229,6 +230,13 @@ public class TntsPrimedTnt extends PrimedTnt {
         if (p.has(TntEffect.STORM)) massiveStorm(lvl, x, y, z);
         if (p.has(TntEffect.COLOSSAL)) colossalExplosion(lvl, x, y, z, center);
         if (p.has(TntEffect.SUPERNOVA)) supernova(lvl, x, y, z);
+        // === NUEVAS 1.9.3 ===
+        if (p.has(TntEffect.TOXIC)) toxicCloud(lvl, x, y, z);
+        if (p.has(TntEffect.FIREWORKS)) fireworkShow(lvl, x, y, z);
+        if (p.has(TntEffect.GRAVITY)) gravityCrush(lvl, x, y, z, center);
+
+        // REACCION EN CADENA: enciende TNTs del mod cercanas
+        chainReaction(lvl, x, y, z, center);
 
         // sonido propio de la explosion
         lvl.playSound(null, x, y, z, ModSounds.explode(getVariantName()), SoundSource.BLOCKS, 2.0F, 1.0F);
@@ -600,6 +608,9 @@ public class TntsPrimedTnt extends PrimedTnt {
             case "rapida_tnt" -> quickFlash(lvl, x, y, z);
             default -> { /* mini, limpia, trampa, confeti, mina: solo el estallido de color */ }
         }
+        // Efecto 3D generico para TODAS las TNTs: un cubo con la textura
+        // real del bloque que crece y gira sobre el crater
+        lvl.addFreshEntity(new TntBlastEntity(lvl, x, y, z, blockId, color));
     }
 
     private void megaShockwave(ServerLevel lvl, double x, double y, double z) {
@@ -838,6 +849,128 @@ public class TntsPrimedTnt extends PrimedTnt {
     private void quickFlash(ServerLevel lvl, double x, double y, double z) {
         lvl.sendParticles(ParticleTypes.FLASH, x, y, z, 1, 0, 0, 0, 0);
         lvl.sendParticles(ParticleTypes.CRIT, x, y, z, 30, 3, 2, 3, 0.1);
+    }
+
+    // ---------- EFECTOS NUEVOS (1.9.3) ----------
+
+    /**
+     * TNT Toxica: nube verde que envenena y debilita a los seres vivos.
+     */
+    private void toxicCloud(Level lvl, double x, double y, double z) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // nube verde de particulas
+        for (int i = 0; i < 60; i++) {
+            double a = lvl.random.nextDouble() * Math.PI * 2;
+            double r = 2 + lvl.random.nextDouble() * 5;
+            sl.sendParticles(new DustParticleOptions(new org.joml.Vector3f(0.3f, 0.8f, 0.1f), 1.5F),
+                    x + Math.cos(a) * r, y + 0.5 + lvl.random.nextDouble() * 3,
+                    z + Math.sin(a) * r, 2, 0.2, 0.3, 0.2, 0.02);
+            sl.sendParticles(ParticleTypes.WITCH,
+                    x + (lvl.random.nextDouble() - 0.5) * 8,
+                    y + 1 + lvl.random.nextDouble() * 3,
+                    z + (lvl.random.nextDouble() - 0.5) * 8,
+                    2, 0.2, 0.2, 0.2, 0.01);
+        }
+        // aplicar veneno y debilidad a entidades cercanas
+        AABB box = new AABB(x - 6, y - 3, z - 6, x + 6, y + 4, z + 6);
+        for (LivingEntity e : lvl.getEntitiesOfClass(LivingEntity.class, box)) {
+            e.addEffect(new MobEffectInstance(MobEffects.POISON, 140, 1));
+            e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
+        }
+    }
+
+    /**
+     * TNT de Fuegos Artificiales: lanza cohetes de colores al cielo.
+     */
+    private void fireworkShow(Level lvl, double x, double y, double z) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        int rockets = 8 + lvl.random.nextInt(8);
+        for (int i = 0; i < rockets; i++) {
+            double fx = x + (lvl.random.nextDouble() - 0.5) * 6;
+            double fz = z + (lvl.random.nextDouble() - 0.5) * 6;
+            double fy = y + lvl.random.nextDouble() * 2;
+            // cohete de fuegos artificiales con colores aleatorios
+            net.minecraft.world.item.ItemStack rocket = new net.minecraft.world.item.ItemStack(
+                    net.minecraft.world.item.Items.FIREWORK_ROCKET);
+            net.minecraft.nbt.CompoundTag fireworks = new net.minecraft.nbt.CompoundTag();
+            net.minecraft.nbt.ListTag explosions = new net.minecraft.nbt.ListTag();
+            net.minecraft.nbt.CompoundTag explosion = new net.minecraft.nbt.CompoundTag();
+            explosion.putIntArray("Colors", new int[]{
+                    lvl.random.nextInt(0x1000000) | 0xFF000000
+            });
+            explosion.putIntArray("FadeColors", new int[]{
+                    lvl.random.nextInt(0x1000000) | 0xFF000000
+            });
+            explosion.putByte("Type", (byte) lvl.random.nextInt(4));
+            explosions.add(explosion);
+            fireworks.put("Explosions", explosions);
+            rocket.addTagElement("Fireworks", fireworks);
+            net.minecraft.world.entity.projectile.FireworkRocketEntity fw =
+                    new net.minecraft.world.entity.projectile.FireworkRocketEntity(
+                            lvl, fx, fy, fz, rocket);
+            sl.addFreshEntity(fw);
+        }
+        sl.sendParticles(ParticleTypes.FIREWORK, x, y + 1, z, 20, 4, 2, 4, 0.1);
+    }
+
+    /**
+     * TNT Gravitatoria: aplasta a todo contra el suelo con fuerza brutal.
+     */
+    private void gravityCrush(Level lvl, double x, double y, double z, BlockPos center) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // aplastar entidades hacia abajo
+        AABB box = new AABB(x - 10, y - 5, z - 10, x + 10, y + 8, z + 10);
+        for (net.minecraft.world.entity.Entity e : lvl.getEntitiesOfClass(
+                net.minecraft.world.entity.Entity.class, box,
+                e -> !(e instanceof TntsPrimedTnt))) {
+            e.setDeltaMovement(e.getDeltaMovement().add(0, -3.5, 0));
+            e.hurtMarked = true;
+        }
+        // particulas purpuras de gravedad
+        for (int i = 0; i < 40; i++) {
+            double a = lvl.random.nextDouble() * Math.PI * 2;
+            double r = 1 + lvl.random.nextDouble() * 6;
+            sl.sendParticles(new DustParticleOptions(new org.joml.Vector3f(0.55f, 0.36f, 0.96f), 1.3F),
+                    x + Math.cos(a) * r, y + 0.5 + lvl.random.nextDouble() * 4,
+                    z + Math.sin(a) * r, 2, 0.1, 0.1, 0.1, 0.0);
+            sl.sendParticles(ParticleTypes.ITEM_SLIME,
+                    x + (lvl.random.nextDouble() - 0.5) * 7,
+                    y + 4 + lvl.random.nextDouble() * 3,
+                    z + (lvl.random.nextDouble() - 0.5) * 7,
+                    1, 0.1, 0.3, 0.1, 0.0);
+        }
+        // crater profundo
+        for (BlockPos p : BlockPos.betweenClosed(
+                center.offset(-5, -6, -5), center.offset(5, 0, 5))) {
+            double dist = Math.sqrt(p.distSqr(center.offset(0, -2, 0)));
+            if (dist < 5 && lvl.random.nextInt(3) != 0) {
+                BlockState s = lvl.getBlockState(p);
+                if (!s.isAir() && canDestroy(s, lvl, p)) {
+                    lvl.destroyBlock(p, true);
+                }
+            }
+        }
+    }
+
+    // ---------- REACCION EN CADENA ----------
+
+    /**
+     * Reaccion en cadena: busca bloques TNT del mod cercanos no encendidos
+     * y los activa, creando un efecto domino espectacular.
+     */
+    private void chainReaction(Level lvl, double x, double y, double z, BlockPos center) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        int radius = 5;
+        for (BlockPos p : BlockPos.betweenClosed(
+                center.offset(-radius, -1, -radius),
+                center.offset(radius, 1, radius))) {
+            BlockState state = sl.getBlockState(p);
+            // si el bloque sigue siendo una TNT del mod y no esta encendida
+            if (state.getBlock() instanceof com.tnts.block.TntBlock tnt
+                    && !state.getValue(com.tnts.block.TntBlock.LIT)) {
+                tnt.prime(sl, p, state, null);
+            }
+        }
     }
 
     // ========== TNTs MASIVAS NUEVAS ==========

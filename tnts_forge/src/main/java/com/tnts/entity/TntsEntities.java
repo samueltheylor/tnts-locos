@@ -67,4 +67,13 @@ public class TntsEntities {
                     .clientTrackingRange(16)
                     .updateInterval(5)
                     .build("supernova"));
+
+    /** Efecto 3D generico para TODAS las TNTs: renderiza el bloque real. */
+    public static final RegistryObject<EntityType<TntBlastEntity>> TNT_BLAST =
+            ENTITIES.register("tnt_blast", () -> EntityType.Builder
+                    .<TntBlastEntity>of(TntBlastEntity::new, MobCategory.MISC)
+                    .sized(1.5F, 1.5F)
+                    .clientTrackingRange(16)
+                    .updateInterval(3)
+                    .build("tnt_blast"));
 }
