@@ -593,38 +593,27 @@ def make_grenade_texture():
 
 
 def make_black_hole_texture():
-    """Textura 64x32 de la bola negra 3D mejorada: esfera oscura con anillo
-    purpura brillante, brillo radial y corona de energía."""
-    def sphere(px, py):
-        cx, cy = 7.5, 7.5
-        d = ((px - cx) ** 2 + (py - cy) ** 2) ** 0.5
-        # Corona exterior de energía
-        if d > 6.5:
-            return (5, 2, 15, 255)         # fondo casi negro
-        if d > 6.0:
-            return (40, 10, 80, 255)       # corona exterior
-        # Anillo púrpura (horizonte de sucesos)
-        if d > 5.5:
-            return (130, 50, 200, 255)     # borde exterior anillo
-        if d > 4.8:
-            return (200, 120, 255, 255)    # brillo del anillo
-        if d > 4.4:
-            return (160, 80, 220, 255)    # interior del anillo
-        # Zona oscura exterior
-        if d > 3.0:
-            return (15, 5, 30, 255)        # disco oscuro
-        # Núcleo con gradiente
-        if d > 1.5:
-            return (5, 1, 12, 255)         # zona oscura profunda
-        return (0, 0, 0, 255)              # núcleo absoluto
-
+    """Textura 64x32 del Agujero Negro con NUCLEO REAL:
+    - Filas 0-15: gradientes para las barras de los anillos de acrecion
+      (morado brillante para el exterior, rosa->blanco para el interior).
+    - Filas 16-31: disco negro del nucleo (el portal), negro absoluto con
+      un tinte morado apenas visible."""
     def pixel(x, y):
-        if y < 16 and x < 64:
-            return sphere(x % 16, y)  # 4 caras laterales iguales
-        # Cara superior e inferior con resplandor tenue
-        if y == 0 or y == 15 or x == 0 or x == 63:
-            return (5, 2, 15, 255)         # borde oscuro
-        return (8, 3, 18, 255)             # interior oscuro con tinte púrpura
+        if y < 16:
+            if x < 32:
+                # anillo exterior: morado profundo -> brillante -> profundo
+                t = x / 31.0
+                m = 1.0 - abs(t - 0.5) * 2.0
+                return (int(60 + 150 * m), int(15 + 95 * m), int(130 + 125 * m), 255)
+            else:
+                # anillo interior: rosa -> blanco -> rosa
+                t = (x - 32) / 31.0
+                m = 1.0 - abs(t - 0.5) * 2.0
+                return (int(205 + 50 * m), int(130 + 125 * m), int(235 + 20 * m), 255)
+        else:
+            # nucleo: disco negro absoluto con tinte morado apenas visible
+            g = 3 if ((x * 7 + y * 13) % 9 == 0) else 1
+            return (g, 1, 6, 255)
 
     write_png(os.path.join(ENTITY_TEX_DIR, "black_hole.png"), (64, 32), pixel)
 

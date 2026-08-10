@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,21 +23,19 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 /**
- * Bola negra 3D MEGA-MEJORADA del Agujero Negro: entidad visible que flota
- * sobre el crater durante 8 segundos (160 ticks) con:
- * - Vortex multicapa (3 anillos giratorios con colores diferentes)
- * - Rayos purpura que saltan alrededor
- * - Destruccion lenta de bloques (come el borde del crater)
- * - Sccion creciente que escala con el tiempo
- * - Temblor de pantalla fuerte para quien este dentro
- * - Sonido de remolino grave que sube de intensidad
+ * Agujero Negro con NUCLEO REAL (disco negro + anillos de acrecion 3D en el
+ * cliente) y succion por fases en el servidor:
+ *   0-2s   atraccion leve
+ *   2-5s   empieza a jalar fuerte
+ *   5-7s   modo CORRE (succion maxima)
+ *   7-8s   colapso: comprime todo, destello y BOOM final con crater
+ * Las particulas del disco de acrecion orbitan y caen al centro con gradiente
+ * morado -> rosa -> blanco; los seres vivos pegados al nucleo son devorados.
  */
 public class BlackHoleEntity extends Entity {
 
-    private static final int LIFETIME = 160; // 8 segundos
+    public static final int LIFETIME = 160; // 8 segundos
     private static final double RADIUS = 18.0;
-    private static final double SUCTION_BASE = 1.0;
-    private static final double SUCTION_MAX = 3.0;
 
     private int age = 0;
 
@@ -51,34 +50,34 @@ public class BlackHoleEntity extends Entity {
         this.setPos(x, y + 0.3, z);
     }
 
+    /** Fuerza de succion por fases: leve -> fuerte -> CORRE -> colapso. */
+    private double phaseSuction(int age) {
+        if (age < 40) return 0.35 + age / 40.0 * 0.5;                 // 0-2s: leve
+        if (age < 100) return 0.8 + (age - 40) / 60.0 * 1.2;          // 2-5s: fuerte
+        if (age < 140) return 2.4 + (age - 100) / 40.0 * 1.1;         // 5-7s: CORRE
+        return 3.5 + (age - 140) / 20.0 * 1.5;                        // 7-8s: colapso
+    }
+
     @Override
     public void tick() {
         super.tick();
         if (this.level().isClientSide) return;
+        ServerLevel serverLevel = (ServerLevel) this.level();
         if (++age > LIFETIME) {
-            // Explosion final al desaparecer (mas grande)
-            if (!this.level().isClientSide) {
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(),
-                        9.0f, true, Level.ExplosionInteraction.BLOCK);
-            }
+            collapse(serverLevel);
             this.discard();
             return;
         }
-        ServerLevel serverLevel = (ServerLevel) this.level();
         double x = this.getX();
         double y = this.getY();
         double z = this.getZ();
 
-        // Progreso (0.0 a 1.0)
         double progress = age / (double) LIFETIME;
+        double suction = phaseSuction(age);
+        double effectiveRadius = RADIUS * (0.6 + 0.4 * progress);
+        boolean collapsing = age >= 140;
 
-        // Fuerza de succion creciente
-        double suctionStrength = SUCTION_BASE + (SUCTION_MAX - SUCTION_BASE) * progress;
-
-        // Radio efectivo (crece un poco con el tiempo)
-        double effectiveRadius = RADIUS * (0.7 + 0.3 * progress);
-
-        // === SUCCION DE ENTIDADES ===
+        // === SUCCION DE ENTIDADES (no lineal: mas cerca = mucho mas fuerte) ===
         AABB box = new AABB(x - effectiveRadius, y - 5, z - effectiveRadius,
                 x + effectiveRadius, y + 5, z + effectiveRadius);
         for (Entity e : serverLevel.getEntitiesOfClass(Entity.class, box,
@@ -90,7 +89,7 @@ public class BlackHoleEntity extends Entity {
 
             double hd = Math.sqrt((p.x - x) * (p.x - x) + (p.z - z) * (p.z - z));
 
-            // Item u orb de XP que cae al nucleo: consumido con destello (come MAS)
+            // Item u orb de XP que cae al nucleo: consumido con destello
             if ((e instanceof ItemEntity || e instanceof ExperienceOrb) && hd < 2.5 && p.y < y + 3.0) {
                 e.discard();
                 serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 3, 0, 0, 0, 0);
@@ -100,39 +99,48 @@ public class BlackHoleEntity extends Entity {
                 continue;
             }
 
-            // Ser vivo pegado al nucleo: devorado (dano continuo cada 5 ticks)
-            if (e instanceof LivingEntity le && hd < 1.5 && age % 5 == 0 && le.isAlive()) {
-                le.hurt(le.damageSources().wither(), 4.0f);
-                serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
-                        p.x, p.y + 0.5, p.z, 6, 0.2, 0.2, 0.2, 0);
+            // Ser vivo pegado al nucleo: los mobs son DEVORADOS (desaparecen);
+            // el jugador recibe dano continuo
+            if (e instanceof LivingEntity le && hd < 1.6 && le.isAlive()) {
+                if (le instanceof Player) {
+                    if (age % 5 == 0) {
+                        le.hurt(le.damageSources().wither(), 4.0f + (float) (suction * 0.6));
+                    }
+                } else if (serverLevel.random.nextInt(4) == 0) {
+                    le.discard();
+                    serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 5, 0.2, 0.2, 0.2, 0);
+                    serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
+                            p.x, p.y + 0.5, p.z, 8, 0.3, 0.3, 0.3, 0);
+                    serverLevel.playSound(null, p.x, p.y, p.z, SoundEvents.ENDERMAN_TELEPORT,
+                            SoundSource.AMBIENT, 0.8F, 0.4F);
+                    continue;
+                }
             }
 
-            // Sccion con fuerza creciente
-            double strength = suctionStrength * (1 - dist / effectiveRadius) + 0.3;
-            Vec3 force = dir.normalize().scale(strength);
-            e.setDeltaMovement(e.getDeltaMovement().add(force));
+            // Succion no lineal: cerca del nucleo la fuerza explota
+            double closeness = Math.pow(1.0 - Math.min(1.0, dist / effectiveRadius), 0.6);
+            double strength = suction * closeness + 0.25;
+            e.setDeltaMovement(e.getDeltaMovement().add(dir.normalize().scale(strength)));
             e.hurtMarked = true;
         }
 
-        // === DESTRUCCION DE BLOQUES (come MAS: cada 6 ticks, hasta 22 bloques) ===
-        if (age % 6 == 0 && progress > 0.1) {
-            int blocksToBreak = (int)(8 + progress * 14);
+        // === DESTRUCCION DE BLOQUES (come hasta el colapso) ===
+        if (age % 6 == 0 && progress > 0.1 && !collapsing) {
+            int blocksToBreak = (int) (8 + progress * 14);
             for (int i = 0; i < blocksToBreak; i++) {
                 double angle = serverLevel.random.nextDouble() * Math.PI * 2;
                 double dist = 1.2 + serverLevel.random.nextDouble() * (effectiveRadius - 1.2);
-                int bx = (int)(x + Math.cos(angle) * dist);
-                int bz = (int)(z + Math.sin(angle) * dist);
-                int by = (int)(y + (serverLevel.random.nextDouble() - 0.5) * 6);
+                int bx = (int) (x + Math.cos(angle) * dist);
+                int bz = (int) (z + Math.sin(angle) * dist);
+                int by = (int) (y + (serverLevel.random.nextDouble() - 0.5) * 6);
                 BlockPos bpos = new BlockPos(bx, by, bz);
                 BlockState state = serverLevel.getBlockState(bpos);
                 if (state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA)) continue;
                 float hardness = state.getDestroySpeed(serverLevel, bpos);
                 if (hardness >= 0.0f && hardness < 60.0f) {  // come incluso obsidiana
                     serverLevel.destroyBlock(bpos, true);
-                    // Particula de bloque siendo devorado
                     serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
                             bx + 0.5, by + 0.5, bz + 0.5, 3, 0.2, 0.2, 0.2, 0);
-                    // De vez en cuando el abismo deja lava en el hueco
                     if (serverLevel.random.nextInt(6) == 0) {
                         serverLevel.setBlock(bpos, Blocks.LAVA.defaultBlockState(), 3);
                     }
@@ -140,53 +148,39 @@ public class BlackHoleEntity extends Entity {
             }
         }
 
-        // === VORTEX MULTICAPA (3 anillos giratorios) ===
-        double baseAngle = (serverLevel.getGameTime() % 720) * 0.3;
-        // Anillo 1: purpura brillante (rapido, pequeno)
-        for (int i = 0; i < 16; i++) {
-            double a = baseAngle + i * Math.PI * 8 / 16;
-            double r = 0.6 + progress * 2.5 + serverLevel.random.nextDouble() * 0.8;
-            serverLevel.sendParticles(new DustParticleOptions(
-                            new Vector3f(0.8f, 0.3f, 1.0f), 1.0F),
-                    x + Math.cos(a) * r, y + 0.2 + serverLevel.random.nextDouble() * 0.5,
-                    z + Math.sin(a) * r, 1, 0, 0, 0, 0);
+        // === DISCO DE ACRECION: particulas que ORBITAN y CAEN al centro ===
+        int accretionCount = 6 + (int) (progress * 12);
+        double baseAngle = serverLevel.getGameTime() * 0.5;
+        for (int i = 0; i < accretionCount; i++) {
+            double r = 0.8 + serverLevel.random.nextDouble() * (effectiveRadius * 0.85);
+            double a = baseAngle + i * (Math.PI * 2 / accretionCount);
+            double px = x + Math.cos(a) * r;
+            double pz = z + Math.sin(a) * r;
+            double py = y + (serverLevel.random.nextDouble() - 0.5) * 1.2;
+            // velocidad: tangencial (orbita) + radial hacia el centro (caida)
+            double orbit = 0.22 + progress * 0.18;
+            double fall = 0.10 * (1.0 + progress * 2.0);
+            double vx = -Math.sin(a) * orbit - Math.cos(a) * fall;
+            double vz = Math.cos(a) * orbit - Math.sin(a) * fall;
+            double vy = (serverLevel.random.nextDouble() - 0.5) * 0.06;
+            // gradiente morado -> rosa -> blanco segun la distancia al nucleo
+            Vector3f color;
+            if (r > effectiveRadius * 0.55) color = new Vector3f(0.65f, 0.20f, 1.0f);
+            else if (r > effectiveRadius * 0.28) color = new Vector3f(1.0f, 0.40f, 0.95f);
+            else color = new Vector3f(1.0f, 0.92f, 1.0f);
+            float size = 0.8F + (float) (progress * 0.9);
+            serverLevel.sendParticles(new DustParticleOptions(color, size),
+                    px, py, pz, 1, vx, vy, vz, 0);
         }
-        // Anillo 2: azul-violeta (medio)
-        for (int i = 0; i < 12; i++) {
-            double a = -baseAngle * 0.7 + i * Math.PI * 6 / 12;
-            double r = 1.5 + progress * 4 + serverLevel.random.nextDouble() * 1.5;
-            serverLevel.sendParticles(ParticleTypes.PORTAL,
-                    x + Math.cos(a) * r, y + 0.3 + serverLevel.random.nextDouble(),
-                    z + Math.sin(a) * r, 1, 0, 0, 0, 0);
-        }
-        // Anillo 3: negro-purpura oscuro (largo, lento)
+        // halo morado en el plano del disco (mantiene el look de portal)
         for (int i = 0; i < 20; i++) {
-            double a = baseAngle * 0.4 + i * Math.PI * 10 / 20;
-            double r = 2 + progress * 6 + serverLevel.random.nextDouble() * 2;
+            double a = baseAngle * 0.6 + i * Math.PI * 2 / 20;
+            double rr = effectiveRadius * 0.92;
             serverLevel.sendParticles(new DustParticleOptions(
-                            new Vector3f(0.15f, 0.05f, 0.3f), 1.4F),
-                    x + Math.cos(a) * r, y + 0.4 + serverLevel.random.nextDouble() * 1.5,
-                    z + Math.sin(a) * r, 1, 0, 0, 0, 0);
-        }
-
-        // === PULSO CADA 1.5 SEGUNDOS: anillo expansivo ===
-        for (int start = 30; start <= age; start += 30) {
-            int ringAge = age - start;
-            if (ringAge > 20) continue;
-            double rr = Math.min(RADIUS, 1.5 + ringAge * 1.0);
-            for (int i = 0; i < 32; i++) {
-                double a = i / 32.0 * Math.PI * 2;
-                // Anillo doble (purpura + blanco)
-                serverLevel.sendParticles(new DustParticleOptions(
-                                new Vector3f(0.85f, 0.4f, 1.0f), 1.2F),
-                        x + Math.cos(a) * rr, y + 0.3, z + Math.sin(a) * rr,
-                        1, 0, 0, 0, 0);
-                if (i % 2 == 0) {
-                    serverLevel.sendParticles(ParticleTypes.END_ROD,
-                            x + Math.cos(a) * rr, y + 0.5, z + Math.sin(a) * rr,
-                            1, 0, 0, 0, 0);
-                }
-            }
+                            new Vector3f(0.7f, 0.3f, 1.0f), 1.3F),
+                    x + Math.cos(a) * rr, y + (serverLevel.random.nextDouble() - 0.5) * 0.6,
+                    z + Math.sin(a) * rr, 1,
+                    -Math.sin(a) * 0.15, 0, Math.cos(a) * 0.15, 0);
         }
 
         // === RAYOS PURPURA (cada 40 ticks, 3-5 rayos aleatorios) ===
@@ -197,7 +191,6 @@ public class BlackHoleEntity extends Entity {
                 double dist = 3 + serverLevel.random.nextDouble() * (effectiveRadius - 4);
                 double tx = x + Math.cos(angle) * dist;
                 double tz = z + Math.sin(angle) * dist;
-                // Rayo puro con particulas
                 for (int j = 0; j < 8; j++) {
                     double px = x + (tx - x) * j / 8.0 + (serverLevel.random.nextDouble() - 0.5) * 0.5;
                     double py = y + 0.5 + serverLevel.random.nextDouble() * 3;
@@ -205,46 +198,38 @@ public class BlackHoleEntity extends Entity {
                     serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
                             px, py, pz, 2, 0, 0, 0, 0);
                 }
-                // Destello en el punto de impacto
                 serverLevel.sendParticles(new DustParticleOptions(
                                 new Vector3f(0.7f, 0.2f, 1.0f), 1.5F),
                         tx, y + 1, tz, 5, 0.3, 0.3, 0.3, 0);
             }
         }
 
-        // === HUMO TRAGADO AL CENTRO ===
-        for (int i = 0; i < 4; i++) {
+        // === HUMO Y NIEBLA OSCURA alrededor (efecto de gravedad) ===
+        for (int i = 0; i < 5; i++) {
             double a = serverLevel.random.nextDouble() * Math.PI * 2;
-            double r = 3 + serverLevel.random.nextDouble() * (effectiveRadius - 3);
-            double startX = x + Math.cos(a) * r;
-            double startZ = z + Math.sin(a) * r;
-            double startY = y + 0.5 + serverLevel.random.nextDouble() * 3;
-            // Movimiento hacia el centro
-            double dx = (x - startX) * 0.15;
-            double dz = (z - startZ) * 0.15;
+            double r = effectiveRadius * (0.5 + serverLevel.random.nextDouble() * 0.7);
+            double sx = x + Math.cos(a) * r;
+            double sz = z + Math.sin(a) * r;
+            // humo que cae al centro
             serverLevel.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                    startX, startY, startZ, 1, dx, -0.05, dz, 0);
+                    sx, y + 0.5 + serverLevel.random.nextDouble() * 3, sz, 1,
+                    (x - sx) * 0.15, -0.05, (z - sz) * 0.15, 0);
+            // niebla oscura estatica
+            serverLevel.sendParticles(new DustParticleOptions(
+                            new Vector3f(0.08f, 0.03f, 0.18f), 2.4F),
+                    sx, y + (serverLevel.random.nextDouble() - 0.5) * 2.5, sz, 1, 0, -0.02, 0, 0);
         }
 
-        // === NUCLEO OSCURO PULSANTE (mas grande y dramtico) ===
-        float coreScale = 2.5f + (float)(Math.sin(age * 0.15) * 0.8);
-        serverLevel.sendParticles(new DustParticleOptions(
-                        new Vector3f(0.08f, 0.02f, 0.18f), coreScale),
-                x, y + 0.1, z, 3, 0.3, 0.1, 0.3, 0);
-        // Centro absoluto (negro puro)
-        serverLevel.sendParticles(new DustParticleOptions(
-                        new Vector3f(0.0f, 0.0f, 0.0f), 3.0F),
-                x, y + 0.15, z, 1, 0, 0, 0, 0);
-
-        // === TEMBLOR DE PANTALLA (cada pulso, mas fuerte con el tiempo) ===
-        if (age % 30 == 0) {
+        // === TEMBLOR DE CAMARA (mas frecuente en CORRE y colapso) ===
+        int shakeEvery = collapsing ? 8 : (progress > 0.625 ? 12 : 20);
+        if (age % shakeEvery == 0) {
+            double kb = 0.15 + progress * 0.2;
             for (ServerPlayer sp : serverLevel.players()) {
-                if (sp.distanceToSqr(x, y, z) <= effectiveRadius * effectiveRadius) {
+                if (sp.distanceToSqr(x, y, z) <= (effectiveRadius + 2) * (effectiveRadius + 2)) {
                     sp.animateHurt(sp.getYRot());
-                    // Knockback sutil
                     Vec3 dir = sp.position().subtract(x, y, z);
                     if (dir.length() > 0.5) {
-                        sp.push(dir.normalize().x * 0.15, 0.05, dir.normalize().z * 0.15);
+                        sp.push(dir.normalize().x * kb, 0.05, dir.normalize().z * kb);
                         sp.hurtMarked = true;
                     }
                 }
@@ -255,7 +240,7 @@ public class BlackHoleEntity extends Entity {
         if (age % 8 == 0) {
             int pulses = Math.min(age / 30, 5);
             float pitch = 0.7F + 0.15F * pulses;
-            float volume = (float)(1.0F + 0.3F * progress);
+            float volume = (float) (1.0F + 0.3F * progress);
             serverLevel.playSound(null, x, y, z,
                     com.tnts.ModSounds.BLACK_HOLE_LOOP.get(),
                     SoundSource.AMBIENT, volume, pitch);
@@ -266,6 +251,57 @@ public class BlackHoleEntity extends Entity {
             serverLevel.playSound(null, x, y, z,
                     SoundEvents.ENDER_DRAGON_FLAP,
                     SoundSource.AMBIENT, 0.4F, 0.3F);
+        }
+    }
+
+    /** Colapso final: el anillo se comprime, destello, BOOM y crater decente. */
+    private void collapse(ServerLevel serverLevel) {
+        double x = this.getX();
+        double y = this.getY();
+        double z = this.getZ();
+        BlockPos center = this.blockPosition();
+
+        // destello blanco triple + onda de energia
+        serverLevel.sendParticles(ParticleTypes.FLASH, x, y + 1, z, 8, 0, 0, 0, 0);
+        serverLevel.sendParticles(ParticleTypes.END_ROD, x, y + 1, z, 160, 8, 6, 8, 0.3);
+        serverLevel.sendParticles(new DustParticleOptions(
+                        new Vector3f(1.0f, 0.6f, 1.0f), 2.5F),
+                x, y + 1, z, 40, 6, 4, 6, 0);
+
+        // BOOM grande
+        serverLevel.explode(this, x, y + 1, z, 10.0f, true, Level.ExplosionInteraction.BLOCK);
+
+        // crater decente garantizado (radio 11) + lava + fuego
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-11, -6, -11), center.offset(11, 3, 11))) {
+            double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
+            if (dist < 11 && serverLevel.random.nextInt(2) == 0) {
+                BlockState state = serverLevel.getBlockState(p);
+                if (!state.isAir() && state.getDestroySpeed(serverLevel, p) >= 0.0f
+                        && state.getDestroySpeed(serverLevel, p) < 60.0f) {
+                    serverLevel.destroyBlock(p, true);
+                }
+            }
+        }
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-8, -2, -8), center.offset(8, -1, 8))) {
+            double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
+            if (dist < 8 && serverLevel.isEmptyBlock(p)
+                    && serverLevel.getBlockState(p.below()).isSolid()
+                    && serverLevel.random.nextInt(3) == 0) {
+                serverLevel.setBlock(p, Blocks.LAVA.defaultBlockState(), 3);
+            }
+        }
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-12, 0, -12), center.offset(12, 1, 12))) {
+            double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
+            if (dist > 9 && dist < 12 && serverLevel.isEmptyBlock(p)
+                    && serverLevel.random.nextInt(3) == 0) {
+                serverLevel.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        }
+        serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, 0.4F);
+        for (ServerPlayer sp : serverLevel.players()) {
+            if (sp.distanceToSqr(x, y, z) <= 16 * 16) {
+                sp.animateHurt(sp.getYRot());
+            }
         }
     }
 

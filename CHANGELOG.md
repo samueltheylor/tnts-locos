@@ -1,5 +1,14 @@
 # TNTs Locos — Changelog
 
+## v1.9.7 — Agujero Negro con NUCLEO REAL (solo Java)
+
+- **🕳️ Núcleo negro real:** ya no es una esfera de partículas — el modelo 3D ahora es un **disco negro plano** (el portal) con **anillo de acreción morado** exterior e **interior rosa/blanco**, inclinado 25° como un portal, brillo completo y girando en direcciones opuestas mientras pulsa.
+- **✨ Disco de acreción en partículas:** las partículas **orbitan y caen al centro** (velocidad tangencial + radial) con **gradiente morado → rosa → blanco** según la distancia al núcleo.
+- **🌀 Succión progresiva por fases:** 0-2s atracción leve → 2-5s jala fuerte → **5-7s modo CORRE** (succión 2.4→3.5) → 7-8s **colapso** (hasta 5.0). Fuerza **no lineal**: cuanto más cerca, mucho más fuerte.
+- **👹 Mobs y jugador:** al acercarse aceleran; los **mobs pegados al núcleo son devorados** (desaparecen con destello y sonido), el **jugador recibe daño continuo** que escala con la fase.
+- **🌫️ Niebla oscura y gravedad:** humo que cae al centro + niebla oscura estática alrededor del agujero; **temblor de cámara** cada 0.6s en fase CORRE y cada 0.4s en el colapso (antes cada 1.5s).
+- **💥 Final: colapso real** — en vez de explotar normal, el anillo se comprime, triple destello blanco, onda de energía y **BOOM con cráter decente** (radio 11) con **lava en el fondo** y **anillo de fuego**.
+
 ## v1.9.6 — Mas desastres: masivas buffeadas + Agujero Negro come MAS (solo Java)
 
 - **🕳️ Agujero Negro come más:** radio 18 (antes 16), succion 1.0→3.0 (antes 0.8→2.2); come **hasta 22 bloques cada 6 ticks** (antes 8 cada 10) incluso obsidiana, con lava ocasional en el hueco; consume **items y orbes de XP desde más lejos** (radio 2.5); los **seres vivos pegados al núcleo son devorados** (daño continuo cada 5 ticks); explosión final de radio 9 (antes 6).
