@@ -1,5 +1,10 @@
 # TNTs Locos — Changelog
 
+## v1.9.1 — Fix crash (Java)
+
+- **Arreglado el crash "Ticking entity / NullPointerException en Player.getDigSpeed"**: las TNTs masivas (Terremoto, Colosal) y el Agujero Negro usaban `getDestroyProgress(null, ...)` para comprobar si podían romper bloques — en Forge eso llama a `player.getDigSpeed(...)` y con jugador null crasheaba. Ahora usan `getDestroySpeed` (la dureza del bloque, sin jugador) y además respetan bedrock/obsidiana.
+- **GameTest nuevo** (`massive_tnts_do_not_crash`) que explota Terremoto + Colosal y verifica que no crashean → **"All 11 required tests passed"**.
+
 ## v1.9.0 — Mod de Java (Forge 1.20.1) + v1.9.0 — Bedrock
 
 ### 🔧 Arreglos de la ronda anterior (5 TNTs masivas completas):

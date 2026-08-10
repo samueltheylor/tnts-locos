@@ -197,6 +197,26 @@ public class TntsGameTest {
         });
     }
 
+    /** TNTs masivas: Terremoto y Colosal explotan sin crashear (regresion del NPE). */
+    @GameTest(template = "empty", timeoutTicks = 300)
+    public static void massive_tnts_do_not_crash(GameTestHelper helper) {
+        BlockPos t1 = new BlockPos(6, 2, 6);
+        BlockPos t2 = new BlockPos(10, 2, 10);
+        helper.setBlock(t1, ModBlocks.TERREMOTO_TNT.get());
+        helper.setBlock(t2, ModBlocks.COLOSAL_TNT.get());
+        TntBlock b1 = (TntBlock) helper.getBlockState(t1).getBlock();
+        TntBlock b2 = (TntBlock) helper.getBlockState(t2).getBlock();
+        b1.prime(helper.getLevel(), helper.absolutePos(t1), helper.getBlockState(t1), null);
+        b2.prime(helper.getLevel(), helper.absolutePos(t2), helper.getBlockState(t2), null);
+
+        // mecha (60/70) + oleadas del colosal (24 ticks extra) + margen
+        helper.runAfterDelay(140, () -> {
+            helper.assertTrue(helper.getBlockState(t1).isAir(), "La Terremoto deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t2).isAir(), "La Colosal deberia haber explotado");
+            helper.succeed();
+        });
+    }
+
     /** Detonador: con 12 TNTs alrededor debe encender 10 o mas de golpe. */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void detonator_ignites_many(GameTestHelper helper) {

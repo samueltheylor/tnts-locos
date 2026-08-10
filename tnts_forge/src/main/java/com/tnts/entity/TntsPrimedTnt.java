@@ -843,6 +843,17 @@ public class TntsPrimedTnt extends PrimedTnt {
     // ========== TNTs MASIVAS NUEVAS ==========
 
     /**
+     * Puede este bloque ser destruido por una TNT masiva?
+     * Usa la dureza del bloque (getDestroySpeed, sin jugador — evita el NPE
+     * de getDestroyProgress(null,...) en Forge). Bedrock tiene dureza -1
+     * y no se destruye nunca; la obsidiana (50) tampoco.
+     */
+    private static boolean canDestroy(BlockState state, Level lvl, BlockPos p) {
+        float hardness = state.getDestroySpeed(lvl, p);
+        return hardness >= 0.0f && hardness < 40.0f;
+    }
+
+    /**
      * TNT Terremoto: destruye bloques en oleadas concentricas, lanza entidades
      * alto, crea grietas con lava/piedra, temblor fuerte.
      */
@@ -853,7 +864,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             double dist = Math.sqrt(p.distSqr(center.offset(0, 2, 0)));
             if (dist < 6 && lvl.random.nextInt(3) != 0) {
                 BlockState state = lvl.getBlockState(p);
-                if (!state.isAir() && state.getDestroyProgress(null, lvl, p) > 0.2f) {
+                if (!state.isAir() && canDestroy(state, lvl, p)) {
                     lvl.destroyBlock(p, true);
                 }
             }
@@ -1002,7 +1013,7 @@ public class TntsPrimedTnt extends PrimedTnt {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
                 if (dist < 4 && lvl.random.nextInt(2) == 0) {
                     BlockState state = lvl.getBlockState(p);
-                    if (!state.isAir() && state.getDestroyProgress(null, lvl, p) > 0.2f) {
+                    if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }
@@ -1016,7 +1027,7 @@ public class TntsPrimedTnt extends PrimedTnt {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
                 if (dist < 8 && dist >= 3 && lvl.random.nextInt(2) == 0) {
                     BlockState state = lvl.getBlockState(p);
-                    if (!state.isAir() && state.getDestroyProgress(null, lvl, p) > 0.2f) {
+                    if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }
@@ -1036,7 +1047,7 @@ public class TntsPrimedTnt extends PrimedTnt {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
                 if (dist < 12 && dist >= 6 && lvl.random.nextInt(3) == 0) {
                     BlockState state = lvl.getBlockState(p);
-                    if (!state.isAir() && state.getDestroyProgress(null, lvl, p) > 0.2f) {
+                    if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }

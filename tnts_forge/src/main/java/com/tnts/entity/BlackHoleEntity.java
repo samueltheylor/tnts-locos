@@ -117,7 +117,8 @@ public class BlackHoleEntity extends Entity {
                 BlockPos bpos = new BlockPos(bx, by, bz);
                 BlockState state = serverLevel.getBlockState(bpos);
                 if (state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA)) continue;
-                if (state.getDestroyProgress(null, serverLevel, bpos) > 0.3f) {
+                float hardness = state.getDestroySpeed(serverLevel, bpos);
+                if (hardness >= 0.0f && hardness < 40.0f) {
                     serverLevel.destroyBlock(bpos, true);
                     // Particula de bloque siendo devorado
                     serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
