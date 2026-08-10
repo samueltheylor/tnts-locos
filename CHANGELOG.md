@@ -1,5 +1,16 @@
 # TNTs Locos — Changelog
 
+## v1.9.4 — Sonidos de estudio: samples reales CC0 + reverb + eco (solo Java)
+
+- **Explosiones reales (dominio público / CC0):** las explosiones ahora usan **grabaciones reales de estudio** de la biblioteca "Red Library: Explosions" (colección USC Cinema / Sunset Editorial, archive.org, licencia **CC0 — sin atribución ni restricciones**, aún más permisiva que MIT) como capa de golpe y cuerpo bajo la síntesis. Cada TNT usa una muestra distinta (6 muestras en `tools/samples/` con su crédito).
+- **Reverberación real (Schroeder, 4 comb + 2 allpass):** cada explosión suena en un espacio propio — las masivas retumban en una sala enorme (hasta 2.5s de cola), las pequeñas en un espacio cerrado. Las mechas también tienen una ligera sala.
+- **Sub-grave descendente + transiente agudo:** golpe seco al inicio + peso grave que cae, como una explosión real.
+- **Eco de cañón para las TNTs masivas:** repeticiones a 400/800/1300 ms que decaen (Terremoto, Meteorito, Tormenta, Colosal, Supernova, Nuclear…).
+- **Mastering consistente:** todos los sonidos normalizados al mismo pico (0.72-0.84) con limitador suave — las masivas suenan grandes por duración/frecuencia/cola, no por recortar.
+- **Mechas con chispas:** ~5 chispas/segundo (pops cortos de 9 ms) sobre el siseo, más sala ligera.
+- Se regeneraron los 75 .ogg (Java + copia al RP de Bedrock, aunque Bedrock sigue congelado).
+- Fix del pipeline: el `aecho` de ffmpeg atenuaba todo el sonido (out_gain global) — el eco ahora se calcula en Python solo sobre las repeticiones y se re-normaliza.
+
 ## v1.9.3 — Reacción en cadena + 3 TNTs nuevas + efectos 3D para TODAS las TNTs (solo Java)
 
 - **Reacción en cadena:** al explotar una TNT, enciende automáticamente otras TNTs del mod cercanas (radio ~5) creando un efecto dominó espectacular.
