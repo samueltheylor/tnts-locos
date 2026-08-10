@@ -35,4 +35,36 @@ public class TntsEntities {
                     .clientTrackingRange(16)
                     .updateInterval(5)
                     .build("black_hole"));
+
+    public static final RegistryObject<EntityType<MeteorEntity>> METEOR =
+            ENTITIES.register("meteor", () -> EntityType.Builder
+                    .<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
+                    .sized(1.2F, 1.2F)
+                    .clientTrackingRange(16)
+                    .updateInterval(5)
+                    .build("meteor"));
+
+    public static final RegistryObject<EntityType<StormCloudEntity>> STORM_CLOUD =
+            ENTITIES.register("storm_cloud", () -> EntityType.Builder
+                    .<StormCloudEntity>of(StormCloudEntity::new, MobCategory.MISC)
+                    .sized(4.0F, 1.5F)
+                    .clientTrackingRange(16)
+                    .updateInterval(5)
+                    .build("storm_cloud"));
+
+    public static final RegistryObject<EntityType<ShockwaveEntity>> SHOCKWAVE =
+            ENTITIES.register("shockwave", () -> EntityType.Builder
+                    .<ShockwaveEntity>of(ShockwaveEntity::new, MobCategory.MISC)
+                    .sized(0.1F, 0.1F)
+                    .clientTrackingRange(16)
+                    .updateInterval(5)
+                    .build("shockwave"));
+
+    public static final RegistryObject<EntityType<SupernovaEntity>> SUPERNOVA =
+            ENTITIES.register("supernova", () -> EntityType.Builder
+                    .<SupernovaEntity>of(SupernovaEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F)
+                    .clientTrackingRange(16)
+                    .updateInterval(5)
+                    .build("supernova"));
 }

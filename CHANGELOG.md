@@ -1,5 +1,16 @@
 # TNTs Locos — Changelog
 
+## v1.9.2 — Efectos 3D para las TNTs masivas (solo Java)
+
+- **☄️ Meteorito 3D:** ahora caen 5-8 **meteoritos visibles** (entidad propia: roca ardiente que gira y vibra mientras cae con estela de fuego y humo) y explotan al impactar dejando cráteres con lava.
+- **⛈️ Nube de Tormenta 3D:** una **nube oscura visible** flota sobre la zona durante 6 segundos, invocando rayos cada 1s, empujando entidades con viento continuo y soltando lluvia + chispas eléctricas.
+- **🌍 Terremoto:** **onda de choque 3D expansiva** (anillo de polvo marrón que recorre el suelo, 30 ticks) + temblor.
+- **🏔️ Colosal:** **3 ondas de choque 3D** (una por oleada, colores rojo/amarillo) expandiéndose hasta radio 14.
+- **⭐ Supernova:** **esfera dorada 3D pulsante** (flash → expansión → colapso en 2.5s) sobre el cráter.
+- Nueva entidad genérica `CubeModel` (cubo 64x32 reutilizable) + 4 entidades + 4 renderers + 3 texturas nuevas.
+- **GameTest nuevo** (`massive_3d_effects_spawn_entities`) → **"All 12 required tests passed"**.
+- ⚠️ **Solo Java:** Bedrock se congela en la versión anterior (1.9.0) — se actualiza solo Java a partir de ahora.
+
 ## v1.9.1 — Fix crash (Java)
 
 - **Arreglado el crash "Ticking entity / NullPointerException en Player.getDigSpeed"**: las TNTs masivas (Terremoto, Colosal) y el Agujero Negro usaban `getDestroyProgress(null, ...)` para comprobar si podían romper bloques — en Forge eso llama a `player.getDigSpeed(...)` y con jugador null crasheaba. Ahora usan `getDestroySpeed` (la dureza del bloque, sin jugador) y además respetan bedrock/obsidiana.

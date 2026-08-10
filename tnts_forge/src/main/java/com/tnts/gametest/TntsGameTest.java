@@ -3,6 +3,7 @@ package com.tnts.gametest;
 import com.tnts.ModBlocks;
 import com.tnts.ModItems;
 import com.tnts.block.TntBlock;
+import com.tnts.entity.SupernovaEntity;
 import com.tnts.entity.TntsPrimedTnt;
 import com.tnts.item.TntPickaxeItem;
 import net.minecraft.core.BlockPos;
@@ -213,6 +214,32 @@ public class TntsGameTest {
         helper.runAfterDelay(140, () -> {
             helper.assertTrue(helper.getBlockState(t1).isAir(), "La Terremoto deberia haber explotado");
             helper.assertTrue(helper.getBlockState(t2).isAir(), "La Colosal deberia haber explotado");
+            helper.succeed();
+        });
+    }
+
+    /** Efectos 3D de las masivas: meteoritos y supernova spawnan entidades. */
+    @GameTest(template = "empty", timeoutTicks = 300)
+    public static void massive_3d_effects_spawn_entities(GameTestHelper helper) {
+        BlockPos t1 = new BlockPos(6, 2, 6);
+        BlockPos t2 = new BlockPos(10, 2, 10);
+        helper.setBlock(t1, ModBlocks.METEORITO_TNT.get());
+        helper.setBlock(t2, ModBlocks.SUPERNOVA_TNT.get());
+        TntBlock b1 = (TntBlock) helper.getBlockState(t1).getBlock();
+        TntBlock b2 = (TntBlock) helper.getBlockState(t2).getBlock();
+        b1.prime(helper.getLevel(), helper.absolutePos(t1), helper.getBlockState(t1), null);
+        b2.prime(helper.getLevel(), helper.absolutePos(t2), helper.getBlockState(t2), null);
+
+        // meteoritos caen 32 bloques -> mecha (55) + caida (~46 ticks) + margen
+        helper.runAfterDelay(160, () -> {
+            helper.assertTrue(helper.getBlockState(t1).isAir(), "La Meteorito deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t2).isAir(), "La Supernova deberia haber explotado");
+            // la supernova 3D dura 50 ticks: deberia haber pasado ya
+            AABB area = new AABB(helper.absolutePos(new BlockPos(6, 2, 6)),
+                    helper.absolutePos(new BlockPos(10, 12, 10))).inflate(4);
+            helper.assertTrue(
+                    helper.getLevel().getEntitiesOfClass(SupernovaEntity.class, area).isEmpty(),
+                    "La esfera de supernova deberia haberse desvanecido");
             helper.succeed();
         });
     }

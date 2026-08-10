@@ -622,6 +622,76 @@ def make_black_hole_texture():
     write_png(os.path.join(ENTITY_TEX_DIR, "black_hole.png"), (64, 32), pixel)
 
 
+def make_meteor_texture():
+    """Textura 64x32 del meteorito 3D: roca gris con brasas naranjas y
+    grietas brillantes (4 caras laterales iguales)."""
+    def pixel(x, y):
+        if y >= 16 and x >= 64:
+            return (60, 40, 30, 255)
+        if y < 16 and x < 64:
+            px = x % 16
+            # grieta brillante
+            if (px + y) % 7 == 0:
+                return (255, 160, 60, 255)  # brasa
+            if (px * 3 + y * 5) % 13 == 0:
+                return (150, 70, 30, 255)   # brasa tenue
+            # cuerpo rocoso con gradiente
+            if y < 4:
+                return (90, 80, 75, 255)    # mas oscuro arriba (en sombra)
+            if y > 11:
+                return (180, 90, 50, 255)   # mas rojo abajo (quemado)
+            return (130, 95, 70, 255)       # roca
+        return (40, 30, 25, 255)            # cara superior/inferior
+
+    write_png(os.path.join(ENTITY_TEX_DIR, "meteor.png"), (64, 32), pixel)
+
+
+def make_storm_cloud_texture():
+    """Textura 64x32 de la nube de tormenta 3D: gris oscuro con zonas mas
+    claras (algodon de nube) y chispas electricas amarillas."""
+    def pixel(x, y):
+        if y < 16 and x < 64:
+            px = x % 16
+            # chispas electricas
+            if (px * 7 + y * 11) % 19 == 0:
+                return (255, 220, 80, 255)
+            # base gris oscura con gradiente
+            if y < 3:
+                return (70, 70, 80, 255)    # cima mas clara
+            if y > 12:
+                return (35, 35, 42, 255)    # base oscura
+            if (px + y) % 5 == 0:
+                return (55, 55, 65, 255)    # bolas de nube
+            return (45, 45, 52, 255)
+        return (45, 45, 52, 255)            # superior/inferior
+
+    write_png(os.path.join(ENTITY_TEX_DIR, "storm_cloud.png"), (64, 32), pixel)
+
+
+def make_supernova_texture():
+    """Textura 64x32 de la supernova 3D: esfera dorada translucida con
+    nucleo blanco brillante y corona naranja."""
+    def sphere(px, py):
+        cx, cy = 7.5, 7.5
+        d = ((px - cx) ** 2 + (py - cy) ** 2) ** 0.5
+        if d > 6.5:
+            return (0, 0, 0, 0)             # transparente
+        if d > 5.8:
+            return (255, 200, 80, 180)      # corona naranja
+        if d > 4.5:
+            return (255, 240, 160, 220)     # disco dorado
+        if d > 2.0:
+            return (255, 255, 230, 255)     # interior claro
+        return (255, 255, 255, 255)         # nucleo blanco
+
+    def pixel(x, y):
+        if y < 16 and x < 64:
+            return sphere(x % 16, y)
+        return (0, 0, 0, 0)                 # superior/inferior transparentes
+
+    write_png(os.path.join(ENTITY_TEX_DIR, "supernova.png"), (64, 32), pixel)
+
+
 def make_armor_layer():
     """Capa de armadura del Peto de TNT (64x32) mejorada: torso y brazos rojos
     con sombreado, franja TNT, correas, hombreras reforzadas y detalles.
@@ -1073,6 +1143,9 @@ def main():
     make_pickaxe_texture()
     make_grenade_texture()
     make_black_hole_texture()
+    make_meteor_texture()
+    make_storm_cloud_texture()
+    make_supernova_texture()
     make_armor_layer()
 
     for name in NAMES:

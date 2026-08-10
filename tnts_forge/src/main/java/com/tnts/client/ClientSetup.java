@@ -28,5 +28,9 @@ public class ClientSetup {
         event.registerEntityRenderer(TntsEntities.PRIMED_TNT.get(), TntsPrimedTntRenderer::new);
         event.registerEntityRenderer(TntsEntities.TNT_ARROW.get(), TntArrowRenderer::new);
         event.registerEntityRenderer(TntsEntities.BLACK_HOLE.get(), BlackHoleRenderer::new);
+        event.registerEntityRenderer(TntsEntities.METEOR.get(), MeteorRenderer::new);
+        event.registerEntityRenderer(TntsEntities.STORM_CLOUD.get(), StormCloudRenderer::new);
+        event.registerEntityRenderer(TntsEntities.SHOCKWAVE.get(), ShockwaveRenderer::new);
+        event.registerEntityRenderer(TntsEntities.SUPERNOVA.get(), SupernovaRenderer::new);
     }
 }

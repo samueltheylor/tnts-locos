@@ -907,96 +907,37 @@ public class TntsPrimedTnt extends PrimedTnt {
                 sp.animateHurt(sp.getYRot());
             }
         }
-    }
-
-    /**
-     * TNT Meteorito: llama 5-8 meteoritos de obsidiana del cielo que caen
-     * con estela de fuego y crean crateres pequeños al impactar.
+        // onda de choque 3D expansiva (marron terremoto)
+        serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
+                30, 12.0, new org.joml.Vector3f(0.6f, 0.45f, 0.25f)));
+    }    /**
+     * TNT Meteorito: invoca 5-8 meteoritos 3D que caen del cielo con estela
+     * de fuego y explotan al impactar (entidad visible, como la bola negra).
      */
     private void meteorShower(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
         int numMeteors = 5 + lvl.random.nextInt(4);
         for (int i = 0; i < numMeteors; i++) {
-            // Posicion de caida aleatoria
             double mx = x + (lvl.random.nextDouble() - 0.5) * 30;
             double mz = z + (lvl.random.nextDouble() - 0.5) * 30;
-            int my = serverLevel.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, (int) mx, (int) mz);
-            // Estela de fuego cayendo
-            for (int j = 0; j < 20; j++) {
-                double ty = my + 30 - j * 1.5;
-                serverLevel.sendParticles(ParticleTypes.FLAME,
-                        mx + (lvl.random.nextDouble() - 0.5) * 0.5,
-                        ty,
-                        mz + (lvl.random.nextDouble() - 0.5) * 0.5,
-                        3, 0.1, -0.5, 0.1, 0.02);
-                serverLevel.sendParticles(ParticleTypes.SMOKE,
-                        mx + (lvl.random.nextDouble() - 0.5) * 0.3,
-                        ty,
-                        mz + (lvl.random.nextDouble() - 0.5) * 0.3,
-                        2, 0.05, -0.2, 0.05, 0);
-            }
-            // Impacto: explosion pequena + crater de fuego
-            BlockPos impact = new BlockPos((int) mx, my, (int) mz);
-            lvl.explode(null, mx, my + 1, mz, 3.0f + lvl.random.nextFloat() * 2, true,
-                    Level.ExplosionInteraction.BLOCK);
-            // Lava en el crater
-            for (BlockPos p : BlockPos.betweenClosed(impact.offset(-2, -1, -2), impact.offset(2, 0, 2))) {
-                if (lvl.isEmptyBlock(p) && lvl.getBlockState(p.below()).isSolid()
-                        && lvl.random.nextInt(3) != 0) {
-                    lvl.setBlock(p, Blocks.LAVA.defaultBlockState(), 3);
-                }
-            }
-            // Destello de impacto
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER,
-                    mx, my + 1, mz, 1, 0, 0, 0, 0);
-            serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE,
-                    mx, my + 2, mz, 8, 1, 1, 1, 0.1);
+            int my = serverLevel.getHeight(
+                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                    (int) mx, (int) mz);
+            // el meteorito 3D cae desde 30 bloques arriba y explota al impactar
+            serverLevel.addFreshEntity(new MeteorEntity(serverLevel, mx + 0.5, my + 32, mz + 0.5));
         }
-        // Sonido de impacto            lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.6F);
+        lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.6F);
     }
 
     /**
-     * TNT Tormenta: lluvia de 12-18 rayos masivos, viento fuerte,
-     * lluvia intensa y cielo oscuro.
+     * TNT Tormenta: invoca una nube 3D que flota sobre la zona 6 segundos,
+     * invocando rayos, empujando con viento y soltando lluvia.
      */
     private void massiveStorm(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
-        int numBolts = 12 + lvl.random.nextInt(7);
-        for (int i = 0; i < numBolts; i++) {
-            double bx = x + (lvl.random.nextDouble() - 0.5) * 20;
-            double bz = z + (lvl.random.nextDouble() - 0.5) * 20;
-            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
-            if (bolt != null) {
-                bolt.moveTo(bx, y, bz);
-                serverLevel.addFreshEntity(bolt);
-            }
-            // Destello extra
-            serverLevel.sendParticles(ParticleTypes.FLASH, bx, y + 2, bz, 1, 0, 0, 0, 0);
-        }
-        // Viento fuerte (empuja todo lejos)
-        AABB box = new AABB(x - 16, y - 4, z - 16, x + 16, y + 8, z + 16);
-        for (Entity e : lvl.getEntitiesOfClass(Entity.class, box,
-                e -> !(e instanceof TntsPrimedTnt))) {
-            Vec3 p = e.position();
-            Vec3 dir = new Vec3(p.x - x, 0.3, p.z - z);
-            double dist = dir.horizontalDistance();
-            if (dist < 0.001) continue;
-            double strength = 3.0 * (1 - Math.min(1, dist / 16)) + 0.5;
-            e.setDeltaMovement(e.getDeltaMovement().add(dir.normalize().scale(strength)));
-            e.hurtMarked = true;
-        }
-        // Lluvia de particulas
-        for (int i = 0; i < 50; i++) {
-            double rx = x + (lvl.random.nextDouble() - 0.5) * 16;
-            double rz = z + (lvl.random.nextDouble() - 0.5) * 16;
-            serverLevel.sendParticles(ParticleTypes.CLOUD, rx, y + 8, rz, 1, 0, -1, 0, 0);
-            serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
-                    rx + (lvl.random.nextDouble() - 0.5) * 2,
-                    y + lvl.random.nextDouble() * 6,
-                    rz + (lvl.random.nextDouble() - 0.5) * 2,
-                    2, 0, 0, 0, 0);
-        }
-        // Sonido de tormenta
+        serverLevel.addFreshEntity(new StormCloudEntity(serverLevel, x, y, z));
+        // primer destello inmediato
+        serverLevel.sendParticles(ParticleTypes.FLASH, x, y + 8, z, 1, 0, 0, 0, 0);
         lvl.playSound(null, x, y, z, ModSounds.explode("rayo_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
     }
 
@@ -1062,7 +1003,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             lvl.playSound(null, x, y, z, ModSounds.explode("mega_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 3, 2, 1, 2, 0);
         }));
-        // Particulas inmediatas
+        // Particulas inmediatas + ondas de choque 3D (rojo/amarillo)
         for (int i = 0; i < 40; i++) {
             double a = lvl.random.nextDouble() * Math.PI * 2;
             double r = lvl.random.nextDouble() * 6;
@@ -1071,6 +1012,13 @@ public class TntsPrimedTnt extends PrimedTnt {
                     x + Math.cos(a) * r, y + 0.5, z + Math.sin(a) * r,
                     2, 0.2, 0.2, 0.2, 0);
         }
+        // 3 ondas expansivas (una por oleada, colores distintos)
+        serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
+                20, 6.0, new org.joml.Vector3f(1.0f, 0.8f, 0.3f)));
+        serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
+                30, 10.0, new org.joml.Vector3f(1.0f, 0.5f, 0.1f)));
+        serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
+                40, 14.0, new org.joml.Vector3f(0.8f, 0.3f, 0.1f)));
     }
 
     /**
@@ -1108,6 +1056,8 @@ public class TntsPrimedTnt extends PrimedTnt {
             e.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 2));
             e.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0));
         }
+        // esfera de supernova 3D (flash -> expansion -> colapso)
+        serverLevel.addFreshEntity(new SupernovaEntity(serverLevel, x, y, z));
         // Sonido de supernova
         lvl.playSound(null, x, y, z, ModSounds.explode("supernova_tnt"), SoundSource.BLOCKS, 4.0F, 0.4F);
         lvl.playSound(null, x, y, z, ModSounds.explode("negra_tnt"), SoundSource.BLOCKS, 3.0F, 0.5F);
