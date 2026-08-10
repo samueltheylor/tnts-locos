@@ -992,40 +992,45 @@ public class TntsPrimedTnt extends PrimedTnt {
      */
     private void earthquake(Level lvl, double x, double y, double z, BlockPos center) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
-        // Ola 1: crater central (radio 6)
-        for (BlockPos p : BlockPos.betweenClosed(center.offset(-6, -4, -6), center.offset(6, 2, 6))) {
+        // Ola 1: crater central MASIVO (radio 9, mas profundo)
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-9, -7, -9), center.offset(9, 3, 9))) {
             double dist = Math.sqrt(p.distSqr(center.offset(0, 2, 0)));
-            if (dist < 6 && lvl.random.nextInt(3) != 0) {
+            if (dist < 9 && lvl.random.nextInt(3) != 0) {
                 BlockState state = lvl.getBlockState(p);
                 if (!state.isAir() && canDestroy(state, lvl, p)) {
                     lvl.destroyBlock(p, true);
                 }
             }
         }
-        // Ola 2: grietas con lava (lineas desde el centro)
-        for (int i = 0; i < 8; i++) {
-            double angle = i * Math.PI / 4;
-            for (int d = 4; d <= 12; d++) {
+        // Ola 2: grietas con lava (12 lineas hasta radio 16, mas lava)
+        for (int i = 0; i < 12; i++) {
+            double angle = i * Math.PI / 6;
+            for (int d = 4; d <= 16; d++) {
                 int bx = (int)(x + Math.cos(angle) * d);
                 int bz = (int)(z + Math.sin(angle) * d);
                 BlockPos fissure = new BlockPos(bx, center.getY() - 1, bz);
-                if (lvl.random.nextInt(3) == 0) {
+                if (lvl.random.nextInt(2) == 0) {
                     lvl.setBlock(fissure, Blocks.LAVA.defaultBlockState(), 3);
                 } else if (lvl.random.nextInt(2) == 0) {
                     lvl.destroyBlock(fissure.above(), true);
                 }
+                // fuego en la superficie de la grieta
+                BlockPos surface = fissure.above();
+                if (lvl.isEmptyBlock(surface) && lvl.random.nextInt(5) == 0) {
+                    lvl.setBlock(surface, Blocks.FIRE.defaultBlockState(), 3);
+                }
             }
         }
-        // Lanzar entidades alto
-        AABB box = new AABB(x - 12, y - 4, z - 12, x + 12, y + 4, z + 12);
+        // Lanzar entidades MUY alto (radio 16)
+        AABB box = new AABB(x - 16, y - 4, z - 16, x + 16, y + 4, z + 16);
         for (LivingEntity e : lvl.getEntitiesOfClass(LivingEntity.class, box)) {
-            e.push(0, 3.5 + lvl.random.nextDouble() * 2, 0);
+            e.push(0, 4.5 + lvl.random.nextDouble() * 3, 0);
             e.hurtMarked = true;
         }
-        // Particulas de terremoto
-        for (int i = 0; i < 80; i++) {
+        // Particulas de terremoto (mas densas)
+        for (int i = 0; i < 140; i++) {
             double a = lvl.random.nextDouble() * Math.PI * 2;
-            double r = lvl.random.nextDouble() * 10;
+            double r = lvl.random.nextDouble() * 14;
             serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.DIRT.defaultBlockState()),
                     x + Math.cos(a) * r, y + 0.5 + lvl.random.nextDouble() * 2,
                     z + Math.sin(a) * r, 3, 0.3, 0.3, 0.3, 0);
@@ -1034,30 +1039,31 @@ public class TntsPrimedTnt extends PrimedTnt {
                     x + Math.cos(a) * r, y + 0.5, z + Math.sin(a) * r,
                     1, 0, 0, 0, 0);
         }
-        // Temblor fuerte
+        // Temblor fuerte (radio 18)
         for (ServerPlayer sp : serverLevel.players()) {
-            if (sp.distanceToSqr(x, y, z) <= 14 * 14) {
+            if (sp.distanceToSqr(x, y, z) <= 18 * 18) {
                 sp.animateHurt(sp.getYRot());
             }
         }
-        // onda de choque 3D expansiva (marron terremoto)
+        // onda de choque 3D expansiva (marron terremoto, radio 16)
         serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
-                30, 12.0, new org.joml.Vector3f(0.6f, 0.45f, 0.25f)));
+                40, 16.0, new org.joml.Vector3f(0.6f, 0.45f, 0.25f)));
     }    /**
      * TNT Meteorito: invoca 5-8 meteoritos 3D que caen del cielo con estela
      * de fuego y explotan al impactar (entidad visible, como la bola negra).
      */
     private void meteorShower(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
-        int numMeteors = 5 + lvl.random.nextInt(4);
+        // MAS meteoritos (8-12) en un area mas amplia
+        int numMeteors = 8 + lvl.random.nextInt(5);
         for (int i = 0; i < numMeteors; i++) {
-            double mx = x + (lvl.random.nextDouble() - 0.5) * 30;
-            double mz = z + (lvl.random.nextDouble() - 0.5) * 30;
+            double mx = x + (lvl.random.nextDouble() - 0.5) * 44;
+            double mz = z + (lvl.random.nextDouble() - 0.5) * 44;
             int my = serverLevel.getHeight(
                     net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
                     (int) mx, (int) mz);
-            // el meteorito 3D cae desde 30 bloques arriba y explota al impactar
-            serverLevel.addFreshEntity(new MeteorEntity(serverLevel, mx + 0.5, my + 32, mz + 0.5));
+            // el meteorito 3D cae desde 40 bloques arriba y explota al impactar
+            serverLevel.addFreshEntity(new MeteorEntity(serverLevel, mx + 0.5, my + 40, mz + 0.5));
         }
         lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.6F);
     }
@@ -1069,8 +1075,17 @@ public class TntsPrimedTnt extends PrimedTnt {
     private void massiveStorm(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
         serverLevel.addFreshEntity(new StormCloudEntity(serverLevel, x, y, z));
-        // primer destello inmediato
-        serverLevel.sendParticles(ParticleTypes.FLASH, x, y + 8, z, 1, 0, 0, 0, 0);
+        // 3 rayos inmediatos alrededor (la nube sigue invocando durante 8s)
+        for (int i = 0; i < 3; i++) {
+            double bx = x + (lvl.random.nextDouble() - 0.5) * 24;
+            double bz = z + (lvl.random.nextDouble() - 0.5) * 24;
+            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
+            if (bolt != null) {
+                bolt.moveTo(bx, y + 14, bz);
+                serverLevel.addFreshEntity(bolt);
+            }
+            serverLevel.sendParticles(ParticleTypes.FLASH, bx, y + 8, bz, 1, 0, 0, 0, 0);
+        }
         lvl.playSound(null, x, y, z, ModSounds.explode("rayo_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
     }
 
@@ -1080,78 +1095,87 @@ public class TntsPrimedTnt extends PrimedTnt {
      */
     private void colossalExplosion(Level lvl, double x, double y, double z, BlockPos center) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
-        // Ola 1: crater pequeno (radio 4)
+        // Ola 1: crater (radio 6)
         serverLevel.getServer().tell(new net.minecraft.server.TickTask(
-                serverLevel.getServer().getTickCount() + 8, () -> {
-            for (BlockPos p : BlockPos.betweenClosed(center.offset(-4, -3, -4), center.offset(4, 2, 4))) {
+                serverLevel.getServer().getTickCount() + 10, () -> {
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-6, -5, -6), center.offset(6, 3, 6))) {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
-                if (dist < 4 && lvl.random.nextInt(2) == 0) {
+                if (dist < 6 && lvl.random.nextInt(2) == 0) {
                     BlockState state = lvl.getBlockState(p);
                     if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }
+            }
+            for (ServerPlayer sp : serverLevel.players()) {
+                if (sp.distanceToSqr(x, y, z) <= 10 * 10) sp.animateHurt(sp.getYRot());
             }
             lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 2.5F, 0.8F);
         }));
-        // Ola 2: crater mediano (radio 8)
+        // Ola 2: crater mediano (radio 10)
         serverLevel.getServer().tell(new net.minecraft.server.TickTask(
-                serverLevel.getServer().getTickCount() + 16, () -> {
-            for (BlockPos p : BlockPos.betweenClosed(center.offset(-8, -4, -8), center.offset(8, 2, 8))) {
+                serverLevel.getServer().getTickCount() + 20, () -> {
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-10, -6, -10), center.offset(10, 4, 10))) {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
-                if (dist < 8 && dist >= 3 && lvl.random.nextInt(2) == 0) {
+                if (dist < 10 && dist >= 4 && lvl.random.nextInt(2) == 0) {
                     BlockState state = lvl.getBlockState(p);
                     if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }
             }
-            // Lanzar entidades
-            AABB box = new AABB(x - 10, y - 3, z - 10, x + 10, y + 5, z + 10);
+            // Lanzar entidades MAS alto
+            AABB box = new AABB(x - 14, y - 3, z - 14, x + 14, y + 5, z + 14);
             for (LivingEntity e : lvl.getEntitiesOfClass(LivingEntity.class, box)) {
-                e.push(0, 2.5, 0);
+                e.push(0, 3.0 + lvl.random.nextDouble(), 0);
                 e.hurtMarked = true;
+            }
+            for (ServerPlayer sp : serverLevel.players()) {
+                if (sp.distanceToSqr(x, y, z) <= 14 * 14) sp.animateHurt(sp.getYRot());
             }
             lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.7F);
         }));
-        // Ola 3: crater grande (radio 12)
+        // Ola 3: crater grande (radio 16)
         serverLevel.getServer().tell(new net.minecraft.server.TickTask(
-                serverLevel.getServer().getTickCount() + 24, () -> {
-            for (BlockPos p : BlockPos.betweenClosed(center.offset(-12, -5, -12), center.offset(12, 3, 12))) {
+                serverLevel.getServer().getTickCount() + 30, () -> {
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-16, -8, -16), center.offset(16, 5, 16))) {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 1, 0)));
-                if (dist < 12 && dist >= 6 && lvl.random.nextInt(3) == 0) {
+                if (dist < 16 && dist >= 8 && lvl.random.nextInt(3) == 0) {
                     BlockState state = lvl.getBlockState(p);
                     if (!state.isAir() && canDestroy(state, lvl, p)) {
                         lvl.destroyBlock(p, true);
                     }
                 }
             }
-            // Fuego en los bordes
-            for (BlockPos p : BlockPos.betweenClosed(center.offset(-12, -1, -12), center.offset(12, 2, 12))) {
+            // Fuego en los bordes (anillo mas amplio)
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-16, -1, -16), center.offset(16, 3, 16))) {
                 double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
-                if (dist > 8 && dist < 12 && lvl.isEmptyBlock(p) && lvl.random.nextInt(4) == 0) {
+                if (dist > 10 && dist < 16 && lvl.isEmptyBlock(p) && lvl.random.nextInt(3) == 0) {
                     lvl.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
                 }
+            }
+            for (ServerPlayer sp : serverLevel.players()) {
+                if (sp.distanceToSqr(x, y, z) <= 20 * 20) sp.animateHurt(sp.getYRot());
             }
             lvl.playSound(null, x, y, z, ModSounds.explode("mega_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 3, 2, 1, 2, 0);
         }));
         // Particulas inmediatas + ondas de choque 3D (rojo/amarillo)
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 60; i++) {
             double a = lvl.random.nextDouble() * Math.PI * 2;
-            double r = lvl.random.nextDouble() * 6;
+            double r = lvl.random.nextDouble() * 8;
             serverLevel.sendParticles(new DustParticleOptions(
                             new org.joml.Vector3f(1.0f, 0.6f, 0.1f), 1.2F),
                     x + Math.cos(a) * r, y + 0.5, z + Math.sin(a) * r,
                     2, 0.2, 0.2, 0.2, 0);
         }
-        // 3 ondas expansivas (una por oleada, colores distintos)
+        // 3 ondas expansivas MAS grandes (una por oleada, colores distintos)
         serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
-                20, 6.0, new org.joml.Vector3f(1.0f, 0.8f, 0.3f)));
+                25, 8.0, new org.joml.Vector3f(1.0f, 0.8f, 0.3f)));
         serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
-                30, 10.0, new org.joml.Vector3f(1.0f, 0.5f, 0.1f)));
+                35, 13.0, new org.joml.Vector3f(1.0f, 0.5f, 0.1f)));
         serverLevel.addFreshEntity(new ShockwaveEntity(serverLevel, x, y + 0.2, z,
-                40, 14.0, new org.joml.Vector3f(0.8f, 0.3f, 0.1f)));
+                45, 18.0, new org.joml.Vector3f(0.8f, 0.3f, 0.1f)));
     }
 
     /**
@@ -1163,11 +1187,11 @@ public class TntsPrimedTnt extends PrimedTnt {
         // Destello cegador inicial
         serverLevel.sendParticles(ParticleTypes.FLASH, x, y + 1, z, 5, 0, 0, 0, 0);
         serverLevel.sendParticles(ParticleTypes.END_ROD,
-                x, y + 1, z, 80, 8, 4, 8, 0.2);
-        // Ondas expansivas de luz (3 anillos)
-        for (int ring = 0; ring < 3; ring++) {
-            for (int i = 0; i < 40; i++) {
-                double a = i / 40.0 * Math.PI * 2;
+                x, y + 1, z, 120, 10, 5, 10, 0.2);
+        // Ondas expansivas de luz (4 anillos mas amplios)
+        for (int ring = 0; ring < 4; ring++) {
+            for (int i = 0; i < 48; i++) {
+                double a = i / 48.0 * Math.PI * 2;
                 double r = 2 + ring * 4;
                 serverLevel.sendParticles(new DustParticleOptions(
                                 new org.joml.Vector3f(1.0f, 0.95f, 0.6f), 1.3F),
@@ -1175,17 +1199,26 @@ public class TntsPrimedTnt extends PrimedTnt {
                         2, 0.1, 0.1, 0.1, 0);
             }
         }
-        // Massive XP drop
-        int totalXp = 200 + lvl.random.nextInt(100);
+        // Fuego en el borde de la zona
+        for (BlockPos p : BlockPos.betweenClosed(
+                new BlockPos((int) x - 12, (int) y, (int) z - 12),
+                new BlockPos((int) x + 12, (int) y + 1, (int) z + 12))) {
+            double dist = Math.sqrt(p.distSqr(new BlockPos((int) x, (int) y, (int) z)));
+            if (dist > 8 && dist < 12 && lvl.isEmptyBlock(p) && lvl.random.nextInt(3) == 0) {
+                lvl.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        }
+        // Massive XP drop (400-600)
+        int totalXp = 400 + lvl.random.nextInt(200);
         while (totalXp > 0) {
             int value = Math.min(totalXp, 50);
             totalXp -= value;
             lvl.addFreshEntity(new ExperienceOrb(lvl, x, y + 1, z, value));
         }
-        // Entidades cercanas reciben daño leve + regeneracion
-        AABB box = new AABB(x - 10, y - 4, z - 10, x + 10, y + 6, z + 10);
+        // Entidades cercanas reciben daño + regeneracion (radio 14)
+        AABB box = new AABB(x - 14, y - 4, z - 14, x + 14, y + 8, z + 14);
         for (LivingEntity e : lvl.getEntitiesOfClass(LivingEntity.class, box)) {
-            e.hurt(e.damageSources().magic(), 4.0f);
+            e.hurt(e.damageSources().magic(), 6.0f);
             e.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 2));
             e.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0));
         }

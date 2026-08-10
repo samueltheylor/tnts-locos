@@ -71,19 +71,25 @@ public class MeteorEntity extends Entity {
         double z = this.getZ();
         BlockPos center = this.blockPosition();
 
-        // explosion + crater de lava
-        serverLevel.explode(this, x, y + 1, z, 3.0f + serverLevel.random.nextFloat() * 2.0f,
+        // explosion MAS grande + crater de lava mas amplio + fuego
+        serverLevel.explode(this, x, y + 1, z, 4.5f + serverLevel.random.nextFloat() * 2.0f,
                 true, Level.ExplosionInteraction.BLOCK);
-        for (BlockPos p : BlockPos.betweenClosed(center.offset(-2, -1, -2), center.offset(2, 0, 2))) {
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-3, -1, -3), center.offset(3, 0, 3))) {
             if (serverLevel.isEmptyBlock(p) && serverLevel.getBlockState(p.below()).isSolid()
                     && serverLevel.random.nextInt(3) != 0) {
                 serverLevel.setBlock(p, Blocks.LAVA.defaultBlockState(), 3);
             }
         }
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-5, 0, -5), center.offset(5, 0, 5))) {
+            if (serverLevel.isEmptyBlock(p) && serverLevel.getBlockState(p.below()).isSolid()
+                    && serverLevel.random.nextInt(4) == 0) {
+                serverLevel.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        }
         // destello de impacto
-        serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y + 1, z, 1, 0, 0, 0, 0);
-        serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, x, y + 2, z, 8, 1, 1, 1, 0.1);
-        serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 2.5F, 0.8F);
+        serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y + 1, z, 2, 0, 0, 0, 0);
+        serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, x, y + 2, z, 14, 1.5, 1.5, 1.5, 0.1);
+        serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 3.0F, 0.7F);
         this.discard();
     }
 

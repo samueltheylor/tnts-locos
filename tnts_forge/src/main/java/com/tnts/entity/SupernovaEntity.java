@@ -56,9 +56,9 @@ public class SupernovaEntity extends Entity {
             serverLevel.sendParticles(ParticleTypes.END_ROD, x, y, z, 10, 2, 2, 2, 0.1);
         }
 
-        // Fase 2: expansion (anillos dorados creciendo)
+        // Fase 2: expansion (anillos dorados creciendo, mas grandes)
         if (age > PHASE_FLASH && age <= PHASE_EXPAND) {
-            double r = (age - PHASE_FLASH) * 0.7;
+            double r = (age - PHASE_FLASH) * 1.0;
             int count = (int) (16 + progress * 16);
             for (int i = 0; i < count; i++) {
                 double a = i / (double) count * Math.PI * 2;

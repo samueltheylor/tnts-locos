@@ -11,9 +11,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,9 +34,9 @@ import org.joml.Vector3f;
 public class BlackHoleEntity extends Entity {
 
     private static final int LIFETIME = 160; // 8 segundos
-    private static final double RADIUS = 16.0;
-    private static final double SUCTION_BASE = 0.8;
-    private static final double SUCTION_MAX = 2.2;
+    private static final double RADIUS = 18.0;
+    private static final double SUCTION_BASE = 1.0;
+    private static final double SUCTION_MAX = 3.0;
 
     private int age = 0;
 
@@ -55,10 +56,10 @@ public class BlackHoleEntity extends Entity {
         super.tick();
         if (this.level().isClientSide) return;
         if (++age > LIFETIME) {
-            // Explosion final al desaparecer
+            // Explosion final al desaparecer (mas grande)
             if (!this.level().isClientSide) {
                 this.level().explode(this, this.getX(), this.getY(), this.getZ(),
-                        6.0f, true, Level.ExplosionInteraction.BLOCK);
+                        9.0f, true, Level.ExplosionInteraction.BLOCK);
             }
             this.discard();
             return;
@@ -89,13 +90,21 @@ public class BlackHoleEntity extends Entity {
 
             double hd = Math.sqrt((p.x - x) * (p.x - x) + (p.z - z) * (p.z - z));
 
-            // Item que cae al nucleo: consumido con destello
-            if (e instanceof ItemEntity && hd < 1.0 && p.y < y + 1.5) {
+            // Item u orb de XP que cae al nucleo: consumido con destello (come MAS)
+            if ((e instanceof ItemEntity || e instanceof ExperienceOrb) && hd < 2.5 && p.y < y + 3.0) {
                 e.discard();
-                serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 2, 0, 0, 0, 0);
+                serverLevel.sendParticles(ParticleTypes.FLASH, p.x, p.y + 0.3, p.z, 3, 0, 0, 0, 0);
+                serverLevel.sendParticles(ParticleTypes.END_ROD, p.x, p.y + 0.3, p.z, 4, 0.2, 0.2, 0.2, 0);
                 serverLevel.playSound(null, p.x, p.y, p.z, SoundEvents.EXPERIENCE_ORB_PICKUP,
-                        SoundSource.AMBIENT, 0.5F, 2.0F);
+                        SoundSource.AMBIENT, 0.7F, 2.0F);
                 continue;
+            }
+
+            // Ser vivo pegado al nucleo: devorado (dano continuo cada 5 ticks)
+            if (e instanceof LivingEntity le && hd < 1.5 && age % 5 == 0 && le.isAlive()) {
+                le.hurt(le.damageSources().wither(), 4.0f);
+                serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
+                        p.x, p.y + 0.5, p.z, 6, 0.2, 0.2, 0.2, 0);
             }
 
             // Sccion con fuerza creciente
@@ -105,24 +114,28 @@ public class BlackHoleEntity extends Entity {
             e.hurtMarked = true;
         }
 
-        // === DESTRUCCION LENTA DE BLOQUES (come el borde cada 10 ticks) ===
-        if (age % 10 == 0 && progress > 0.2) {
-            int blocksToBreak = (int)(3 + progress * 5);
+        // === DESTRUCCION DE BLOQUES (come MAS: cada 6 ticks, hasta 22 bloques) ===
+        if (age % 6 == 0 && progress > 0.1) {
+            int blocksToBreak = (int)(8 + progress * 14);
             for (int i = 0; i < blocksToBreak; i++) {
                 double angle = serverLevel.random.nextDouble() * Math.PI * 2;
-                double dist = 2 + serverLevel.random.nextDouble() * (effectiveRadius - 2);
+                double dist = 1.2 + serverLevel.random.nextDouble() * (effectiveRadius - 1.2);
                 int bx = (int)(x + Math.cos(angle) * dist);
                 int bz = (int)(z + Math.sin(angle) * dist);
-                int by = (int)(y + (serverLevel.random.nextDouble() - 0.5) * 4);
+                int by = (int)(y + (serverLevel.random.nextDouble() - 0.5) * 6);
                 BlockPos bpos = new BlockPos(bx, by, bz);
                 BlockState state = serverLevel.getBlockState(bpos);
                 if (state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA)) continue;
                 float hardness = state.getDestroySpeed(serverLevel, bpos);
-                if (hardness >= 0.0f && hardness < 40.0f) {
+                if (hardness >= 0.0f && hardness < 60.0f) {  // come incluso obsidiana
                     serverLevel.destroyBlock(bpos, true);
                     // Particula de bloque siendo devorado
                     serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
                             bx + 0.5, by + 0.5, bz + 0.5, 3, 0.2, 0.2, 0.2, 0);
+                    // De vez en cuando el abismo deja lava en el hueco
+                    if (serverLevel.random.nextInt(6) == 0) {
+                        serverLevel.setBlock(bpos, Blocks.LAVA.defaultBlockState(), 3);
+                    }
                 }
             }
         }

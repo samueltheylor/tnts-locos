@@ -1,5 +1,15 @@
 # TNTs Locos — Changelog
 
+## v1.9.6 — Mas desastres: masivas buffeadas + Agujero Negro come MAS (solo Java)
+
+- **🕳️ Agujero Negro come más:** radio 18 (antes 16), succion 1.0→3.0 (antes 0.8→2.2); come **hasta 22 bloques cada 6 ticks** (antes 8 cada 10) incluso obsidiana, con lava ocasional en el hueco; consume **items y orbes de XP desde más lejos** (radio 2.5); los **seres vivos pegados al núcleo son devorados** (daño continuo cada 5 ticks); explosión final de radio 9 (antes 6).
+- **🌍 Terremoto:** cráter de radio 9 (antes 6) y más profundo, 12 grietas con lava hasta radio 16 (antes 8 hasta 12) + fuego en la superficie, lanza entidades a 4.5-7.5 bloques en radio 16, temblor en radio 18 y onda de choque 3D de radio 16.
+- **☄️ Meteorito:** 8-12 meteoritos (antes 5-8) en área de 44 bloques, caen de más alto; cada impacto explota más fuerte (4.5-6.5), con cráter de lava de radio 3 + fuego.
+- **⛈️ Tormenta:** 3 rayos inmediatos al explotar + nube durante 8 segundos (antes 6) en radio 20 (antes 16), rayos cada 14 ticks de 3-5 en racha (antes 20 ticks de 2-3), viento más fuerte.
+- **🏔️ Colosal:** oleadas de radio 6/10/16 (antes 4/8/12) mucho más profundas, lanza entidades a 3-4 bloques, fuego en anillo 10-16, temblor de pantalla en cada oleada y ondas de choque 3D hasta radio 18.
+- **⭐ Supernova:** 400-600 XP (antes 200-300), daño y curación en radio 14 (antes 10), 4 anillos de luz + fuego en el borde, esfera 3D que se expande más.
+- **Power de explosión subido** en config: terremoto 18, meteorito 16, tormenta 12, colosal 20, supernova 17, agujero negro 10.
+
 ## v1.9.5 — Remolino del Agujero Negro con tornado REAL (CC0) (solo Java)
 
 - **El remolino ya no es sintetizado:** la bola negra ahora suena con un **tornado real de estudio** (SSE Library: WIND, colección USC Cinema / Sunset Editorial, licencia CC0 dominio público) — viento continuo de 43s grabado con máquina de viento, bajado de tono ~0.78x para que sea un vórtice grave y amenazante.
