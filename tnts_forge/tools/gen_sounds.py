@@ -154,6 +154,24 @@ def _resample(x, src_rate, dst_rate):
     return out
 
 
+def _stretch(x, factor):
+    """Re-muestrea x a len(x)*factor (factor<1 = mas lento y mas grave)."""
+    if factor == 1.0:
+        return x
+    out_len = int(len(x) * factor)
+    step = (len(x) - 1) / max(1, out_len - 1)
+    out = []
+    for j in range(out_len):
+        p = j * step
+        i = int(p)
+        if i >= len(x) - 1:
+            out.append(x[-1])
+        else:
+            f = p - i
+            out.append(x[i] * (1 - f) + x[i + 1] * f)
+    return out
+
+
 _SAMPLE_CACHE = {}
 
 
@@ -466,26 +484,37 @@ def shoot():
 
 
 def whirl():
-    """Remolino grave de la bola negra (Agujero Negro): retumbo grave
-    modulado en espiral (~5 Hz) que suena como un vortice girando.
-    Bucle de 1.6s con envolvente suave para que repita sin clics."""
+    """Remolino grave de la bola negra (Agujero Negro): viento de tornado REAL
+    (CC0, SSE Library: WIND) bajado de tono (~0.78x, mas grave y amenazante),
+    con espiral de ~5 Hz y sub-grave con vibrato. Bucle de 1.6s con
+    envolvente suave para que repita sin clics. En Java/Bedrock el pitch
+    sube con cada pulso (0.7 + 0.15 * pulsos)."""
     dur = 1.6
-    n = int(dur * RATE)
-    rng = random.Random(42)
+    pitch = 0.78
+    s, rate = _load_wav(os.path.join(SAMPLES_DIR, "vortex.wav"))
+    s = _resample(s, rate, RATE)
+    start = int(5.0 * RATE)  # seccion estable (el tornado es uniforme)
+    win = s[start:start + int(dur * RATE / pitch)]
+    base = _stretch(win, pitch)
+    n = len(base)
     out = []
     lp = 0.0
+    lp_hi = 0.0
     for i in range(n):
         t = i / RATE
-        white = rng.uniform(-1.0, 1.0)
-        lp = lp * 0.86 + white * 0.14  # ruido grave (filtro paso bajo)
+        x = base[i]
+        # paso bajo doble: el viento queda grave, sin la frialdad del aire agudo
+        lp = lp * 0.82 + x * 0.18
+        lp_hi = lp_hi * 0.94 + (x - lp_hi) * 0.06
         # espiral: modulacion de amplitud a ~5 Hz (sensacion de giro)
         swirl = 0.5 + 0.5 * math.sin(2 * math.pi * 5.0 * t)
         # retumbo subgrave con vibrato lento
         rumble = math.sin(2 * math.pi * (48 + 4 * math.sin(2 * math.pi * 2.3 * t)) * t)
         # envolvente de bucle: sube y baja suave para que el loop no clique
         env = min(1.0, t / 0.2) * min(1.0, (dur - t) / 0.25)
-        out.append((lp * 0.9 + rumble * 0.5) * (0.35 + 0.65 * swirl) * env * 0.9)
-    return out
+        out.append((lp * 0.65 + lp_hi * 0.35 + rumble * 0.45)
+                   * (0.35 + 0.65 * swirl) * env)
+    return soft_limiter(out, 0.80)
 
 
 # ---------------- salida ----------------

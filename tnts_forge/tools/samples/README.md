@@ -22,5 +22,17 @@ Editorial Collection), alojada en Internet Archive:
 Convertidos a mono 22050 Hz / PCM 16-bit con ffmpeg para reducir tamaño.
 Se usan como capa de golpe y cuerpo bajo la síntesis en `tools/gen_sounds.py`.
 
+## Remolino del Agujero Negro
+
+`vortex.wav` proviene de la biblioteca **SSE Library: WIND** (misma colección
+USC Cinema / Sunset Editorial), también CC0:
+
+- https://archive.org/details/SSE_Library_WIND
+- Archivo original: `DESIGNED/WINDDsgn_Tornado wind; canvas wind machine_CS_USC.wav`
+- Licencia: **Creative Commons Zero v1.0 (dominio público)**
+
+Convertido a mono 22050 Hz / PCM 16-bit. En `tools/gen_sounds.py` se baja de
+tono (~0.78x) para que suene como un vórtice grave y se envuelve en espiral.
+
 CC0 = puedes copiar, modificar, distribuir y usar comercialmente **sin
 atribución ni permiso**. Se incluye este crédito solo por transparencia.

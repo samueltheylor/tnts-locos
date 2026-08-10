@@ -1,5 +1,11 @@
 # TNTs Locos — Changelog
 
+## v1.9.5 — Remolino del Agujero Negro con tornado REAL (CC0) (solo Java)
+
+- **El remolino ya no es sintetizado:** la bola negra ahora suena con un **tornado real de estudio** (SSE Library: WIND, colección USC Cinema / Sunset Editorial, licencia CC0 dominio público) — viento continuo de 43s grabado con máquina de viento, bajado de tono ~0.78x para que sea un vórtice grave y amenazante.
+- Se mantiene el **espiral de 5 Hz** (sensación de giro), el **sub-grave con vibrato** y la envolvente de bucle de 1.6s sin clics; el **pitch sigue subiendo con cada pulso** (0.7 + 0.15 × pulsos, en Java/Bedrock, sin tocar el código).
+- Nuevo sample `tools/samples/vortex.wav` (CC0) con su crédito en `tools/samples/README.md`.
+
 ## v1.9.4 — Sonidos de estudio: samples reales CC0 + reverb + eco (solo Java)
 
 - **Explosiones reales (dominio público / CC0):** las explosiones ahora usan **grabaciones reales de estudio** de la biblioteca "Red Library: Explosions" (colección USC Cinema / Sunset Editorial, archive.org, licencia **CC0 — sin atribución ni restricciones**, aún más permisiva que MIT) como capa de golpe y cuerpo bajo la síntesis. Cada TNT usa una muestra distinta (6 muestras en `tools/samples/` con su crédito).
