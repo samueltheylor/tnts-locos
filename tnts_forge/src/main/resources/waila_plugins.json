@@ -1,0 +1,6 @@
+{
+  "tnts:plugin": {
+    "initializer": "com.tnts.client.TntsWailaPlugin",
+    "side": "client"
+  }
+}

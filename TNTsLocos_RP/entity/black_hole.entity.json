@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "tnts:black_hole",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/black_hole"
+      },
+      "geometry": {
+        "default": "geometry.black_hole"
+      },
+      "render_controllers": [
+        "controller.render.black_hole"
+      ]
+    }
+  }
+}

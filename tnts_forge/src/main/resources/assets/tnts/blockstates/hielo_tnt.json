@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/hielo_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/hielo_tnt_lit"
+    }
+  }
+}

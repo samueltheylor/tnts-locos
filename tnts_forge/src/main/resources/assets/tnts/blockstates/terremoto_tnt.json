@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/terremoto_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/terremoto_tnt_lit"
+    }
+  }
+}

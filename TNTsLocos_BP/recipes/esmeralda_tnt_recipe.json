@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:esmeralda_tnt_recipe",
+      "tags": [
+        "crafting_table"
+      ]
+    },
+    "ingredients": [
+      {
+        "item": "minecraft:tnt"
+      },
+      {
+        "item": "minecraft:emerald"
+      }
+    ],
+    "result": {
+      "item": "tnts:esmeralda_tnt",
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "tnts:mega_tnt"
+    },
+    {
+      "item": "tnts:mega_tnt"
+    },
+    {
+      "item": "minecraft:tnt"
+    }
+  ],
+  "result": {
+    "item": "tnts:colosal_tnt",
+    "count": 1
+  }
+}

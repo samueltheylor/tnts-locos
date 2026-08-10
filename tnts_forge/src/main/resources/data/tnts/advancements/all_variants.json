@@ -1,0 +1,212 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:nuclear_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.all_variants.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.all_variants.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "explode_mega_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mega_tnt"
+      }
+    },
+    "explode_mini_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mini_tnt"
+      }
+    },
+    "explode_lava_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lava_tnt"
+      }
+    },
+    "explode_rapida_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:rapida_tnt"
+      }
+    },
+    "explode_hielo_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hielo_tnt"
+      }
+    },
+    "explode_saltarina_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:saltarina_tnt"
+      }
+    },
+    "explode_nuclear_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:nuclear_tnt"
+      }
+    },
+    "explode_limpia_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:limpia_tnt"
+      }
+    },
+    "explode_rayo_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:rayo_tnt"
+      }
+    },
+    "explode_trampa_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:trampa_tnt"
+      }
+    },
+    "explode_oro_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:oro_tnt"
+      }
+    },
+    "explode_obsidiana_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:obsidiana_tnt"
+      }
+    },
+    "explode_crio_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:crio_tnt"
+      }
+    },
+    "explode_xp_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:xp_tnt"
+      }
+    },
+    "explode_agua_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:agua_tnt"
+      }
+    },
+    "explode_arena_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:arena_tnt"
+      }
+    },
+    "explode_diamante_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:diamante_tnt"
+      }
+    },
+    "explode_esmeralda_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:esmeralda_tnt"
+      }
+    },
+    "explode_negra_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:negra_tnt"
+      }
+    },
+    "explode_viento_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:viento_tnt"
+      }
+    },
+    "explode_inferno_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:inferno_tnt"
+      }
+    },
+    "explode_hongo_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hongo_tnt"
+      }
+    },
+    "explode_miel_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:miel_tnt"
+      }
+    },
+    "explode_heal_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:heal_tnt"
+      }
+    },
+    "explode_teleport_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:teleport_tnt"
+      }
+    },
+    "explode_confeti_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:confeti_tnt"
+      }
+    },
+    "explode_mina_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mina_tnt"
+      }
+    },
+    "explode_terremoto_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:terremoto_tnt"
+      }
+    },
+    "explode_meteorito_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:meteorito_tnt"
+      }
+    },
+    "explode_tormenta_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tormenta_tnt"
+      }
+    },
+    "explode_colosal_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:colosal_tnt"
+      }
+    },
+    "explode_supernova_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:supernova_tnt"
+      }
+    }
+  }
+}

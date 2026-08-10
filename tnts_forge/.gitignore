@@ -1,0 +1,7 @@
+# Gradle
+.gradle/
+build/
+run/
+run-data/
+out/
+*.log

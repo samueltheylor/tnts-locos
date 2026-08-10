@@ -1,0 +1,324 @@
+{
+  "flipbook_textures": [
+    {
+      "flipbook_texture": "textures/blocks/tnts_mega_lit",
+      "atlas_tile": "tnts_mega_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_mega_top_lit",
+      "atlas_tile": "tnts_mega_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_mini_lit",
+      "atlas_tile": "tnts_mini_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_mini_top_lit",
+      "atlas_tile": "tnts_mini_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_lava_lit",
+      "atlas_tile": "tnts_lava_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_lava_top_lit",
+      "atlas_tile": "tnts_lava_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_rapida_lit",
+      "atlas_tile": "tnts_rapida_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_rapida_top_lit",
+      "atlas_tile": "tnts_rapida_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_hielo_lit",
+      "atlas_tile": "tnts_hielo_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_hielo_top_lit",
+      "atlas_tile": "tnts_hielo_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_saltarina_lit",
+      "atlas_tile": "tnts_saltarina_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_saltarina_top_lit",
+      "atlas_tile": "tnts_saltarina_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_nuclear_lit",
+      "atlas_tile": "tnts_nuclear_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_nuclear_top_lit",
+      "atlas_tile": "tnts_nuclear_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_limpia_lit",
+      "atlas_tile": "tnts_limpia_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_limpia_top_lit",
+      "atlas_tile": "tnts_limpia_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_rayo_lit",
+      "atlas_tile": "tnts_rayo_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_rayo_top_lit",
+      "atlas_tile": "tnts_rayo_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_trampa_lit",
+      "atlas_tile": "tnts_trampa_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_trampa_top_lit",
+      "atlas_tile": "tnts_trampa_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_oro_lit",
+      "atlas_tile": "tnts_oro_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_oro_top_lit",
+      "atlas_tile": "tnts_oro_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_obsidiana_lit",
+      "atlas_tile": "tnts_obsidiana_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_obsidiana_top_lit",
+      "atlas_tile": "tnts_obsidiana_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_crio_lit",
+      "atlas_tile": "tnts_crio_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_crio_top_lit",
+      "atlas_tile": "tnts_crio_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_xp_lit",
+      "atlas_tile": "tnts_xp_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_xp_top_lit",
+      "atlas_tile": "tnts_xp_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_agua_lit",
+      "atlas_tile": "tnts_agua_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_agua_top_lit",
+      "atlas_tile": "tnts_agua_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_arena_lit",
+      "atlas_tile": "tnts_arena_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_arena_top_lit",
+      "atlas_tile": "tnts_arena_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_diamante_lit",
+      "atlas_tile": "tnts_diamante_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_diamante_top_lit",
+      "atlas_tile": "tnts_diamante_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_esmeralda_lit",
+      "atlas_tile": "tnts_esmeralda_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_esmeralda_top_lit",
+      "atlas_tile": "tnts_esmeralda_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_negra_lit",
+      "atlas_tile": "tnts_negra_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_negra_top_lit",
+      "atlas_tile": "tnts_negra_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_viento_lit",
+      "atlas_tile": "tnts_viento_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_viento_top_lit",
+      "atlas_tile": "tnts_viento_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_inferno_lit",
+      "atlas_tile": "tnts_inferno_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_inferno_top_lit",
+      "atlas_tile": "tnts_inferno_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_hongo_lit",
+      "atlas_tile": "tnts_hongo_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_hongo_top_lit",
+      "atlas_tile": "tnts_hongo_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_miel_lit",
+      "atlas_tile": "tnts_miel_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_miel_top_lit",
+      "atlas_tile": "tnts_miel_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_heal_lit",
+      "atlas_tile": "tnts_heal_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_heal_top_lit",
+      "atlas_tile": "tnts_heal_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_teleport_lit",
+      "atlas_tile": "tnts_teleport_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_teleport_top_lit",
+      "atlas_tile": "tnts_teleport_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_confeti_lit",
+      "atlas_tile": "tnts_confeti_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_confeti_top_lit",
+      "atlas_tile": "tnts_confeti_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_mina_lit",
+      "atlas_tile": "tnts_mina_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_mina_top_lit",
+      "atlas_tile": "tnts_mina_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_terremoto_lit",
+      "atlas_tile": "tnts_terremoto_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_terremoto_top_lit",
+      "atlas_tile": "tnts_terremoto_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_meteorito_lit",
+      "atlas_tile": "tnts_meteorito_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_meteorito_top_lit",
+      "atlas_tile": "tnts_meteorito_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_tormenta_lit",
+      "atlas_tile": "tnts_tormenta_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_tormenta_top_lit",
+      "atlas_tile": "tnts_tormenta_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_colosal_lit",
+      "atlas_tile": "tnts_colosal_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_colosal_top_lit",
+      "atlas_tile": "tnts_colosal_top_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_supernova_lit",
+      "atlas_tile": "tnts_supernova_lit",
+      "ticks_per_frame": 2
+    },
+    {
+      "flipbook_texture": "textures/blocks/tnts_supernova_top_lit",
+      "atlas_tile": "tnts_supernova_top_lit",
+      "ticks_per_frame": 2
+    }
+  ]
+}

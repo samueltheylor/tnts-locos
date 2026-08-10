@@ -1,0 +1,24 @@
+{
+  "resource_pack_name": "tnts_locos",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "detonator": {
+      "textures": "textures/items/detonator"
+    },
+    "tnt_chestplate": {
+      "textures": "textures/items/tnt_chestplate"
+    },
+    "tnt_pickaxe": {
+      "textures": "textures/items/tnt_pickaxe"
+    },
+    "tnt_launcher": {
+      "textures": "textures/items/tnt_launcher"
+    },
+    "tnt_grenade": {
+      "textures": "textures/items/tnt_grenade"
+    },
+    "tnt_arrow": {
+      "textures": "textures/items/tnt_arrow"
+    }
+  }
+}

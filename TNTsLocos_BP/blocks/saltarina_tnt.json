@@ -1,0 +1,62 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "tnts:saltarina_tnt",
+      "menu_category": {
+        "category": "construction"
+      },
+      "states": {
+        "tnts:lit": [
+          false,
+          true
+        ]
+      }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('tnts:lit') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "tnts_saltarina_lit",
+              "render_method": "opaque"
+            },
+            "up": {
+              "texture": "tnts_saltarina_top_lit",
+              "render_method": "opaque"
+            },
+            "down": {
+              "texture": "tnts_saltarina_bottom",
+              "render_method": "opaque"
+            }
+          }
+        }
+      }
+    ],
+    "components": {
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "tnts_saltarina",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "tnts_saltarina_top",
+          "render_method": "opaque"
+        },
+        "down": {
+          "texture": "tnts_saltarina_bottom",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.2
+      },
+      "minecraft:map_color": "#6d28d9",
+      "minecraft:redstone_consumer": {
+        "min_power": 1
+      },
+      "tnts:ignite": {}
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/inferno_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/inferno_tnt_lit"
+    }
+  }
+}

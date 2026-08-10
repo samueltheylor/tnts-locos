@@ -1,0 +1,27 @@
+# Gradle / Java
+tnts_forge/.gradle/
+tnts_forge/build/
+tnts_forge/run/
+tnts_forge/out/
+*.class
+
+# Addon empaquetado y jars sueltos de versiones antiguas
+TNTsLocos.mcaddon
+tnts-*.jar
+tnts-*.mcaddon
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/mina_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/mina_tnt_lit"
+    }
+  }
+}

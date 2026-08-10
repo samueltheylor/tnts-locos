@@ -1,0 +1,18 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "tnts:crio_tnt_recipe"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["B", "T"],
+    "key": {
+      "B": { "item": "minecraft:blue_ice" },
+      "T": { "item": "minecraft:tnt" }
+    },
+    "result": {
+      "item": "tnts:crio_tnt",
+      "count": 1
+    }
+  }
+}

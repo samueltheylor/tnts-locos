@@ -1,0 +1,18 @@
+{
+  "format_version": "1.20.0",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:nuclear_tnt_recipe",
+      "tags": ["crafting_table"]
+    },
+    "ingredients": [
+      { "item": "minecraft:tnt" },
+      { "item": "minecraft:netherite_ingot" },
+      { "item": "minecraft:gunpowder" }
+    ],
+    "result": {
+      "item": "tnts:nuclear_tnt",
+      "count": 1
+    }
+  }
+}

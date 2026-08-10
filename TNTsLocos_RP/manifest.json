@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "TNTs Locos",
+    "description": "Texturas de las TNTs locas (incluye mecha encendida animada, caras superior/inferior, peto, pico y sonidos)",
+    "uuid": "405a5dce-4cf2-42c6-920b-c6032fcbeac0",
+    "version": [
+      1,
+      9,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      90
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "5ce9e746-dbbe-4918-98bc-b56884a187fd",
+      "version": [
+        1,
+        9,
+        0
+      ]
+    }
+  ]
+}

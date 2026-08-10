@@ -1,0 +1,23 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "title": {
+      "translate": "advancements.tnts.first_boom.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.first_boom.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ignite": {
+      "trigger": "tnts:ignited"
+    }
+  }
+}

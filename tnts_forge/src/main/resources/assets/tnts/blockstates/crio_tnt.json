@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/crio_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/crio_tnt_lit"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "tnts:lava_tnt",
+      "menu_category": {
+        "category": "construction"
+      },
+      "states": {
+        "tnts:lit": [
+          false,
+          true
+        ]
+      }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('tnts:lit') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "tnts_lava_lit",
+              "render_method": "opaque"
+            },
+            "up": {
+              "texture": "tnts_lava_top_lit",
+              "render_method": "opaque"
+            },
+            "down": {
+              "texture": "tnts_lava_bottom",
+              "render_method": "opaque"
+            }
+          }
+        }
+      }
+    ],
+    "components": {
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "tnts_lava",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "tnts_lava_top",
+          "render_method": "opaque"
+        },
+        "down": {
+          "texture": "tnts_lava_bottom",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.2
+      },
+      "minecraft:map_color": "#c2410c",
+      "minecraft:redstone_consumer": {
+        "min_power": 1
+      },
+      "tnts:ignite": {}
+    }
+  }
+}

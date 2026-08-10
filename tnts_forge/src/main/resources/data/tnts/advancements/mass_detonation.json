@@ -1,0 +1,23 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:detonator"
+    },
+    "title": {
+      "translate": "advancements.tnts.mass_detonation.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.mass_detonation.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "mass": {
+      "trigger": "tnts:mass_detonated"
+    }
+  }
+}

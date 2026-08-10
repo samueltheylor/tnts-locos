@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "tnts:tnt_arrow_recipe"
+    },
+    "tags": ["crafting_table"],
+    "pattern": [
+      "T",
+      "S",
+      "S"
+    ],
+    "key": {
+      "T": { "item": "minecraft:tnt" },
+      "S": { "item": "minecraft:stick" }
+    },
+    "result": {
+      "item": "tnts:tnt_arrow",
+      "count": 2
+    }
+  }
+}

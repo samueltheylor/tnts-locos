@@ -1,0 +1,29 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:colosal_tnt_recipe",
+      "tags": [
+        "crafting_table"
+      ]
+    },
+    "ingredients": [
+      {
+        "item": "minecraft:tnt"
+      },
+      {
+        "item": "tnts:mega_tnt"
+      },
+      {
+        "item": "tnts:mega_tnt"
+      },
+      {
+        "item": "minecraft:tnt"
+      }
+    ],
+    "result": {
+      "item": "tnts:colosal_tnt",
+      "count": 1
+    }
+  }
+}

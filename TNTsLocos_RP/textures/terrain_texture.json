@@ -1,0 +1,488 @@
+{
+  "resource_pack_name": "tnts_locos",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "tnts_mega": {
+      "textures": "textures/blocks/tnts_mega"
+    },
+    "tnts_mega_lit": {
+      "textures": "textures/blocks/tnts_mega_lit"
+    },
+    "tnts_mega_top": {
+      "textures": "textures/blocks/tnts_mega_top"
+    },
+    "tnts_mega_bottom": {
+      "textures": "textures/blocks/tnts_mega_bottom"
+    },
+    "tnts_mega_top_lit": {
+      "textures": "textures/blocks/tnts_mega_top_lit"
+    },
+    "tnts_mini": {
+      "textures": "textures/blocks/tnts_mini"
+    },
+    "tnts_mini_lit": {
+      "textures": "textures/blocks/tnts_mini_lit"
+    },
+    "tnts_mini_top": {
+      "textures": "textures/blocks/tnts_mini_top"
+    },
+    "tnts_mini_bottom": {
+      "textures": "textures/blocks/tnts_mini_bottom"
+    },
+    "tnts_mini_top_lit": {
+      "textures": "textures/blocks/tnts_mini_top_lit"
+    },
+    "tnts_lava": {
+      "textures": "textures/blocks/tnts_lava"
+    },
+    "tnts_lava_lit": {
+      "textures": "textures/blocks/tnts_lava_lit"
+    },
+    "tnts_lava_top": {
+      "textures": "textures/blocks/tnts_lava_top"
+    },
+    "tnts_lava_bottom": {
+      "textures": "textures/blocks/tnts_lava_bottom"
+    },
+    "tnts_lava_top_lit": {
+      "textures": "textures/blocks/tnts_lava_top_lit"
+    },
+    "tnts_rapida": {
+      "textures": "textures/blocks/tnts_rapida"
+    },
+    "tnts_rapida_lit": {
+      "textures": "textures/blocks/tnts_rapida_lit"
+    },
+    "tnts_rapida_top": {
+      "textures": "textures/blocks/tnts_rapida_top"
+    },
+    "tnts_rapida_bottom": {
+      "textures": "textures/blocks/tnts_rapida_bottom"
+    },
+    "tnts_rapida_top_lit": {
+      "textures": "textures/blocks/tnts_rapida_top_lit"
+    },
+    "tnts_hielo": {
+      "textures": "textures/blocks/tnts_hielo"
+    },
+    "tnts_hielo_lit": {
+      "textures": "textures/blocks/tnts_hielo_lit"
+    },
+    "tnts_hielo_top": {
+      "textures": "textures/blocks/tnts_hielo_top"
+    },
+    "tnts_hielo_bottom": {
+      "textures": "textures/blocks/tnts_hielo_bottom"
+    },
+    "tnts_hielo_top_lit": {
+      "textures": "textures/blocks/tnts_hielo_top_lit"
+    },
+    "tnts_saltarina": {
+      "textures": "textures/blocks/tnts_saltarina"
+    },
+    "tnts_saltarina_lit": {
+      "textures": "textures/blocks/tnts_saltarina_lit"
+    },
+    "tnts_saltarina_top": {
+      "textures": "textures/blocks/tnts_saltarina_top"
+    },
+    "tnts_saltarina_bottom": {
+      "textures": "textures/blocks/tnts_saltarina_bottom"
+    },
+    "tnts_saltarina_top_lit": {
+      "textures": "textures/blocks/tnts_saltarina_top_lit"
+    },
+    "tnts_nuclear": {
+      "textures": "textures/blocks/tnts_nuclear"
+    },
+    "tnts_nuclear_lit": {
+      "textures": "textures/blocks/tnts_nuclear_lit"
+    },
+    "tnts_nuclear_top": {
+      "textures": "textures/blocks/tnts_nuclear_top"
+    },
+    "tnts_nuclear_bottom": {
+      "textures": "textures/blocks/tnts_nuclear_bottom"
+    },
+    "tnts_nuclear_top_lit": {
+      "textures": "textures/blocks/tnts_nuclear_top_lit"
+    },
+    "tnts_limpia": {
+      "textures": "textures/blocks/tnts_limpia"
+    },
+    "tnts_limpia_lit": {
+      "textures": "textures/blocks/tnts_limpia_lit"
+    },
+    "tnts_limpia_top": {
+      "textures": "textures/blocks/tnts_limpia_top"
+    },
+    "tnts_limpia_bottom": {
+      "textures": "textures/blocks/tnts_limpia_bottom"
+    },
+    "tnts_limpia_top_lit": {
+      "textures": "textures/blocks/tnts_limpia_top_lit"
+    },
+    "tnts_rayo": {
+      "textures": "textures/blocks/tnts_rayo"
+    },
+    "tnts_rayo_lit": {
+      "textures": "textures/blocks/tnts_rayo_lit"
+    },
+    "tnts_rayo_top": {
+      "textures": "textures/blocks/tnts_rayo_top"
+    },
+    "tnts_rayo_bottom": {
+      "textures": "textures/blocks/tnts_rayo_bottom"
+    },
+    "tnts_rayo_top_lit": {
+      "textures": "textures/blocks/tnts_rayo_top_lit"
+    },
+    "tnts_trampa": {
+      "textures": "textures/blocks/tnts_trampa"
+    },
+    "tnts_trampa_lit": {
+      "textures": "textures/blocks/tnts_trampa_lit"
+    },
+    "tnts_trampa_top": {
+      "textures": "textures/blocks/tnts_trampa_top"
+    },
+    "tnts_trampa_bottom": {
+      "textures": "textures/blocks/tnts_trampa_bottom"
+    },
+    "tnts_trampa_top_lit": {
+      "textures": "textures/blocks/tnts_trampa_top_lit"
+    },
+    "tnts_oro": {
+      "textures": "textures/blocks/tnts_oro"
+    },
+    "tnts_oro_lit": {
+      "textures": "textures/blocks/tnts_oro_lit"
+    },
+    "tnts_oro_top": {
+      "textures": "textures/blocks/tnts_oro_top"
+    },
+    "tnts_oro_bottom": {
+      "textures": "textures/blocks/tnts_oro_bottom"
+    },
+    "tnts_oro_top_lit": {
+      "textures": "textures/blocks/tnts_oro_top_lit"
+    },
+    "tnts_obsidiana": {
+      "textures": "textures/blocks/tnts_obsidiana"
+    },
+    "tnts_obsidiana_lit": {
+      "textures": "textures/blocks/tnts_obsidiana_lit"
+    },
+    "tnts_obsidiana_top": {
+      "textures": "textures/blocks/tnts_obsidiana_top"
+    },
+    "tnts_obsidiana_bottom": {
+      "textures": "textures/blocks/tnts_obsidiana_bottom"
+    },
+    "tnts_obsidiana_top_lit": {
+      "textures": "textures/blocks/tnts_obsidiana_top_lit"
+    },
+    "tnts_crio": {
+      "textures": "textures/blocks/tnts_crio"
+    },
+    "tnts_crio_lit": {
+      "textures": "textures/blocks/tnts_crio_lit"
+    },
+    "tnts_crio_top": {
+      "textures": "textures/blocks/tnts_crio_top"
+    },
+    "tnts_crio_bottom": {
+      "textures": "textures/blocks/tnts_crio_bottom"
+    },
+    "tnts_crio_top_lit": {
+      "textures": "textures/blocks/tnts_crio_top_lit"
+    },
+    "tnts_xp": {
+      "textures": "textures/blocks/tnts_xp"
+    },
+    "tnts_xp_lit": {
+      "textures": "textures/blocks/tnts_xp_lit"
+    },
+    "tnts_xp_top": {
+      "textures": "textures/blocks/tnts_xp_top"
+    },
+    "tnts_xp_bottom": {
+      "textures": "textures/blocks/tnts_xp_bottom"
+    },
+    "tnts_xp_top_lit": {
+      "textures": "textures/blocks/tnts_xp_top_lit"
+    },
+    "tnts_agua": {
+      "textures": "textures/blocks/tnts_agua"
+    },
+    "tnts_agua_lit": {
+      "textures": "textures/blocks/tnts_agua_lit"
+    },
+    "tnts_agua_top": {
+      "textures": "textures/blocks/tnts_agua_top"
+    },
+    "tnts_agua_bottom": {
+      "textures": "textures/blocks/tnts_agua_bottom"
+    },
+    "tnts_agua_top_lit": {
+      "textures": "textures/blocks/tnts_agua_top_lit"
+    },
+    "tnts_arena": {
+      "textures": "textures/blocks/tnts_arena"
+    },
+    "tnts_arena_lit": {
+      "textures": "textures/blocks/tnts_arena_lit"
+    },
+    "tnts_arena_top": {
+      "textures": "textures/blocks/tnts_arena_top"
+    },
+    "tnts_arena_bottom": {
+      "textures": "textures/blocks/tnts_arena_bottom"
+    },
+    "tnts_arena_top_lit": {
+      "textures": "textures/blocks/tnts_arena_top_lit"
+    },
+    "tnts_diamante": {
+      "textures": "textures/blocks/tnts_diamante"
+    },
+    "tnts_diamante_lit": {
+      "textures": "textures/blocks/tnts_diamante_lit"
+    },
+    "tnts_diamante_top": {
+      "textures": "textures/blocks/tnts_diamante_top"
+    },
+    "tnts_diamante_bottom": {
+      "textures": "textures/blocks/tnts_diamante_bottom"
+    },
+    "tnts_diamante_top_lit": {
+      "textures": "textures/blocks/tnts_diamante_top_lit"
+    },
+    "tnts_esmeralda": {
+      "textures": "textures/blocks/tnts_esmeralda"
+    },
+    "tnts_esmeralda_lit": {
+      "textures": "textures/blocks/tnts_esmeralda_lit"
+    },
+    "tnts_esmeralda_top": {
+      "textures": "textures/blocks/tnts_esmeralda_top"
+    },
+    "tnts_esmeralda_bottom": {
+      "textures": "textures/blocks/tnts_esmeralda_bottom"
+    },
+    "tnts_esmeralda_top_lit": {
+      "textures": "textures/blocks/tnts_esmeralda_top_lit"
+    },
+    "tnts_negra": {
+      "textures": "textures/blocks/tnts_negra"
+    },
+    "tnts_negra_lit": {
+      "textures": "textures/blocks/tnts_negra_lit"
+    },
+    "tnts_negra_top": {
+      "textures": "textures/blocks/tnts_negra_top"
+    },
+    "tnts_negra_bottom": {
+      "textures": "textures/blocks/tnts_negra_bottom"
+    },
+    "tnts_negra_top_lit": {
+      "textures": "textures/blocks/tnts_negra_top_lit"
+    },
+    "tnts_viento": {
+      "textures": "textures/blocks/tnts_viento"
+    },
+    "tnts_viento_lit": {
+      "textures": "textures/blocks/tnts_viento_lit"
+    },
+    "tnts_viento_top": {
+      "textures": "textures/blocks/tnts_viento_top"
+    },
+    "tnts_viento_bottom": {
+      "textures": "textures/blocks/tnts_viento_bottom"
+    },
+    "tnts_viento_top_lit": {
+      "textures": "textures/blocks/tnts_viento_top_lit"
+    },
+    "tnts_inferno": {
+      "textures": "textures/blocks/tnts_inferno"
+    },
+    "tnts_inferno_lit": {
+      "textures": "textures/blocks/tnts_inferno_lit"
+    },
+    "tnts_inferno_top": {
+      "textures": "textures/blocks/tnts_inferno_top"
+    },
+    "tnts_inferno_bottom": {
+      "textures": "textures/blocks/tnts_inferno_bottom"
+    },
+    "tnts_inferno_top_lit": {
+      "textures": "textures/blocks/tnts_inferno_top_lit"
+    },
+    "tnts_hongo": {
+      "textures": "textures/blocks/tnts_hongo"
+    },
+    "tnts_hongo_lit": {
+      "textures": "textures/blocks/tnts_hongo_lit"
+    },
+    "tnts_hongo_top": {
+      "textures": "textures/blocks/tnts_hongo_top"
+    },
+    "tnts_hongo_bottom": {
+      "textures": "textures/blocks/tnts_hongo_bottom"
+    },
+    "tnts_hongo_top_lit": {
+      "textures": "textures/blocks/tnts_hongo_top_lit"
+    },
+    "tnts_miel": {
+      "textures": "textures/blocks/tnts_miel"
+    },
+    "tnts_miel_lit": {
+      "textures": "textures/blocks/tnts_miel_lit"
+    },
+    "tnts_miel_top": {
+      "textures": "textures/blocks/tnts_miel_top"
+    },
+    "tnts_miel_bottom": {
+      "textures": "textures/blocks/tnts_miel_bottom"
+    },
+    "tnts_miel_top_lit": {
+      "textures": "textures/blocks/tnts_miel_top_lit"
+    },
+    "tnts_heal": {
+      "textures": "textures/blocks/tnts_heal"
+    },
+    "tnts_heal_lit": {
+      "textures": "textures/blocks/tnts_heal_lit"
+    },
+    "tnts_heal_top": {
+      "textures": "textures/blocks/tnts_heal_top"
+    },
+    "tnts_heal_bottom": {
+      "textures": "textures/blocks/tnts_heal_bottom"
+    },
+    "tnts_heal_top_lit": {
+      "textures": "textures/blocks/tnts_heal_top_lit"
+    },
+    "tnts_teleport": {
+      "textures": "textures/blocks/tnts_teleport"
+    },
+    "tnts_teleport_lit": {
+      "textures": "textures/blocks/tnts_teleport_lit"
+    },
+    "tnts_teleport_top": {
+      "textures": "textures/blocks/tnts_teleport_top"
+    },
+    "tnts_teleport_bottom": {
+      "textures": "textures/blocks/tnts_teleport_bottom"
+    },
+    "tnts_teleport_top_lit": {
+      "textures": "textures/blocks/tnts_teleport_top_lit"
+    },
+    "tnts_confeti": {
+      "textures": "textures/blocks/tnts_confeti"
+    },
+    "tnts_confeti_lit": {
+      "textures": "textures/blocks/tnts_confeti_lit"
+    },
+    "tnts_confeti_top": {
+      "textures": "textures/blocks/tnts_confeti_top"
+    },
+    "tnts_confeti_bottom": {
+      "textures": "textures/blocks/tnts_confeti_bottom"
+    },
+    "tnts_confeti_top_lit": {
+      "textures": "textures/blocks/tnts_confeti_top_lit"
+    },
+    "tnts_mina": {
+      "textures": "textures/blocks/tnts_mina"
+    },
+    "tnts_mina_lit": {
+      "textures": "textures/blocks/tnts_mina_lit"
+    },
+    "tnts_mina_top": {
+      "textures": "textures/blocks/tnts_mina_top"
+    },
+    "tnts_mina_bottom": {
+      "textures": "textures/blocks/tnts_mina_bottom"
+    },
+    "tnts_mina_top_lit": {
+      "textures": "textures/blocks/tnts_mina_top_lit"
+    },
+    "tnts_terremoto": {
+      "textures": "textures/blocks/tnts_terremoto"
+    },
+    "tnts_terremoto_lit": {
+      "textures": "textures/blocks/tnts_terremoto_lit"
+    },
+    "tnts_terremoto_top": {
+      "textures": "textures/blocks/tnts_terremoto_top"
+    },
+    "tnts_terremoto_bottom": {
+      "textures": "textures/blocks/tnts_terremoto_bottom"
+    },
+    "tnts_terremoto_top_lit": {
+      "textures": "textures/blocks/tnts_terremoto_top_lit"
+    },
+    "tnts_meteorito": {
+      "textures": "textures/blocks/tnts_meteorito"
+    },
+    "tnts_meteorito_lit": {
+      "textures": "textures/blocks/tnts_meteorito_lit"
+    },
+    "tnts_meteorito_top": {
+      "textures": "textures/blocks/tnts_meteorito_top"
+    },
+    "tnts_meteorito_bottom": {
+      "textures": "textures/blocks/tnts_meteorito_bottom"
+    },
+    "tnts_meteorito_top_lit": {
+      "textures": "textures/blocks/tnts_meteorito_top_lit"
+    },
+    "tnts_tormenta": {
+      "textures": "textures/blocks/tnts_tormenta"
+    },
+    "tnts_tormenta_lit": {
+      "textures": "textures/blocks/tnts_tormenta_lit"
+    },
+    "tnts_tormenta_top": {
+      "textures": "textures/blocks/tnts_tormenta_top"
+    },
+    "tnts_tormenta_bottom": {
+      "textures": "textures/blocks/tnts_tormenta_bottom"
+    },
+    "tnts_tormenta_top_lit": {
+      "textures": "textures/blocks/tnts_tormenta_top_lit"
+    },
+    "tnts_colosal": {
+      "textures": "textures/blocks/tnts_colosal"
+    },
+    "tnts_colosal_lit": {
+      "textures": "textures/blocks/tnts_colosal_lit"
+    },
+    "tnts_colosal_top": {
+      "textures": "textures/blocks/tnts_colosal_top"
+    },
+    "tnts_colosal_bottom": {
+      "textures": "textures/blocks/tnts_colosal_bottom"
+    },
+    "tnts_colosal_top_lit": {
+      "textures": "textures/blocks/tnts_colosal_top_lit"
+    },
+    "tnts_supernova": {
+      "textures": "textures/blocks/tnts_supernova"
+    },
+    "tnts_supernova_lit": {
+      "textures": "textures/blocks/tnts_supernova_lit"
+    },
+    "tnts_supernova_top": {
+      "textures": "textures/blocks/tnts_supernova_top"
+    },
+    "tnts_supernova_bottom": {
+      "textures": "textures/blocks/tnts_supernova_bottom"
+    },
+    "tnts_supernova_top_lit": {
+      "textures": "textures/blocks/tnts_supernova_top_lit"
+    }
+  }
+}

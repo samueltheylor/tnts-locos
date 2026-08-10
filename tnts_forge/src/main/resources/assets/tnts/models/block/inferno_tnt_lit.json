@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "tnts:block/tnts_inferno_tnt_top_lit",
+    "bottom": "tnts:block/tnts_inferno_tnt_bottom",
+    "side": "tnts:block/tnts_inferno_tnt_lit"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:hongo_tnt_recipe",
+      "tags": [
+        "crafting_table"
+      ]
+    },
+    "ingredients": [
+      {
+        "item": "minecraft:tnt"
+      },
+      {
+        "item": "minecraft:red_mushroom"
+      }
+    ],
+    "result": {
+      "item": "tnts:hongo_tnt",
+      "count": 1
+    }
+  }
+}

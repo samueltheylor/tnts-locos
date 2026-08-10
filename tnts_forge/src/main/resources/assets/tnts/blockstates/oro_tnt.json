@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/oro_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/oro_tnt_lit"
+    }
+  }
+}

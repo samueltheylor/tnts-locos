@@ -1,0 +1,26 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:terremoto_tnt_recipe",
+      "tags": [
+        "crafting_table"
+      ]
+    },
+    "ingredients": [
+      {
+        "item": "minecraft:tnt"
+      },
+      {
+        "item": "minecraft:pointed_dripstone"
+      },
+      {
+        "item": "minecraft:magma_block"
+      }
+    ],
+    "result": {
+      "item": "tnts:terremoto_tnt",
+      "count": 1
+    }
+  }
+}

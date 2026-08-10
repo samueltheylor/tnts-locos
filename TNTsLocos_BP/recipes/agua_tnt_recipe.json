@@ -1,0 +1,18 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "tnts:agua_tnt_recipe"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["S", "T"],
+    "key": {
+      "S": { "item": "minecraft:sponge" },
+      "T": { "item": "minecraft:tnt" }
+    },
+    "result": {
+      "item": "tnts:agua_tnt",
+      "count": 1
+    }
+  }
+}

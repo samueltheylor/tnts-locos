@@ -1,0 +1,17 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "tnts:rayo_tnt_recipe",
+      "tags": ["crafting_table"]
+    },
+    "ingredients": [
+      { "item": "minecraft:tnt" },
+      { "item": "minecraft:lightning_rod" }
+    ],
+    "result": {
+      "item": "tnts:rayo_tnt",
+      "count": 1
+    }
+  }
+}

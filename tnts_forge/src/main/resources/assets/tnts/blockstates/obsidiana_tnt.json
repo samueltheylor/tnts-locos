@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/obsidiana_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/obsidiana_tnt_lit"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "tnts:mega_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.root.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.root.description"
+    },
+    "background": "minecraft:textures/block/tnt_side.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "got_tnt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "tnts:tnts"
+          }
+        ]
+      }
+    }
+  }
+}

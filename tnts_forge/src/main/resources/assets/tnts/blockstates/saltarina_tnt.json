@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/saltarina_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/saltarina_tnt_lit"
+    }
+  }
+}

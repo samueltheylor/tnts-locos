@@ -1,0 +1,17 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "tnts:tnt_chestplate_recipe"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["T T", "TTT", "TTT"],
+    "key": {
+      "T": { "item": "minecraft:tnt" }
+    },
+    "result": {
+      "item": "tnts:tnt_chestplate",
+      "count": 1
+    }
+  }
+}
