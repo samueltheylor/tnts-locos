@@ -1,5 +1,17 @@
 # TNTs Locos — Changelog
 
+## v1.10.7 — Fix visual del Rey TNT + texturas mejoradas de espada y escudo (solo Java)
+
+- **👑 Modelo v3: fixes visuales críticos**
+  - Las **5 puntas de la corona ya no flotan** — ahora son hijos de root con posiciones absolutas correctas (desde y=-16 hacia arriba), no relativas al padre desplazado.
+  - Las **cejas** ahora están exactamente sobre los ojos en z=-8.5 (pegadas a la cara frontal) y más arriba (y=-10), encima de la franja blanca.
+  - Los **brazos** ahora empiezan en y=-2 (junto al cuerpo) y cuelgan 12px, con la textura TNT mejorada con franja blanca visible.
+  - La **mecha y llama** ahora están en z=3 (en la cara superior del cuerpo, no dentro del cubo).
+- **🗡️ Espada del Rey mejorada:** filo de acero con sombreado, hoja ancha con T grabada en TNT, guarda dorada con gema roja, mango de madera con wrapping y pomo.
+- **🛡️ Escudo de TNT mejorado:** borde metálico con sombreado de acero, franja TNT con T grabada, remaches dorados, y mecha encendida en la punta superior.
+- **Ojos del Rey:** ahora son más grandes (3x2 píxeles) con pupila oscura, y la cara es más expresiva (cejas con punta dorada, boca con colmillos).
+- GameTests: **"All 23 required tests passed"**.
+
 ## v1.10.6 — Animación de derrota del Rey TNT: parpadeo blanco, grietas y boom final (solo Java)
 
 - **💀 Secuencia de derrota (2.2 segundos):** al matar al Rey ya no desaparece al instante — se queda quieto y se desmorona de verdad:

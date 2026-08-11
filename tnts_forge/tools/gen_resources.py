@@ -1003,69 +1003,110 @@ def make_tnt_king_crown_texture():
 
 
 def make_tnt_king_sword_texture():
-    """Espada del Rey TNT: hoja de TNT fundida (rojo + franja blanca) con
-    guarda dorada y gema roja."""
+    """Espada del Rey TNT: hoja ancha estilo TNT con filo metálico,
+    guarda dorada con gema roja, mango y pomo detallados."""
     def pixel(x, y):
         RED = (200, 45, 60, 255)
         RED_D = (140, 25, 38, 255)
         RED_L = (240, 90, 105, 255)
-        BAND = (238, 236, 228, 255)
+        BAND = (240, 238, 230, 255)
         GOLD = (251, 191, 36, 255)
-        GOLD_D = (170, 120, 15, 255)
+        GOLD_D = (180, 130, 20, 255)
+        GOLD_L = (255, 230, 120, 255)
         EDGE = (60, 10, 18, 255)
-        GEM = (255, 60, 60, 255)
-        # hoja: diagonal del centro hacia arriba-derecha
-        if 8 <= x <= 14 and 1 <= y <= 9 and x - y >= 5:
-            if x == 8 or x == 14:
-                return EDGE
-            # franja blanca horizontal estilo TNT
+        STEEL = (185, 190, 200, 255)
+        STEEL_D = (140, 145, 155, 255)
+        GEM = (255, 50, 50, 255)
+        GEM_D = (180, 30, 30, 255)
+        MANGO = (100, 70, 40, 255)
+        MANGO_D = (70, 50, 28, 255)
+        # hoja ancha: columna central de x=7 a x=12, y=0 a y=9
+        if 7 <= x <= 12 and 0 <= y <= 9:
+            # filo de acero en los bordes
+            if x == 7 or x == 12:
+                return STEEL_D
+            if x == 8 or x == 11:
+                return STEEL
+            # franja TNT central
             if 4 <= y <= 6:
-                return BAND if (x % 2 == 0) else RED
-            if (x + y) % 4 == 0:
+                return BAND
+            if y == 3 or y == 7:
                 return RED_L
+            if x == 9 and y in (4, 5):
+                # T de TNT en la hoja
+                return GOLD
+            if y == 5 and 9 <= x <= 10:
+                return GOLD
             return RED
-        # guarda dorada
-        if y == 10 and 5 <= x <= 12:
-            if x in (5, 12):
-                return GOLD_L if False else GOLD_D
-            return GOLD
-        if y == 11 and x in (5, 12):
-            return GOLD_D
-        # pomo con gema
-        if 6 <= x <= 8 and 12 <= y <= 14:
-            if y == 13 and x == 7:
+        # punta de la hoja: 3 px de filo puntiagudo
+        if 8 <= x <= 11 and y == 0:
+            return STEEL_D
+        # guarda dorada (barrier)
+        if y == 10 and 5 <= x <= 13:
+            if x in (5, 13):
+                return GOLD_D
+            return GOLD if x % 2 == 0 else GOLD_L
+        # mango de madera con wrapping de cuero
+        if 6 <= x <= 9 and 11 <= y <= 14:
+            if y % 2 == 0:
+                return MANGO_D
+            return MANGO
+        # pomo dorado con gema roja
+        if 5 <= x <= 10 and y == 15:
+            if x == 7 or x == 8:
                 return GEM
-            return GOLD if (x + y) % 2 == 0 else GOLD_D
-        # mango
-        if x in (6, 7, 8) and 12 <= y <= 14 and not (6 <= x <= 8 and 12 <= y <= 14):
-            return (90, 60, 35, 255)
+            if x == 6 or x == 9:
+                return GEM_D
+            return GOLD
         return (0, 0, 0, 0)
 
     write_png(os.path.join(ITEM_TEX_DIR, "tnt_king_sword.png"), (16, 16), pixel)
 
 
 def make_tnt_shield_texture():
-    """Escudo de TNT: escudo redondeado de metal rojo con franja blanca y
-    mecha encendida arriba."""
+    """Escudo de TNT: escudo redondeado con borde metálico, franja TNT,
+    remaches dorados, T grabada y mecha encendida arriba."""
     def pixel(x, y):
         RED = (190, 40, 55, 255)
         RED_D = (130, 24, 36, 255)
         RED_L = (235, 85, 100, 255)
         BAND = (240, 238, 230, 255)
+        BAND_D = (195, 192, 185, 255)
         EDGE = (70, 12, 20, 255)
+        STEEL = (175, 180, 190, 255)
+        STEEL_D = (130, 135, 145, 255)
         GOLD = (251, 191, 36, 255)
-        cx, cy = 7.5, 8.5
-        d = ((x - cx) ** 2 + ((y - cy) * 1.25) ** 2) ** 0.5
+        GOLD_D = (180, 130, 20, 255)
+        FLAME = (255, 180, 40, 255)
+        FLAME_D = (200, 100, 20, 255)
+        cx, cy = 7.5, 8.0
+        d = ((x - cx) ** 2 + ((y - cy) * 1.3) ** 2) ** 0.5
+        # borde metálico exterior
         if d > 6.6:
             return (0, 0, 0, 0)
-        if d > 6.0:
+        if d > 5.8:
+            return STEEL_D if (x + y) % 3 == 0 else STEEL
+        if d > 5.2:
             return EDGE
-        # franja blanca central estilo TNT
+        # mecha encendida en la punta superior
+        if y <= 2 and 6 <= x <= 9:
+            if y == 0 and 7 <= x <= 8:
+                return FLAME
+            if y == 1 and x in (7, 8):
+                return FLAME_D
+            return GOLD_D
+        # franja TNT
         if 7 <= y <= 9:
-            return BAND if (x + y) % 2 == 0 else RED
-        # remache dorado
-        if (x, y) in ((4, 5), (11, 5), (4, 12), (11, 12)):
-            return GOLD
+            return BAND if (x + y) % 2 == 0 else BAND_D
+        # letra T grabada en el centro
+        if 5 <= x <= 10 and 4 <= y <= 6:
+            if y == 4 and 6 <= x <= 9:
+                return GOLD
+            if x == 7 and 4 <= y <= 6:
+                return GOLD
+        # remaches dorados
+        if (x, y) in ((4, 5), (11, 5), (4, 12), (11, 12), (5, 3), (10, 3)):
+            return GOLD if ((x + y) % 2 == 0) else GOLD_D
         if d < 2.0:
             return RED_L
         return RED if (x + y) % 2 == 0 else RED_D
@@ -1074,55 +1115,63 @@ def make_tnt_shield_texture():
 
 
 def make_king_texture():
-    """Textura 128x64 del Rey TNT (v2): cubo de TNT con cara enfadada
-    detallada, remaches, corona con 5 puntas, brazos, cejas 3D, mecha y llama.
-    Layout (cuadricula 16px):
-      (0,0)  cuerpo 64x16 (4 caras) + (0,16) top/bottom 32x16
-      (0,32) corona 48x4 + (48,32) 5 puntas (8x8 c/u) + (96,32) 4x4 spare
-      (0,48) brazo izq 16x16, (16,48) brazo der, (32,48) mecha 8x8,
-      (40,48) llama 12x8, (52,48) ceja izq, (68,48) ceja der
+    """Textura 128x64 del Rey TNT (v3): cara con ojos grandes, cejas
+    marcadas, boca con dientes, corona, brazos, mecha y llama.
+    Layout atlas 128x64:
+      (0,0)  cuerpo 64x16 (4 caras) + (16,16)-(32,32) top, (48,16)-(64,32) bottom
+      (0,32) corona 48x4 + (48,32) 5 puntas + (88,32) spare
+      (0,48) brazo izq 16x16, (16,48) brazo der
+      (32,48) mecha 8x8, (40,48) llama 12x8
+      (52,48) ceja izq 24x4, (76,48) ceja der 24x4
     """
-    RED = (150, 24, 36, 255)
-    RED_D = (105, 15, 24, 255)
-    RED_L = (195, 40, 55, 255)
-    BAND = (235, 235, 230, 255)
-    BAND_D = (180, 180, 172, 255)
-    EDGE = (45, 10, 16, 255)
+    RED = (165, 30, 42, 255)
+    RED_D = (115, 18, 28, 255)
+    RED_L = (210, 60, 75, 255)
+    BAND = (238, 236, 228, 255)
+    BAND_D = (190, 188, 180, 255)
+    EDGE = (55, 12, 18, 255)
     GOLD = (251, 191, 36, 255)
-    GOLD_D = (170, 120, 15, 255)
-    GOLD_L = (255, 225, 110, 255)
+    GOLD_D = (175, 125, 18, 255)
+    GOLD_L = (255, 230, 120, 255)
     GEM = (200, 35, 45, 255)
 
     def tnt_side(px, py, face=False):
-        # cara lateral del cubo del cuerpo (16x16)
+        """Cara lateral del cubo TNT (16x16). face=True = frontal con la cara."""
         if px in (0, 15) or py in (0, 15):
             return EDGE
-        # franja blanca central con sombreado en los bordes
+        # franja blanca TNT con sombreado
         if 5 <= py <= 10:
             if py in (5, 10):
                 return BAND_D
             return BAND
-        # cara enfadada detallada (solo en la frontal)
-        if face and 3 <= px <= 12 and 3 <= py <= 12:
-            # ojos amarillos brillantes con pupila
-            if py in (5, 6) and px in (4, 5, 6, 9, 10, 11):
-                if py == 6 and px in (5, 10):
-                    return (90, 60, 8, 255)         # pupila
-                return (255, 214, 60, 255)
-            # cejas gruesas inclinadas (las 3D van encima, aqui el sombreado)
-            if py == 3 and px in (4, 5, 6):
+        # CARA ENFADADA (solo en la frontal, px=0..15, py=0..15)
+        if face and 2 <= px <= 13 and 2 <= py <= 13:
+            # OJOS GRANDES (3x2) con pupila
+            if 4 <= py <= 5:
+                if 3 <= px <= 5:  # ojo izquierdo
+                    if py == 5 and px == 4:
+                        return (40, 25, 5, 255)  # pupila
+                    return (255, 220, 50, 255)
+                if 10 <= px <= 12:  # ojo derecho
+                    if py == 5 and px == 11:
+                        return (40, 25, 5, 255)  # pupila
+                    return (255, 220, 50, 255)
+            # CEJAS GROSAS inclinadas
+            if py == 3 and 3 <= px <= 5:
                 return GOLD
-            if py == 3 and px in (9, 10, 11):
+            if py == 3 and 10 <= px <= 12:
                 return GOLD
-            if py == 4 and px in (4, 11):
-                return GOLD_L
-            # boca gruesa enfadada con dientes
-            if py == 10 and px in (6, 9):
-                return (255, 240, 230, 255)         # dientes
-            if py in (9, 11) and px in (5, 6, 7, 8, 9, 10):
-                return (20, 8, 10, 255)
-            if py == 12 and px in (6, 7, 8, 9):
-                return (20, 8, 10, 255)
+            if py == 2 and (px == 3 or px == 12):
+                return GOLD_L  # punta de ceja
+            # BOCA GRUESA con dientes
+            if py == 9 and 5 <= px <= 10:
+                return (30, 12, 14, 255)  # interior boca
+            if py == 10 and 5 <= px <= 10:
+                return (30, 12, 14, 255)
+            if py == 9 and px in (5, 10):
+                return (255, 245, 235, 255)  # colmillo
+            if py == 10 and px in (7, 8):
+                return (255, 245, 235, 255)  # dientes centrales
         # remaches en las esquinas
         if (px, py) in ((2, 2), (13, 2), (2, 13), (13, 13)):
             return GOLD
