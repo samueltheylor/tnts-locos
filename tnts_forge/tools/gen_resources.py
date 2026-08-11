@@ -9,6 +9,8 @@ import os
 import struct
 import zlib
 
+from PIL import Image as PILImage
+
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # tnts_forge
 RES = os.path.join(BASE, "src", "main", "resources")
 ASSETS = os.path.join(RES, "assets", "tnts")
@@ -1115,14 +1117,16 @@ def make_tnt_shield_texture():
 
 
 def make_king_texture():
-    """Textura 128x64 del Rey TNT (v3): cara con ojos grandes, cejas
-    marcadas, boca con dientes, corona, brazos, mecha y llama.
-    Layout atlas 128x64:
-      (0,0)  cuerpo 64x16 (4 caras) + (16,16)-(32,32) top, (48,16)-(64,32) bottom
-      (0,32) corona 48x4 + (48,32) 5 puntas + (88,32) spare
-      (0,48) brazo izq 16x16, (16,48) brazo der
-      (32,48) mecha 8x8, (40,48) llama 12x8
-      (52,48) ceja izq 24x4, (76,48) ceja der 24x4
+    """Textura 128x64 del Rey TNT (v4) en el FORMATO ESTANDAR DE CUBO DE
+    ENTIDAD de Minecraft. Para un cubo texOffs(u,v) de tamano w x h x d:
+      top:    (u+d,     v)   ancho w, alto d
+      bottom: (u+d+w,   v)   ancho w, alto d
+      left:   (u,       v+d) ancho d, alto h
+      front:  (u+d,     v+d) ancho w, alto h
+      right:  (u+d+w,   v+d) ancho d, alto h
+      back:   (u+d+w+d, v+d) ancho w, alto h
+    Antes se dibujaba en formato de BLOQUE (caras arriba) y Minecraft leia
+    top/bottom ahi: los costados del cuerpo salian TRANSPARENTES.
     """
     RED = (165, 30, 42, 255)
     RED_D = (115, 18, 28, 255)
@@ -1135,176 +1139,193 @@ def make_king_texture():
     GOLD_L = (255, 230, 120, 255)
     GEM = (200, 35, 45, 255)
 
-    def tnt_side(px, py, face=False):
-        """Cara lateral del cubo TNT (16x16). face=True = frontal con la cara."""
-        if px in (0, 15) or py in (0, 15):
+    img = PILImage.new("RGBA", (128, 64), (0, 0, 0, 0))
+    pxs = img.load()
+
+    def body_side(lx, ly, face):
+        """Cara lateral del cuerpo (16x16). face=True = frontal con la cara."""
+        if lx in (0, 15) or ly in (0, 15):
             return EDGE
-        # franja blanca TNT con sombreado
-        if 5 <= py <= 10:
-            if py in (5, 10):
-                return BAND_D
-            return BAND
-        # CARA ENFADADA (solo en la frontal, px=0..15, py=0..15)
-        if face and 2 <= px <= 13 and 2 <= py <= 13:
-            # OJOS GRANDES (3x2) con pupila
-            if 4 <= py <= 5:
-                if 3 <= px <= 5:  # ojo izquierdo
-                    if py == 5 and px == 4:
-                        return (40, 25, 5, 255)  # pupila
-                    return (255, 220, 50, 255)
-                if 10 <= px <= 12:  # ojo derecho
-                    if py == 5 and px == 11:
-                        return (40, 25, 5, 255)  # pupila
-                    return (255, 220, 50, 255)
-            # CEJAS GROSAS inclinadas
-            if py == 3 and 3 <= px <= 5:
+        # CARA ENFADADA: se dibuja ENCIMA de la franja blanca (antes del check)
+        if face and 2 <= lx <= 13 and 2 <= ly <= 13:
+            # OJOS (2 filas, py 4-5) con pupila
+            if 4 <= ly <= 5:
+                if 3 <= lx <= 5:
+                    return (40, 25, 5, 255) if (ly == 5 and lx == 4) else (255, 220, 50, 255)
+                if 10 <= lx <= 12:
+                    return (40, 25, 5, 255) if (ly == 5 and lx == 11) else (255, 220, 50, 255)
+            # CEJAS GROSAS inclinadas (py 2-3)
+            if ly == 3 and 3 <= lx <= 5:
                 return GOLD
-            if py == 3 and 10 <= px <= 12:
+            if ly == 3 and 10 <= lx <= 12:
                 return GOLD
-            if py == 2 and (px == 3 or px == 12):
-                return GOLD_L  # punta de ceja
-            # BOCA GRUESA con dientes
-            if py == 9 and 5 <= px <= 10:
-                return (30, 12, 14, 255)  # interior boca
-            if py == 10 and 5 <= px <= 10:
+            if ly == 2 and (lx == 3 or lx == 12):
+                return GOLD_L
+            # BOCA con dientes (py 9-10)
+            if ly in (9, 10) and 5 <= lx <= 10:
                 return (30, 12, 14, 255)
-            if py == 9 and px in (5, 10):
-                return (255, 245, 235, 255)  # colmillo
-            if py == 10 and px in (7, 8):
-                return (255, 245, 235, 255)  # dientes centrales
-        # remaches en las esquinas
-        if (px, py) in ((2, 2), (13, 2), (2, 13), (13, 13)):
+            if ly == 9 and lx in (5, 10):
+                return (255, 245, 235, 255)
+            if ly == 10 and lx in (7, 8):
+                return (255, 245, 235, 255)
+        # franja blanca TNT (los rasgos de la cara ya devolvieron antes)
+        if 5 <= ly <= 10:
+            return BAND_D if ly in (5, 10) else BAND
+        if (lx, ly) in ((2, 2), (13, 2), (2, 13), (13, 13)):
             return GOLD
-        if py == 3:
+        if ly == 3:
             return RED_L
-        if py == 12:
+        if ly == 12:
             return RED_D
-        if px == 1:
-            return RED_D
-        if px == 14:
+        if lx in (1, 14):
             return RED_D
         return RED
 
-    def crown_side(px, py):
-        # lado de la corona (12x4)
-        if px in (0, 11) or py in (0, 3):
+    def crown_side(lx, ly):
+        if lx in (0, 11) or ly in (0, 3):
             return GOLD_D
-        if py == 1 and px in (2, 4, 6, 8):
+        if ly == 1 and lx in (2, 4, 6, 8):
             return GEM
-        if py == 1 and px == 10:
+        if ly == 1 and lx == 10:
             return GOLD_L
         return GOLD
 
-    def spike_pixel(lx, ly, tall=False):
-        # punta de la corona: 8x8 normal (2x6x2) o 8x10 central (2x8x2)
+    def arm_side(lx, ly):
+        """Cara lateral del brazo (4x12)."""
+        if lx in (0, 3) or ly in (0, 11):
+            return EDGE
+        if 4 <= ly <= 7:
+            return BAND_D if ly in (4, 7) else BAND
+        if (lx, ly) in ((1, 1), (2, 1)):
+            return GOLD
+        return RED_L if ly == 1 else RED
+
+    def spike_side(lx, ly, tall):
         h = 8 if tall else 6
-        if ly < h:
-            if lx in (0, 7) or ly in (0, h - 1):
-                return GOLD_D
-            return GOLD
-        if ly == h:
+        if ly == h - 1:
             return GOLD_L
-        return GOLD_D
+        return GOLD if ly % 2 == 0 else GOLD_D
 
-    def arm_pixel(lx, ly):
-        # brazo: 16x16 (lados 16x12, top/bottom abajo)
-        if ly < 12:
-            if lx in (0, 15) or ly in (0, 11):
-                return EDGE
-            if 4 <= ly <= 7:
-                return BAND_D if lx in (2, 13) else BAND
-            if (lx, ly) in ((3, 2), (12, 2)):
-                return GOLD
-            return RED_L if ly == 1 else RED
-        # top/bottom del brazo (4x4)
-        return (200, 45, 60, 255)
+    def fill_box(u, v, w, h, d, faces):
+        """Dibuja un cubo w x h x d con texOffs (u,v) en formato de entidad.
+        faces: dict con 'top','bottom','left','front','right','back', cada
+        uno fn(lx, ly) -> color."""
+        for lx in range(w):
+            for ly in range(d):
+                pxs[u + d + lx, v + ly] = faces["top"](lx, ly)
+        for lx in range(w):
+            for ly in range(d):
+                pxs[u + d + w + lx, v + ly] = faces["bottom"](lx, ly)
+        for lx in range(d):
+            for ly in range(h):
+                pxs[u + lx, v + d + ly] = faces["left"](lx, ly)
+        for lx in range(w):
+            for ly in range(h):
+                pxs[u + d + lx, v + d + ly] = faces["front"](lx, ly)
+        for lx in range(d):
+            for ly in range(h):
+                pxs[u + d + w + lx, v + d + ly] = faces["right"](lx, ly)
+        for lx in range(w):
+            for ly in range(h):
+                pxs[u + d + w + d + lx, v + d + ly] = faces["back"](lx, ly)
 
-    def fuse_pixel(lx, ly):
-        # mecha: 8x8 (lados 8x3 arriba, top/bottom abajo)
-        if ly < 3:
-            if lx in (0, 7):
-                return (70, 50, 25, 255)
-            return (130, 95, 45, 255)
-        return (160, 120, 60, 255)
+    # ---- cuerpo 16x16x16 @ texOffs(0,0) ----
+    fill_box(0, 0, 16, 16, 16, {
+        "front": lambda lx, ly: body_side(lx, ly, True),
+        "left": lambda lx, ly: body_side(lx, ly, False),
+        "right": lambda lx, ly: body_side(lx, ly, False),
+        "back": lambda lx, ly: body_side(lx, ly, False),
+        "top": lambda lx, ly: (
+            GOLD_D if lx in (0, 15) or ly in (0, 15)
+            else GOLD if (lx, ly) in ((4, 4), (11, 4), (4, 11), (11, 11))
+            else (130, 18, 28, 255)),
+        "bottom": lambda lx, ly: (90, 12, 20, 255),
+    })
 
-    def flame_pixel(lx, ly):
-        # llama: 12x8 (lados 12x4, top/bottom abajo)
-        if ly < 4:
-            if ly == 0:
-                return (255, 245, 180, 255)         # punta clara
-            if ly == 1:
-                return (255, 200, 60, 255)
-            if ly == 2:
-                return (255, 140, 30, 255)
-            return (200, 80, 20, 255)
-        return (255, 170, 40, 255)
+    # ---- corona 12x4x12 @ texOffs(0,32) ----
+    fill_box(0, 32, 12, 4, 12, {
+        "front": crown_side,
+        "left": crown_side,
+        "right": crown_side,
+        "back": crown_side,
+        "top": lambda lx, ly: (
+            GOLD_D if lx in (0, 11) or ly in (0, 11)
+            else GEM if lx in (5, 6) and ly in (5, 6)
+            else GOLD_L),
+        "bottom": lambda lx, ly: GOLD_D,
+    })
 
-    def brow_pixel(lx, ly):
-        # ceja: 16x4 (lados 16x2, top/bottom abajo)
-        if ly < 2:
-            if lx in (0, 15):
-                return GOLD_D
-            return GOLD
-        return GOLD_L
+    # ---- 4 puntas cortas 2x6x2 @ texOffs(48,56,64,72, 32) ----
+    for su in (48, 56, 64, 72):
+        fill_box(su, 32, 2, 6, 2, {
+            "front": lambda lx, ly: spike_side(lx, ly, False),
+            "left": lambda lx, ly: spike_side(lx, ly, False),
+            "right": lambda lx, ly: spike_side(lx, ly, False),
+            "back": lambda lx, ly: spike_side(lx, ly, False),
+            "top": lambda lx, ly: GOLD_L,
+            "bottom": lambda lx, ly: GOLD_D,
+        })
+    # ---- punta central 2x8x2 @ texOffs(80,32) ----
+    fill_box(80, 32, 2, 8, 2, {
+        "front": lambda lx, ly: spike_side(lx, ly, True),
+        "left": lambda lx, ly: spike_side(lx, ly, True),
+        "right": lambda lx, ly: spike_side(lx, ly, True),
+        "back": lambda lx, ly: spike_side(lx, ly, True),
+        "top": lambda lx, ly: GOLD_L,
+        "bottom": lambda lx, ly: GOLD_D,
+    })
 
-    def pixel(x, y):
-        # ---- cuerpo: filas 0-15 = 4 caras laterales, 16-31 = top/bottom ----
-        if y < 16:
-            face = 0 <= x < 16  # cara frontal (la 1a) lleva la cara enfadada
-            return tnt_side(x % 16, y, face)
-        if y < 32:
-            # cubo 16x16x16 en texOffs(0,0): top = (16,16)-(32,32),
-            # bottom = (48,16)-(64,32) (formato estandar de cubo de entidad)
-            if 16 <= x < 32:
-                # cara superior del cubo (con borde y remaches)
-                px, py = x - 16, y - 16
-                if px in (0, 15) or py in (0, 15):
-                    return GOLD_D
-                if (px, py) in ((4, 4), (11, 4), (4, 11), (11, 11)):
-                    return GOLD
-                return (130, 18, 28, 255)
-            if 48 <= x < 64:
-                # cara inferior
-                return (90, 12, 20, 255)
-            return (0, 0, 0, 0)
-        # ---- corona: 32-35 lados (48x4), top (12,36)-(24,48), bottom (36,36)-(48,48) ----
-        if y < 36:
-            return crown_side(x % 48 if x < 48 else x % 12, y - 32) if x < 48 else GOLD_D
-        if 36 <= y < 48:
-            if 12 <= x < 24:
-                # cara superior de la corona (12x12)
-                px, py = x - 12, y - 36
-                if px in (0, 11) or py in (0, 11):
-                    return GOLD_D
-                if (px, py) in ((5, 5), (6, 6), (5, 6), (6, 5)):
-                    return GEM
-                return GOLD_L
-            if 36 <= x < 48:
-                # cara inferior de la corona
-                return GOLD_D
-        # ---- puntas de la corona: (48,32) 4 x 8x8 + central 8x10 ----
-        if 32 <= y < 42 and 48 <= x < 88:
-            spike = (x - 48) // 8
-            if spike == 4:
-                return spike_pixel((x - 48) % 8, y - 32, tall=True)
-            if y < 40:
-                return spike_pixel((x - 48) % 8, y - 32)
-            return (0, 0, 0, 0)  # las 4 cortas no llegan aqui
-        # ---- brazos: (0,48) izq, (16,48) der ----
-        if 48 <= y < 64 and x < 32:
-            return arm_pixel(x % 16, y - 48)
-        # ---- mecha: (32,48) 8x8 ----
-        if 48 <= y < 56 and 32 <= x < 40:
-            return fuse_pixel(x - 32, y - 48)
-        # ---- llama: (40,48) 12x8 ----
-        if 48 <= y < 56 and 40 <= x < 52:
-            return flame_pixel(x - 40, y - 48)
-        # ---- cejas: (52,48) y (76,48) 24x4 (6x2x1: 4 lados = 24 ancho) ----
-        if 48 <= y < 52 and (52 <= x < 76 or 76 <= x < 100):
-            return brow_pixel((x - 52) % 24, y - 48)
-        return (0, 0, 0, 255)
+    # ---- brazos 4x12x4 @ texOffs(0,48) y (16,48) ----
+    for bu in (0, 16):
+        fill_box(bu, 48, 4, 12, 4, {
+            "front": arm_side,
+            "left": arm_side,
+            "right": arm_side,
+            "back": arm_side,
+            "top": lambda lx, ly: (200, 45, 60, 255),
+            "bottom": lambda lx, ly: (150, 30, 42, 255),
+        })
 
-    write_png(os.path.join(ENTITY_TEX_DIR, "tnt_king.png"), (128, 64), pixel)
+    # ---- mecha 2x3x2 @ texOffs(32,48) ----
+    def fuse_side(lx, ly):
+        return (130, 95, 45, 255) if lx else (70, 50, 25, 255)
+
+    fill_box(32, 48, 2, 3, 2, {
+        "front": fuse_side,
+        "left": fuse_side,
+        "right": fuse_side,
+        "back": fuse_side,
+        "top": lambda lx, ly: (160, 120, 60, 255),
+        "bottom": lambda lx, ly: (90, 60, 30, 255),
+    })
+
+    # ---- llama 3x4x3 @ texOffs(40,48) ----
+    flame_cols = [(255, 245, 180, 255), (255, 200, 60, 255),
+                  (255, 140, 30, 255), (200, 80, 20, 255)]
+    fill_box(40, 48, 3, 4, 3, {
+        "front": lambda lx, ly: flame_cols[ly],
+        "left": lambda lx, ly: flame_cols[ly],
+        "right": lambda lx, ly: flame_cols[ly],
+        "back": lambda lx, ly: flame_cols[ly],
+        "top": lambda lx, ly: (255, 220, 110, 255),
+        "bottom": lambda lx, ly: (220, 100, 25, 255),
+    })
+
+    # ---- cejas 6x2x1 @ texOffs(52,48) y (76,48) ----
+    def brow_side(lx, ly):
+        return GOLD if lx else GOLD_D
+
+    for bu in (52, 76):
+        fill_box(bu, 48, 6, 2, 1, {
+            "front": brow_side,
+            "left": brow_side,
+            "right": brow_side,
+            "back": brow_side,
+            "top": lambda lx, ly: GOLD_L,
+            "bottom": lambda lx, ly: GOLD_D,
+        })
+
+    img.save(os.path.join(ENTITY_TEX_DIR, "tnt_king.png"))
 
 
 def write(path, data):

@@ -1,5 +1,13 @@
 # TNTs Locos — Changelog
 
+## v1.10.8 — Rey TNT completo: atlas de textura corregido + brazos en el hombro (solo Java)
+
+- **🐛 EL BUG GRANDE: el atlas de la textura usaba formato de BLOQUE y el modelo es de ENTIDAD.** Minecraft lee los cubos de entidad con un layout distinto al de los bloques: el generador dibujaba las 4 caras laterales en la fila superior (donde Minecraft espera top/bottom) y dejaba VACÍAS las zonas donde Minecraft lee los costados. Por eso **el cuerpo del Rey no se veía por los lados** ("de los dos lados no se ve nada") y la corona/mecha/llama tampoco se veían bien.
+- **🩹 Atlas reescrito desde cero en el formato estándar de cubo de entidad** (top/bottom arriba, caras laterales abajo, con la fórmula exacta de UV de Minecraft). Ahora TODAS las piezas del Rey se ven: cuerpo completo con su cara, corona con gemas, las 5 puntas, brazos, cejas, mecha y llama.
+- **🦾 Brazos reposicionados:** antes colgaban desde y=-2 hacia abajo (saliendo por debajo del cuerpo) — ahora tienen el pivote en el hombro (y=-14) y cuelgan a lo largo del cuerpo, como debe ser.
+- **😡 Cara arreglada:** los ojos y la boca se dibujaban DETRÁS de la franja blanca de la TNT (la franja se pintaba primero). Ahora los rasgos de la cara se dibujan encima — ojos amarillos con pupila y boca con dientes bien visibles.
+- GameTests: **"All 23 required tests passed"**.
+
 ## v1.10.7 — Fix visual del Rey TNT + texturas mejoradas de espada y escudo (solo Java)
 
 - **👑 Modelo v3: fixes visuales críticos**

@@ -69,15 +69,16 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
                         .addBox(-1.0F, -8.0F, -1.0F, 2.0F, 8.0F, 2.0F),
                 PartPose.offset(0.0F, -16.0F, 0.0F));
 
-        // ===== BRAZOS: 4x12x4 colgando a los lados =====
+        // ===== BRAZOS: 4x12x4 colgando de los hombros =====
+        // pivote en el hombro (y=-14, arriba del cuerpo) y cuelgan hasta y=-2
         root.addOrReplaceChild("leftArm",
                 CubeListBuilder.create().texOffs(0, 48)
                         .addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F),
-                PartPose.offset(-10.0F, -2.0F, 0.0F));
+                PartPose.offset(-10.0F, -14.0F, 0.0F));
         root.addOrReplaceChild("rightArm",
                 CubeListBuilder.create().texOffs(16, 48)
                         .addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F),
-                PartPose.offset(10.0F, -2.0F, 0.0F));
+                PartPose.offset(10.0F, -14.0F, 0.0F));
 
         // ===== CEJAS FURIOSAS: encima de los ojos, en la cara frontal (z-) =====
         root.addOrReplaceChild("leftBrow",
