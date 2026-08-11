@@ -59,6 +59,9 @@ public class TntKingEntity extends Monster {
 
     private boolean enraged = false;
 
+    /** Guardian del almacen: aparece con menos vida y sin botin de jefe. */
+    private boolean guardian = false;
+
     // ---- embestida (modo furia) ----
     private int chargeCooldown = 0;   // ticks hasta poder cargar otra vez
     private int chargingTicks = 0;    // >0 = aviso de 3s antes de la embestida
@@ -80,6 +83,22 @@ public class TntKingEntity extends Monster {
 
     public boolean isEnraged() {
         return this.enraged;
+    }
+
+    /**
+     * Modo guardian: el Rey que protege el almacen saqueado. Tiene la mitad
+     * de vida, no muestra barra de jefe y suelta menos botin (sin corona ni
+     * espada/escudo). Se usa al spawnearlo en la estructura.
+     */
+    public void setGuardianMode() {
+        this.guardian = true;
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(MAX_HP / 2);
+        this.setHealth(this.getMaxHealth());
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(5.0);
+    }
+
+    public boolean isGuardian() {
+        return this.guardian;
     }
 
     /**
@@ -170,16 +189,21 @@ public class TntKingEntity extends Monster {
         // muerto: solo corre la secuencia de derrota (tickDeath), nada mas
         if (this.dead) return;
 
-        // barra de jefe para los jugadores cercanos
+        // barra de jefe para los jugadores cercanos (solo el Rey de verdad,
+        // no el guardian del almacen)
         if (this.level() instanceof ServerLevel serverLevel) {
-            this.bossEvent.setProgress(Math.max(0.0F, this.getHealth() / this.getMaxHealth()));
-            List<ServerPlayer> near = serverLevel.getEntitiesOfClass(
-                    ServerPlayer.class, new AABB(this.blockPosition()).inflate(48));
-            for (ServerPlayer p : near) {
-                if (!this.bossEvent.getPlayers().contains(p)) this.bossEvent.addPlayer(p);
-            }
-            for (ServerPlayer p : new ArrayList<>(this.bossEvent.getPlayers())) {
-                if (!near.contains(p)) this.bossEvent.removePlayer(p);
+            if (!this.guardian) {
+                this.bossEvent.setProgress(Math.max(0.0F, this.getHealth() / this.getMaxHealth()));
+                List<ServerPlayer> near = serverLevel.getEntitiesOfClass(
+                        ServerPlayer.class, new AABB(this.blockPosition()).inflate(48));
+                for (ServerPlayer p : near) {
+                    if (!this.bossEvent.getPlayers().contains(p)) this.bossEvent.addPlayer(p);
+                }
+                for (ServerPlayer p : new ArrayList<>(this.bossEvent.getPlayers())) {
+                    if (!near.contains(p)) this.bossEvent.removePlayer(p);
+                }
+            } else {
+                this.bossEvent.removeAllPlayers();
             }
         }
 
@@ -358,6 +382,19 @@ public class TntKingEntity extends Monster {
         // el boom real se dispara al final de la secuencia de derrota
         // (tickDeath), cuando se agrieta entero. Aqui solo el botin.
         if (this.level() instanceof ServerLevel sl) {
+            if (this.guardian) {
+                // guardián del almacen: botin humilde, sin corona ni items del jefe
+                for (int i = 0; i < 2 + this.random.nextInt(3); i++) {
+                    this.spawnAtLocation(new ItemStack(randomKingTnt()));
+                }
+                int totalG = 60;
+                while (totalG > 0) {
+                    int value = Math.min(totalG, 50);
+                    totalG -= value;
+                    sl.addFreshEntity(new ExperienceOrb(sl, this.getX(), this.getY() + 0.5, this.getZ(), value));
+                }
+                return;
+            }
             // Corona del Rey (siempre) + TNTs de botin
             this.spawnAtLocation(new ItemStack(ModItems.TNT_KING_CROWN.get()));
             for (int i = 0; i < 3 + this.random.nextInt(4); i++) {
@@ -485,6 +522,7 @@ public class TntKingEntity extends Monster {
         this.stunTicks = tag.getInt("KingStunTicks");
         this.chargeCooldown = tag.getInt("KingChargeCooldown");
         this.summonCooldown = tag.getInt("KingSummonCooldown");
+        this.guardian = tag.getBoolean("KingGuardian");
     }
 
     @Override
@@ -494,6 +532,7 @@ public class TntKingEntity extends Monster {
         tag.putInt("KingStunTicks", this.stunTicks);
         tag.putInt("KingChargeCooldown", this.chargeCooldown);
         tag.putInt("KingSummonCooldown", this.summonCooldown);
+        tag.putBoolean("KingGuardian", this.guardian);
     }
 
     // ---------- ataque del jefe ----------

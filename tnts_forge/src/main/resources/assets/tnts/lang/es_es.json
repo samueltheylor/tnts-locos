@@ -58,6 +58,8 @@
   "item.tnts.tnt_arrow": "Flecha de TNT",
   "item.tnts.grenade": "Granada de TNT",
   "item.tnts.tnt_chestplate": "Peto de TNT",
+  "item.tnts.tnt_boots": "Botas de TNT",
+  "item.tnts.tnt_helmet": "Casco de TNT",
   "item.tnts.tnt_pickaxe": "Pico de TNT",
   "tnts.config.title": "Config de TNTs Locas",
   "tnts.config.hint": "Elige un preset (se aplica al momento, sin reiniciar) o edita tnts-common.toml",

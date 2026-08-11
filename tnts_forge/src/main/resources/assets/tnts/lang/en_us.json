@@ -58,6 +58,8 @@
   "item.tnts.tnt_arrow": "TNT Arrow",
   "item.tnts.grenade": "TNT Grenade",
   "item.tnts.tnt_chestplate": "TNT Chestplate",
+  "item.tnts.tnt_boots": "TNT Boots",
+  "item.tnts.tnt_helmet": "TNT Helmet",
   "item.tnts.tnt_pickaxe": "TNT Pickaxe",
   "tnts.config.title": "TNTs Locos Config",
   "tnts.config.hint": "Pick a preset (applies instantly, no restart) or edit tnts-common.toml",

@@ -579,4 +579,129 @@ public class TntsGameTest {
             });
         });
     }
+
+    /** Set bonus (2 piezas): la Espada del Rey enciende TNTs al DOBLE de radio. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_set_sword_double_radius(GameTestHelper helper) {
+        // Dos TNTs: una a 4 bloques del objetivo (dentro del radio normal 6) y
+        // otra a 9 bloques (fuera de 6 pero dentro del radio del set 12).
+        // Todo dentro del template 15x15 para que nada caiga fuera de la zona
+        // del test (x e z en [0,14]).
+        BlockPos center = new BlockPos(2, 2, 8);
+        BlockPos near = new BlockPos(6, 2, 8);    // 4 bloques
+        BlockPos far = new BlockPos(11, 2, 8);    // 9 bloques
+        helper.setBlock(near, ModBlocks.MINI_TNT.get());
+        helper.setBlock(far, ModBlocks.MINI_TNT.get());
+        BlockPos apNear = helper.absolutePos(near);
+        BlockPos apFar = helper.absolutePos(far);
+        AABB areaNear = new AABB(apNear).inflate(3);
+        AABB areaFar = new AABB(apFar).inflate(3);
+
+        // Objetivo: un zombie sin gravedad ni AI en el centro (posicion exacta)
+        var victim = new net.minecraft.world.entity.monster.Zombie(
+                net.minecraft.world.entity.EntityType.ZOMBIE, helper.getLevel());
+        victim.setNoGravity(true);
+        victim.setNoAi(true);
+        victim.setPos(helper.absolutePos(center).getCenter());
+        helper.getLevel().addFreshEntity(victim);
+
+        var attacker = helper.makeMockPlayer();
+        var sword = new ItemStack(ModItems.TNT_KING_SWORD.get());
+        attacker.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, sword);
+        com.tnts.item.TntKingSwordItem item =
+                (com.tnts.item.TntKingSwordItem) sword.getItem();
+
+        // Sincrono en el tick 0: los tests corren en paralelo en el mismo mundo
+        // y cualquier espera permite que otra TNT ajena destruya estos bloques.
+        // Sin set: radio 6 -> la TNT a 4 se enciende (bloque desaparece),
+        // la de 9 sigue siendo un bloque TNT apagado.
+        item.hurtEnemy(sword, victim, attacker);
+        helper.assertTrue(helper.getBlockState(near).isAir(),
+                "Sin set, la TNT a 4 bloques deberia encenderse (radio 6)");
+        helper.assertTrue(helper.getBlockState(far).getBlock() instanceof TntBlock,
+                "Sin set, la TNT a 9 bloques no deberia encenderse");
+
+        // con la corona puesta (espada + corona = 2 piezas): radio 12
+        attacker.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                new ItemStack(ModItems.TNT_KING_CROWN.get()));
+        helper.assertTrue(com.tnts.TntKingSet.countPieces(attacker) == 2,
+                "El atacante deberia tener 2 piezas del set (espada + corona)");
+        item.hurtEnemy(sword, victim, attacker);
+        helper.assertTrue(helper.getBlockState(far).isAir(),
+                "Con 2 piezas del set, la TNT a 9 bloques deberia encenderse");
+        helper.succeed();
+    }
+
+    /** Set bonus (3 piezas): inmunidad al dano de las TNTs del propio mod. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_set_three_pieces_immune_to_tnt_blast(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        var player = helper.makeMockPlayer();
+        player.moveTo(ap.getX(), ap.getY() + 1, ap.getZ());
+        helper.getLevel().addFreshEntity(player);
+
+        helper.runAfterDelay(3, () -> {
+            // 3 piezas: corona + peto + espada
+            player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                    new ItemStack(ModItems.TNT_KING_CROWN.get()));
+            player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST,
+                    new ItemStack(ModItems.TNT_CHESTPLATE.get()));
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
+                    new ItemStack(ModItems.TNT_KING_SWORD.get()));
+            helper.assertTrue(com.tnts.TntKingSet.countPieces(player) >= 3,
+                    "El jugador deberia tener 3 piezas del set");
+            float before = player.getHealth();
+            // una TNT del mod explota cerca (entidad tnts:primed_tnt)
+            TntsPrimedTnt tnt = new TntsPrimedTnt(helper.getLevel(),
+                    ap.getX(), ap.getY() + 1, ap.getZ(), "tnts:mini_tnt", 5, player);
+            helper.getLevel().addFreshEntity(tnt);
+            tnt.setPos(ap.getX() + 1.5, ap.getY() + 1, ap.getZ());
+            helper.runAfterDelay(15, () -> {
+                helper.assertTrue(player.getHealth() >= before,
+                        "Con 3 piezas el jugador no deberia recibir dano de las TNTs del mod");
+                helper.succeed();
+            });
+        });
+    }
+
+    /** Casco de TNT: al llevarlo puesto da vision nocturna. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_helmet_gives_night_vision(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        var player = helper.makeMockPlayer();
+        player.moveTo(ap.getX(), ap.getY() + 1, ap.getZ());
+        helper.getLevel().addFreshEntity(player);
+
+        helper.runAfterDelay(3, () -> {
+            player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                    new ItemStack(ModItems.TNT_HELMET.get()));
+            // el efecto se aplica en el siguiente tick del evento
+            helper.runAfterDelay(3, () -> {
+                helper.assertTrue(player.hasEffect(net.minecraft.world.effect.MobEffects.NIGHT_VISION),
+                        "El Casco de TNT deberia dar vision nocturna");
+                helper.succeed();
+            });
+        });
+    }
+
+    /** Rey guardian: mitad de vida, sin barra de jefe y con modo activado. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_guardian_has_half_health(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        TntKingEntity king = new TntKingEntity(TntsEntities.TNT_KING.get(), helper.getLevel());
+        king.setGuardianMode();
+        king.moveTo(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5, 0.0F, 0.0F);
+        helper.getLevel().addFreshEntity(king);
+
+        helper.runAfterDelay(5, () -> {
+            helper.assertTrue(king.isGuardian(), "El Rey deberia estar en modo guardian");
+            helper.assertTrue(king.getMaxHealth() == TntKingEntity.MAX_HP / 2,
+                    "El guardian deberia tener la mitad de vida ("
+                            + king.getMaxHealth() + " vs " + (TntKingEntity.MAX_HP / 2) + ")");
+            helper.succeed();
+        });
+    }
 }

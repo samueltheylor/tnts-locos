@@ -1,5 +1,6 @@
 package com.tnts;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -8,6 +9,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -27,25 +29,111 @@ public class TntsEvents {
     /**
      * Corona del Rey TNT: mientras la llevas puesta tienes Resistencia al
      * Fuego permanente (se reaplica al terminar).
+     * <p>
+     * Set bonus (4 piezas): aura del Rey — cada 2s enciende las TNTs del
+     * mod cercanas automaticamente con un destello dorado.
      */
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity == null || entity.level().isClientSide) return;
-        if (!entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_KING_CROWN.get())) return;
-        if (!entity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-            entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false));
+
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_KING_CROWN.get())) {
+            if (!entity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false));
+            }
+        }
+
+        // Casco de TNT: vision nocturna mientras lo llevas puesto
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_HELMET.get())) {
+            if (!entity.hasEffect(MobEffects.NIGHT_VISION)) {
+                entity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
+            }
+        }
+
+        // Botas de TNT: impulso de explosion al agacharte estando en el aire
+        // (doble salto con mini-explosion; cooldown de 10 ticks)
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ModItems.TNT_BOOTS.get())
+                && entity instanceof net.minecraft.world.entity.player.Player player
+                && !player.onGround()
+                && player.isShiftKeyDown()
+                && player.getDeltaMovement().y < 0.4
+                && player.tickCount % 10 == 0
+                && entity.level() instanceof ServerLevel serverLevel) {
+            player.setDeltaMovement(player.getDeltaMovement().multiply(1, 0, 1)
+                    .add(0, 0.85, 0));
+            player.hurtMarked = true;
+            serverLevel.sendParticles(ParticleTypes.CLOUD,
+                    player.getX(), player.getY() + 0.2, player.getZ(),
+                    10, 0.3, 0.1, 0.3, 0.05);
+            serverLevel.sendParticles(ParticleTypes.SMALL_FLAME,
+                    player.getX(), player.getY() + 0.2, player.getZ(),
+                    4, 0.3, 0.1, 0.3, 0.02);
+            serverLevel.playSound(null, player.blockPosition(),
+                    net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
+                    SoundSource.PLAYERS, 0.7F, 1.6F);
+            player.getItemBySlot(EquipmentSlot.FEET)
+                    .hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(EquipmentSlot.FEET));
+        }
+
+        // AURA DEL REY (4 piezas): enciende las TNTs cercanas cada 40 ticks
+        if (TntKingSet.countPieces(entity) >= 4
+                && entity.tickCount % 40 == 0
+                && entity.level() instanceof ServerLevel serverLevel) {
+            BlockPos center = entity.blockPosition();
+            int primed = 0;
+            for (BlockPos p : BlockPos.betweenClosed(
+                    center.offset(-8, -4, -8), center.offset(8, 4, 8))) {
+                BlockState state = serverLevel.getBlockState(p);
+                if (state.getBlock() instanceof com.tnts.block.TntBlock tnt
+                        && !state.getValue(com.tnts.block.TntBlock.LIT)) {
+                    tnt.prime(serverLevel, p, state,
+                            entity instanceof net.minecraft.world.entity.player.Player pl ? pl : null);
+                    // si la mecha se encendio, el bloque ya no es una TNT apagada
+                    if (!(serverLevel.getBlockState(p).getBlock() instanceof com.tnts.block.TntBlock)) {
+                        primed++;
+                    }
+                }
+            }
+            if (primed > 0) {
+                // destello dorado del aura
+                for (int i = 0; i < 24; i++) {
+                    double a = entity.level().random.nextDouble() * Math.PI * 2;
+                    double r = 1.0 + entity.level().random.nextDouble() * 2.5;
+                    serverLevel.sendParticles(new net.minecraft.core.particles.DustParticleOptions(
+                                    new org.joml.Vector3f(1.0F, 0.8F, 0.1F), 1.0F),
+                            entity.getX() + Math.cos(a) * r, entity.getY() + 1.0,
+                            entity.getZ() + Math.sin(a) * r, 1, 0, 0.3, 0, 0);
+                }
+                serverLevel.playSound(null, entity.blockPosition(), ModSounds.BEEP.get(),
+                        SoundSource.PLAYERS, 0.8F, 1.3F);
+            }
         }
     }
 
     /**
      * Peto de TNT: al recibir dano, empuja al atacante lejos con un destello
      * de llamas y un pitido.
+     * <p>
+     * Set bonus (3 piezas): "Escudo Real" — inmunidad al dano de las TNTs
+     * del propio mod (las explosiones propias ya no te hieren).
      */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         LivingEntity wearer = event.getEntity();
         if (wearer == null || wearer.level().isClientSide) return;
+
+        // SET BONUS (3 piezas): inmunidad a explosiones de TNTs del mod
+        if (TntKingSet.countPieces(wearer) >= 3
+                && event.getSource().is(net.minecraft.world.damagesource.DamageTypes.EXPLOSION)) {
+            Entity direct = event.getSource().getDirectEntity();
+            // solo las explosiones de nuestras TNTs (entidades del mod)
+            if (direct != null && direct.getType().getDescriptionId().startsWith("entity.tnts.")) {
+                event.setCanceled(true);
+                return;
+            }
+        }
+
         if (!wearer.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.TNT_CHESTPLATE.get())) return;
 
         Entity attacker = event.getSource().getEntity();

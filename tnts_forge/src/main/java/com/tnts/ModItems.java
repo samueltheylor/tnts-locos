@@ -81,6 +81,16 @@ public class ModItems {
             () -> new ArmorItem(TNT_ARMOR, ArmorItem.Type.CHESTPLATE,
                     new Item.Properties().durability(240)));
 
+    /** Botas de TNT: doble salto con impulso de explosion al saltar en el aire. */
+    public static final RegistryObject<Item> TNT_BOOTS = ITEMS.register("tnt_boots",
+            () -> new ArmorItem(TNT_ARMOR, ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(195)));
+
+    /** Casco de TNT: vision nocturna mientras lo llevas puesto. */
+    public static final RegistryObject<Item> TNT_HELMET = ITEMS.register("tnt_helmet",
+            () -> new ArmorItem(TNT_ARMOR, ArmorItem.Type.HELMET,
+                    new Item.Properties().durability(165)));
+
     public static final RegistryObject<Item> TNT_PICKAXE = ITEMS.register("tnt_pickaxe",
             () -> new TntPickaxeItem(Tiers.DIAMOND, 1, -2.8F,
                     new Item.Properties().durability(800)));

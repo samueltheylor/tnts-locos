@@ -149,6 +149,17 @@ public class TntsWarehousePiece extends StructurePiece {
                 level.setBlock(mp, mine, 2);
             }
         }
+
+        // ~35% de las veces, el REY GUARDIAN vigila el almacen (en el centro
+        // del pasillo, solo cuando el chunk del centro se genera).
+        BlockPos kingPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+        if (chunkBox.isInside(kingPos) && random.nextFloat() < 0.35F) {
+            com.tnts.entity.TntKingEntity king = new com.tnts.entity.TntKingEntity(
+                    com.tnts.entity.TntsEntities.TNT_KING.get(), level.getLevel());
+            king.setGuardianMode();
+            king.moveTo(kingPos.getX() + 0.5, kingPos.getY(), kingPos.getZ() + 0.5, 0, 0);
+            level.getLevel().addFreshEntity(king);
+        }
     }
 
     private void fillChest(WorldGenLevel level, BoundingBox chunkBox, BlockPos bp, ItemStack... stacks) {

@@ -1,5 +1,18 @@
 # TNTs Locos — Changelog
 
+## v1.10.10 — Set del Rey, Botas + Casco de TNT, Rey guardián del almacén y 3 idiomas nuevos (solo Java)
+
+- **👑 Set bonus del Rey TNT** (Corona + Peto + Espada + Escudo) con sinergias progresivas:
+  - **2 piezas — "Poder del Rey":** la Espada del Rey enciende TNTs con el DOBLE de radio (12 bloques en vez de 6).
+  - **3 piezas — "Escudo Real":** inmunidad al daño de las TNTs del propio mod (las tuyas ya no te hieren).
+  - **4 piezas — "Aura del Rey":** cada 2s un aura enciende las TNTs del mod cercanas (radio 8) automáticamente, con destello dorado y pitido.
+- **👢 Botas de TNT:** al agacharte en el aire haces un impulso de explosión con mini-explosión (partículas, sonido y desgaste de durabilidad) — el doble salto de TNT.
+- **⛑️ Casco de TNT:** visión nocturna mientras lo llevas puesto.
+- **👑 Rey guardián del almacén:** el Almacén de TNT saqueado tiene un ~35% de probabilidades de estar custodiado por un Rey TNT en modo guardián (menos vida, botín reducido, sin barra de jefe) — explorar el almacén ahora tiene más emoción.
+- **🌍 3 idiomas nuevos:** portugués (pt_br), alemán (de_de) y francés (fr_fr) además de español e inglés.
+- **📚 Documentación actualizada:** README y modrinth.md con los números reales (38 TNTs, 7 items especiales, 3 estructuras, jefe con fases).
+- GameTests nuevos (`king_set_sword_double_radius`, `king_set_three_pieces_immune_to_tnt_blast`, `king_guardian_warehouse`) → **"All 28 required tests passed"**.
+
 ## v1.10.9 — Fases visuales del Rey TNT: se agrieta y suelta fragmentos (solo Java)
 
 - **💥 3 texturas del Rey segun la vida** (el renderer elige la textura con `getCrackLevel()`):

@@ -488,6 +488,77 @@ def make_chestplate_texture():
     write_png(os.path.join(ITEM_TEX_DIR, "tnt_chestplate.png"), (16, 16), pixel)
 
 
+def make_boots_texture():
+    """Botas de TNT: bota roja con franja TNT, suela oscura y mecha en la punta."""
+    def pixel(x, y):
+        if x in (0, 15) or y in (0, 15):
+            return (0, 0, 0, 0)
+        RED = (190, 30, 45, 255)
+        RED_LIGHT = (220, 60, 75, 255)
+        RED_DARK = (120, 18, 25, 255)
+        BAND = (245, 245, 244, 255)
+        EDGE = (35, 30, 28, 255)
+        SOLE = (60, 40, 30, 255)
+        # perfil de la bota: ancho 4-11
+        if not (4 <= x <= 11 and 3 <= y <= 13):
+            return (0, 0, 0, 0)
+        # caña (3-6)
+        if 3 <= y <= 6:
+            if x in (4, 11) or y == 3:
+                return EDGE
+            if y == 6:
+                return RED_DARK
+            return RED_LIGHT if y == 4 else RED
+        # empeine (7-11)
+        if 7 <= y <= 11:
+            if x in (4, 11):
+                return EDGE
+            if y in (9, 10):
+                return BAND  # franja TNT
+            return RED_LIGHT if y == 7 else RED
+        # suela
+        if y in (12, 13):
+            return SOLE
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_boots.png"), (16, 16), pixel)
+
+
+def make_helmet_texture():
+    """Casco de TNT: casco rojo con franja TNT, cresta y remaches."""
+    def pixel(x, y):
+        if x in (0, 15) or y in (0, 15):
+            return (0, 0, 0, 0)
+        RED = (190, 30, 45, 255)
+        RED_LIGHT = (220, 60, 75, 255)
+        RED_DARK = (120, 18, 25, 255)
+        BAND = (245, 245, 244, 255)
+        EDGE = (35, 30, 28, 255)
+        # cresta superior
+        if 3 <= x <= 5 and y == 2:
+            return RED_DARK
+        # casco (3-12)
+        if not (3 <= x <= 12 and 3 <= y <= 11):
+            return (0, 0, 0, 0)
+        if x in (3, 12) or y == 11:
+            return EDGE
+        # franja TNT
+        if y in (6, 7):
+            return BAND
+        # remaches
+        if (x, y) in ((5, 4), (10, 4)):
+            return (235, 200, 120, 255)
+        if y == 3:
+            return RED_LIGHT
+        if y == 10:
+            return RED_DARK
+        if x in (4, 11):
+            return RED_DARK
+        return RED
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_helmet.png"), (16, 16), pixel)
+
+
 def make_pickaxe_texture():
     """Pico de TNT mejorado: mango de madera con veta, cabeza roja con
     sombreado metálico, filo brillante y detalles de TNT."""
@@ -775,13 +846,54 @@ def make_armor_layer():
             return RED_VDARK
         return RED
 
+    def head_px(x, y):
+        # casco de TNT: region de la cabeza (x 0-7, y 0-7)
+        if not (0 <= x <= 7 and 0 <= y <= 7):
+            return (0, 0, 0, 0)
+        if x in (0, 7) or y in (0, 7):
+            return EDGE
+        if y == 1:
+            return RED_LIGHT  # brillo superior
+        if y in (4, 5):
+            return BAND if x not in (3, 4) else BAND_SHADE  # franja TNT
+        if (x, y) in ((2, 2), (5, 2)):
+            return METAL  # remaches
+        if x in (1, 6):
+            return RED_DARK
+        if y == 6:
+            return RED_VDARK
+        return RED
+
     def pixel(x, y):
+        p = head_px(x, y)
+        if p[3] != 0:
+            return p
         p = body_px(x, y)
         if p[3] != 0:
             return p
         return arm_px(x, y)
 
     write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_1.png"), (64, 32), pixel)
+
+    def boots_px(x, y):
+        # botas de TNT: piernas en layer_2 (x 0-15, y 16-27)
+        if not (0 <= x <= 15 and 16 <= y <= 27):
+            return (0, 0, 0, 0)
+        # cada pierna es 8x12: izquierda x 0-7, derecha x 8-15
+        leg = x % 8
+        if leg in (0, 7) or y == 16 or y == 27:
+            return EDGE
+        if y in (20, 21):
+            return BAND if leg not in (3, 4) else BAND_SHADE  # franja TNT
+        if (leg, y) in ((2, 17), (5, 17)):
+            return METAL  # remaches
+        if leg in (1, 6):
+            return RED_DARK
+        if y == 26:
+            return RED_VDARK
+        return RED
+
+    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_2.png"), (64, 32), boots_px)
 
 
 def make_arrow_texture():
@@ -1600,6 +1712,8 @@ LANG_ES = {
     "item.tnts.tnt_arrow": "Flecha de TNT",
     "item.tnts.grenade": "Granada de TNT",
     "item.tnts.tnt_chestplate": "Peto de TNT",
+    "item.tnts.tnt_boots": "Botas de TNT",
+    "item.tnts.tnt_helmet": "Casco de TNT",
     "item.tnts.tnt_pickaxe": "Pico de TNT",
     "tnts.config.title": "Config de TNTs Locas",
     "tnts.config.hint": "Elige un preset (se aplica al momento, sin reiniciar) o edita tnts-common.toml",
@@ -1680,6 +1794,8 @@ LANG_EN = {
     "item.tnts.tnt_arrow": "TNT Arrow",
     "item.tnts.grenade": "TNT Grenade",
     "item.tnts.tnt_chestplate": "TNT Chestplate",
+    "item.tnts.tnt_boots": "TNT Boots",
+    "item.tnts.tnt_helmet": "TNT Helmet",
     "item.tnts.tnt_pickaxe": "TNT Pickaxe",
     "tnts.config.title": "TNTs Locos Config",
     "tnts.config.hint": "Pick a preset (applies instantly, no restart) or edit tnts-common.toml",
@@ -1784,21 +1900,399 @@ MANUAL_EN = {
     "solar_tnt": "Makes it day, clears the weather and ignites a huge area.",
 }
 
+# ---- Português (pt_br) ----
+LANG_PT = {
+    "itemGroup.tnts": "TNTs Loucas",
+    "block.tnts.mega_tnt": "Mega TNT",
+    "block.tnts.mini_tnt": "Mini TNT",
+    "block.tnts.lava_tnt": "TNT de Lava",
+    "block.tnts.rapida_tnt": "TNT Instantânea",
+    "block.tnts.hielo_tnt": "TNT de Gelo",
+    "block.tnts.saltarina_tnt": "TNT Saltitante",
+    "block.tnts.nuclear_tnt": "TNT Nuclear",
+    "block.tnts.limpia_tnt": "TNT Limpa",
+    "block.tnts.rayo_tnt": "TNT de Raio",
+    "block.tnts.trampa_tnt": "TNT Armadilha",
+    "block.tnts.oro_tnt": "TNT de Ouro",
+    "block.tnts.obsidiana_tnt": "TNT de Obsidiana",
+    "block.tnts.crio_tnt": "TNT Criogênica",
+    "block.tnts.xp_tnt": "TNT de Experiência",
+    "block.tnts.agua_tnt": "TNT de Água",
+    "block.tnts.arena_tnt": "TNT de Areia",
+    "block.tnts.diamante_tnt": "TNT de Diamante",
+    "block.tnts.esmeralda_tnt": "TNT de Esmeralda",
+    "block.tnts.negra_tnt": "TNT Buraco Negro",
+    "block.tnts.viento_tnt": "TNT de Vento",
+    "block.tnts.inferno_tnt": "TNT Inferno",
+    "block.tnts.hongo_tnt": "TNT de Cogumelos",
+    "block.tnts.miel_tnt": "TNT de Mel",
+    "block.tnts.heal_tnt": "TNT Curativa",
+    "block.tnts.teleport_tnt": "TNT Teletransportadora",
+    "block.tnts.confeti_tnt": "TNT de Confete",
+    "block.tnts.mina_tnt": "Mina TNT",
+    "block.tnts.terremoto_tnt": "TNT Terremoto",
+    "block.tnts.meteorito_tnt": "TNT Meteoro",
+    "block.tnts.tormenta_tnt": "TNT Tempestade",
+    "block.tnts.colosal_tnt": "TNT Colossal",
+    "block.tnts.supernova_tnt": "TNT Supernova",
+    "block.tnts.toxica_tnt": "TNT Tóxica",
+    "block.tnts.fuegos_tnt": "TNT de Fogos de Artifício",
+    "block.tnts.gravitatoria_tnt": "TNT Gravitacional",
+    "block.tnts.ender_tnt": "TNT do Fim",
+    "block.tnts.bubble_tnt": "TNT Bolha",
+    "block.tnts.solar_tnt": "TNT Solar",
+    "block.tnts.tnt_table": "Mesa de TNTs",
+    "block.tnts.tnt_altar": "Altar do Rei TNT",
+    "item.tnts.tnt_manual": "Manual de TNTs",
+    "item.tnts.tnt_disc": "Disco de TNTs Loucas",
+    "item.record.music.tnts.tema.desc": "Codebuff - Tema de TNTs Loucas",
+    "item.tnts.tnt_king_crown": "Coroa do Rei TNT",
+    "item.tnts.tnt_king_sword": "Espada do Rei TNT",
+    "item.tnts.tnt_shield": "Escudo de TNT",
+    "item.tnts.tnt_king_spawn_egg": "Gerar Rei TNT",
+    "entity.tnts.tnt_king": "Rei TNT",
+    "entity.minecraft.villager.tnt_expert": "Especialista em TNTs",
+    "tnts.manual.hint": "Todas as TNTs do mod: efeito e raio (config)",
+    "tnts.manual.power": "Raio: %s",
+    "advancements.tnts.defeat_king.title": "O Rei caiu!",
+    "advancements.tnts.defeat_king.description": "Derrote o Rei TNT e pegue a coroa dele",
+    "item.tnts.detonator": "Detonador Remoto",
+    "item.tnts.launcher": "Lançador de TNT",
+    "item.tnts.tnt_arrow": "Flecha de TNT",
+    "item.tnts.grenade": "Granada de TNT",
+    "item.tnts.tnt_chestplate": "Peitoral de TNT",
+    "item.tnts.tnt_boots": "Botas de TNT",
+    "item.tnts.tnt_helmet": "Capacete de TNT",
+    "item.tnts.tnt_pickaxe": "Picareta de TNT",
+    "tnts.config.title": "Config de TNTs Loucas",
+    "tnts.config.hint": "Escolha um preset (aplica na hora, sem reiniciar) ou edite tnts-common.toml",
+    "tnts.config.open": "Abrir pasta de config",
+    "tnts.preset.locura": "💥 Loucura total",
+    "tnts.preset.equilibrado": "⚖️ Equilibrado",
+    "tnts.preset.suave": "🕊️ Suave",
+    "tnts.preset.active": "Preset ativo: x%s (poder) — aplica na hora em singleplayer",
+    "advancements.tnts.root.title": "TNTs Loucas!",
+    "advancements.tnts.root.description": "Consiga qualquer TNT do mod",
+    "advancements.tnts.first_boom.title": "A mecha!",
+    "advancements.tnts.first_boom.description": "Acenda uma TNT com isqueiro",
+    "advancements.tnts.all_variants.title": "Coleção explosiva",
+    "advancements.tnts.all_variants.description": "Exploda uma TNT de cada tipo",
+    "advancements.tnts.mass_detonation.title": "Detonação em massa!",
+    "advancements.tnts.mass_detonation.description": "Detone 10 ou mais TNTs de uma vez com o Detonador Remoto",
+    "tnts.title.mass_detonation": "Detonação em massa!",
+    "tnts.subtitle.mass_detonation": "%s TNTs acesas de uma vez",
+}
+
+MANUAL_PT = {
+    "mega_tnt": "Explosão enorme. Clássica, mas com mais boom.",
+    "mini_tnt": "Pequena e discreta. Ideal para demolições finas.",
+    "lava_tnt": "Deixa poças de lava na cratera.",
+    "rapida_tnt": "Mecha instantânea: 1 segundo e já era.",
+    "hielo_tnt": "Congela a água e cobre a área de neve.",
+    "saltarina_tnt": "Lança todo mundo pelos ares.",
+    "nuclear_tnt": "Coluna de fumaça e brilho radioativo.",
+    "limpia_tnt": "Não quebra blocos: só danifica entidades.",
+    "rayo_tnt": "Invoca 3 raios ao redor da cratera.",
+    "trampa_tnt": "Pia que nem louca antes de explodir.",
+    "oro_tnt": "Chuva de barras de ouro.",
+    "obsidiana_tnt": "Transforma a cratera em obsidiana.",
+    "crio_tnt": "Congela mobs e jogadores.",
+    "xp_tnt": "Solta orbes de experiência.",
+    "agua_tnt": "Inunda a área e apaga o fogo.",
+    "arena_tnt": "Avalanche de areia caindo do céu.",
+    "diamante_tnt": "Chuva de diamantes.",
+    "esmeralda_tnt": "Chuva de esmeraldas.",
+    "negra_tnt": "Abre um buraco negro 3D que devora blocos, itens e seres vivos.",
+    "viento_tnt": "Rajada que empurra tudo para longe. Não quebra blocos.",
+    "inferno_tnt": "Incendeia a área e invoca mobs do Nether.",
+    "hongo_tnt": "Espalha cogumelos e micélio por toda parte.",
+    "miel_tnt": "Pegajosa: lentidão extrema e blocos de mel.",
+    "heal_tnt": "Estouro suave que cura e dá regeneração.",
+    "teleport_tnt": "Teletransporta seres vivos para lugares aleatórios.",
+    "confeti_tnt": "Chuva de partículas coloridas. Festa total.",
+    "mina_tnt": "Explode ao pisar. Pia antes de estourar.",
+    "terremoto_tnt": "Cratera de raio 9, rachaduras com lava e lança tudo lá em cima.",
+    "meteorito_tnt": "8-12 meteoros 3D caem do céu com rastro de fogo.",
+    "tormenta_tnt": "3 raios na hora e uma nuvem que castiga por 8 segundos.",
+    "colosal_tnt": "Explosão em 3 ondas progressivas. A maior de todas.",
+    "supernova_tnt": "Flash ofuscante, 400-600 XP e esfera de luz 3D.",
+    "toxica_tnt": "Nuvem verde que envenena e enfraquece. Não quebra blocos.",
+    "fuegos_tnt": "Lança 8-16 foguetes coloridos ao céu.",
+    "gravitatoria_tnt": "Gravidade brutal: esmaga tudo contra o chão.",
+    "ender_tnt": "Teletransporta seres vivos e invoca endermites.",
+    "bubble_tnt": "Suga para a cratera como um redemoinho e derrete o gelo.",
+    "solar_tnt": "Faz dia, limpa o tempo e incendeia uma área enorme.",
+}
+
+# ---- Deutsch (de_de) ----
+LANG_DE = {
+    "itemGroup.tnts": "Verückte TNTs",
+    "block.tnts.mega_tnt": "Mega-TNT",
+    "block.tnts.mini_tnt": "Mini-TNT",
+    "block.tnts.lava_tnt": "Lava-TNT",
+    "block.tnts.rapida_tnt": "Sofort-TNT",
+    "block.tnts.hielo_tnt": "Eis-TNT",
+    "block.tnts.saltarina_tnt": "Hüpf-TNT",
+    "block.tnts.nuclear_tnt": "Atom-TNT",
+    "block.tnts.limpia_tnt": "Saubere TNT",
+    "block.tnts.rayo_tnt": "Blitz-TNT",
+    "block.tnts.trampa_tnt": "Fallen-TNT",
+    "block.tnts.oro_tnt": "Gold-TNT",
+    "block.tnts.obsidiana_tnt": "Obsidian-TNT",
+    "block.tnts.crio_tnt": "Kryo-TNT",
+    "block.tnts.xp_tnt": "XP-TNT",
+    "block.tnts.agua_tnt": "Wasser-TNT",
+    "block.tnts.arena_tnt": "Sand-TNT",
+    "block.tnts.diamante_tnt": "Diamant-TNT",
+    "block.tnts.esmeralda_tnt": "Smaragd-TNT",
+    "block.tnts.negra_tnt": "Schwarzes-Loch-TNT",
+    "block.tnts.viento_tnt": "Wind-TNT",
+    "block.tnts.inferno_tnt": "Inferno-TNT",
+    "block.tnts.hongo_tnt": "Pilz-TNT",
+    "block.tnts.miel_tnt": "Honig-TNT",
+    "block.tnts.heal_tnt": "Heil-TNT",
+    "block.tnts.teleport_tnt": "Teleport-TNT",
+    "block.tnts.confeti_tnt": "Konfetti-TNT",
+    "block.tnts.mina_tnt": "TNT-Mine",
+    "block.tnts.terremoto_tnt": "Erdbeben-TNT",
+    "block.tnts.meteorito_tnt": "Meteor-TNT",
+    "block.tnts.tormenta_tnt": "Sturm-TNT",
+    "block.tnts.colosal_tnt": "Kolossal-TNT",
+    "block.tnts.supernova_tnt": "Supernova-TNT",
+    "block.tnts.toxica_tnt": "Gift-TNT",
+    "block.tnts.fuegos_tnt": "Feuerwerks-TNT",
+    "block.tnts.gravitatoria_tnt": "Schwerkraft-TNT",
+    "block.tnts.ender_tnt": "End-TNT",
+    "block.tnts.bubble_tnt": "Blasen-TNT",
+    "block.tnts.solar_tnt": "Solar-TNT",
+    "block.tnts.tnt_table": "TNT-Werkbank",
+    "block.tnts.tnt_altar": "TNT-Königs-Altar",
+    "item.tnts.tnt_manual": "TNT-Handbuch",
+    "item.tnts.tnt_disc": "TNTs Locos-Schallplatte",
+    "item.record.music.tnts.tema.desc": "Codebuff - TNTs Locos Thema",
+    "item.tnts.tnt_king_crown": "Krone des TNT-Königs",
+    "item.tnts.tnt_king_sword": "Schwert des TNT-Königs",
+    "item.tnts.tnt_shield": "TNT-Schild",
+    "item.tnts.tnt_king_spawn_egg": "TNT-König spawnen",
+    "entity.tnts.tnt_king": "TNT-König",
+    "entity.minecraft.villager.tnt_expert": "TNT-Experte",
+    "tnts.manual.hint": "Alle TNTs des Mods: Effekt und Radius (Config)",
+    "tnts.manual.power": "Radius: %s",
+    "advancements.tnts.defeat_king.title": "Der König ist gefallen!",
+    "advancements.tnts.defeat_king.description": "Besiege den TNT-König und nimm seine Krone",
+    "item.tnts.detonator": "Fernzünder",
+    "item.tnts.launcher": "TNT-Werfer",
+    "item.tnts.tnt_arrow": "TNT-Pfeil",
+    "item.tnts.grenade": "TNT-Granate",
+    "item.tnts.tnt_chestplate": "TNT-Brustpanzer",
+    "item.tnts.tnt_boots": "TNT-Stiefel",
+    "item.tnts.tnt_helmet": "TNT-Helm",
+    "item.tnts.tnt_pickaxe": "TNT-Spitzhacke",
+    "tnts.config.title": "TNTs Locos Konfiguration",
+    "tnts.config.hint": "Wähle ein Preset (sofort anwendbar, ohne Neustart) oder bearbeite tnts-common.toml",
+    "tnts.config.open": "Config-Ordner öffnen",
+    "tnts.preset.locura": "💥 Volle Dröhnung",
+    "tnts.preset.equilibrado": "⚖️ Ausgeglichen",
+    "tnts.preset.suave": "🕊️ Sanft",
+    "tnts.preset.active": "Aktives Preset: x%s (Stärke) — wird sofort in Einzelspieler angewendet",
+    "advancements.tnts.root.title": "Verückte TNTs!",
+    "advancements.tnts.root.description": "Beschaffe irgendeine TNT aus dem Mod",
+    "advancements.tnts.first_boom.title": "Zündung!",
+    "advancements.tnts.first_boom.description": "Zünde eine TNT mit einem Feuerzeug an",
+    "advancements.tnts.all_variants.title": "Explosive Sammlung",
+    "advancements.tnts.all_variants.description": "Zünde eine TNT von jedem Typ",
+    "advancements.tnts.mass_detonation.title": "Massen-Detonation!",
+    "advancements.tnts.mass_detonation.description": "Zünde 10+ TNTs gleichzeitig mit dem Fernzünder",
+    "tnts.title.mass_detonation": "Massen-Detonation!",
+    "tnts.subtitle.mass_detonation": "%s TNTs gleichzeitig gezündet",
+}
+
+MANUAL_DE = {
+    "mega_tnt": "Riesige Explosion. Klassisch, aber mit mehr Bum.",
+    "mini_tnt": "Klein und dezent. Ideal für feine Abbrüche.",
+    "lava_tnt": "Hinterlässt Lavaseen im Krater.",
+    "rapida_tnt": "Sofortige Zündschnur: 1 Sekunde und weg.",
+    "hielo_tnt": "Friert Wasser ein und bedeckt die Gegend mit Schnee.",
+    "saltarina_tnt": "Schleudert alle in die Luft.",
+    "nuclear_tnt": "Rauchsäule und radioaktiver Schein.",
+    "limpia_tnt": "Zerbricht keine Blöcke: schadet nur Wesen.",
+    "rayo_tnt": "Beschwört 3 Blitze rund um den Krater.",
+    "trampa_tnt": "Piept wie verrückt, bevor sie explodiert.",
+    "oro_tnt": "Regen aus Goldbarren.",
+    "obsidiana_tnt": "Verwandelt den Krater in Obsidian.",
+    "crio_tnt": "Friert Mobs und Spieler ein.",
+    "xp_tnt": "Lässt Erfahrungsorbes fallen.",
+    "agua_tnt": "Flutet die Gegend und löscht Feuer.",
+    "arena_tnt": "Sandlawine vom Himmel.",
+    "diamante_tnt": "Regen aus Diamanten.",
+    "esmeralda_tnt": "Regen aus Smaragden.",
+    "negra_tnt": "Öffnet ein 3D-Schwarzes Loch, das Blöcke, Items und Wesen verschlingt.",
+    "viento_tnt": "Böe, die alles wegstößt. Zerstört keine Blöcke.",
+    "inferno_tnt": "Entzündet die Gegend und ruft Nether-Mobs.",
+    "hongo_tnt": "Verbreitet Pilze und Myzel überall.",
+    "miel_tnt": "Klebrig: extreme Langsamkeit und Honigblöcke.",
+    "heal_tnt": "Sanfter Stoß, der heilt und Regeneration gibt.",
+    "teleport_tnt": "Teleportiert Lebewesen an zufällige Orte.",
+    "confeti_tnt": "Bunter Partikelregen. Volle Party.",
+    "mina_tnt": "Explodiert beim Betreten. Piept vorher.",
+    "terremoto_tnt": "Krater mit Radius 9, Lava-Spalten und wirft alles hoch.",
+    "meteorito_tnt": "8-12 3D-Meteore fallen mit Feuerspur vom Himmel.",
+    "tormenta_tnt": "3 Blitze sofort plus eine strafende 8-Sekunden-Wolke.",
+    "colosal_tnt": "Explosion in 3 progressiven Wellen. Die größte.",
+    "supernova_tnt": "Blendender Blitz, 400-600 XP und eine 3D-Lichtkugel.",
+    "toxica_tnt": "Grüne Wolke, die vergiftet und schwächt. Zerstört keine Blöcke.",
+    "fuegos_tnt": "Schießt 8-16 bunte Raketen in den Himmel.",
+    "gravitatoria_tnt": "Brutale Schwerkraft: zermalmt alles auf den Boden.",
+    "ender_tnt": "Teleportiert Lebewesen und ruft Endermiten.",
+    "bubble_tnt": "Saugt wie ein Strudel in den Krater und schmilzt Eis.",
+    "solar_tnt": "Macht Tag, klärt das Wetter und entzündet eine riesige Fläche.",
+}
+
+# ---- Français (fr_fr) ----
+LANG_FR = {
+    "itemGroup.tnts": "TNTs Dingo",
+    "block.tnts.mega_tnt": "Méga TNT",
+    "block.tnts.mini_tnt": "Mini TNT",
+    "block.tnts.lava_tnt": "TNT de Lave",
+    "block.tnts.rapida_tnt": "TNT Instantanée",
+    "block.tnts.hielo_tnt": "TNT de Glace",
+    "block.tnts.saltarina_tnt": "TNT Rebondissante",
+    "block.tnts.nuclear_tnt": "TNT Nucléaire",
+    "block.tnts.limpia_tnt": "TNT Propre",
+    "block.tnts.rayo_tnt": "TNT de Foudre",
+    "block.tnts.trampa_tnt": "TNT Piège",
+    "block.tnts.oro_tnt": "TNT d'Or",
+    "block.tnts.obsidiana_tnt": "TNT d'Obsidienne",
+    "block.tnts.crio_tnt": "TNT Cryogénique",
+    "block.tnts.xp_tnt": "TNT d'Expérience",
+    "block.tnts.agua_tnt": "TNT d'Eau",
+    "block.tnts.arena_tnt": "TNT de Sable",
+    "block.tnts.diamante_tnt": "TNT de Diamant",
+    "block.tnts.esmeralda_tnt": "TNT d'Émeraude",
+    "block.tnts.negra_tnt": "TNT Trou Noir",
+    "block.tnts.viento_tnt": "TNT de Vent",
+    "block.tnts.inferno_tnt": "TNT Inferno",
+    "block.tnts.hongo_tnt": "TNT de Champignons",
+    "block.tnts.miel_tnt": "TNT de Miel",
+    "block.tnts.heal_tnt": "TNT Curative",
+    "block.tnts.teleport_tnt": "TNT Téléportation",
+    "block.tnts.confeti_tnt": "TNT de Confettis",
+    "block.tnts.mina_tnt": "Mine TNT",
+    "block.tnts.terremoto_tnt": "TNT Tremblement de terre",
+    "block.tnts.meteorito_tnt": "TNT Météore",
+    "block.tnts.tormenta_tnt": "TNT Tempête",
+    "block.tnts.colosal_tnt": "TNT Colossale",
+    "block.tnts.supernova_tnt": "TNT Supernova",
+    "block.tnts.toxica_tnt": "TNT Toxique",
+    "block.tnts.fuegos_tnt": "TNT de Feux d'artifice",
+    "block.tnts.gravitatoria_tnt": "TNT Gravitationnelle",
+    "block.tnts.ender_tnt": "TNT de l'End",
+    "block.tnts.bubble_tnt": "TNT Bulle",
+    "block.tnts.solar_tnt": "TNT Solaire",
+    "block.tnts.tnt_table": "Table de TNTs",
+    "block.tnts.tnt_altar": "Autel du Roi TNT",
+    "item.tnts.tnt_manual": "Manuel de TNTs",
+    "item.tnts.tnt_disc": "Disque de TNTs Dingo",
+    "item.record.music.tnts.tema.desc": "Codebuff - Thème TNTs Dingo",
+    "item.tnts.tnt_king_crown": "Couronne du Roi TNT",
+    "item.tnts.tnt_king_sword": "Épée du Roi TNT",
+    "item.tnts.tnt_shield": "Bouclier TNT",
+    "item.tnts.tnt_king_spawn_egg": "Invoquer le Roi TNT",
+    "entity.tnts.tnt_king": "Roi TNT",
+    "entity.minecraft.villager.tnt_expert": "Expert en TNTs",
+    "tnts.manual.hint": "Toutes les TNTs du mod : effet et rayon (config)",
+    "tnts.manual.power": "Rayon : %s",
+    "advancements.tnts.defeat_king.title": "Le Roi est tombé !",
+    "advancements.tnts.defeat_king.description": "Vainquez le Roi TNT et récupérez sa couronne",
+    "item.tnts.detonator": "Détonateur à distance",
+    "item.tnts.launcher": "Lanceur de TNT",
+    "item.tnts.tnt_arrow": "Flèche TNT",
+    "item.tnts.grenade": "Grenade TNT",
+    "item.tnts.tnt_chestplate": "Plastron TNT",
+    "item.tnts.tnt_boots": "Bottes TNT",
+    "item.tnts.tnt_helmet": "Casque TNT",
+    "item.tnts.tnt_pickaxe": "Pioche TNT",
+    "tnts.config.title": "Config de TNTs Dingo",
+    "tnts.config.hint": "Choisissez un préréglage (application immédiate, sans redémarrer) ou modifiez tnts-common.toml",
+    "tnts.config.open": "Ouvrir le dossier de config",
+    "tnts.preset.locura": "💥 Folie totale",
+    "tnts.preset.equilibrado": "⚖️ Équilibré",
+    "tnts.preset.suave": "🕊️ Doux",
+    "tnts.preset.active": "Préréglage actif : x%s (puissance) — appliqué immédiatement en solo",
+    "advancements.tnts.root.title": "TNTs Dingo !",
+    "advancements.tnts.root.description": "Obtenez n'importe quelle TNT du mod",
+    "advancements.tnts.first_boom.title": "À la mèche !",
+    "advancements.tnts.first_boom.description": "Allumez une TNT avec un briquet",
+    "advancements.tnts.all_variants.title": "Collection explosive",
+    "advancements.tnts.all_variants.description": "Faites exploser une TNT de chaque type",
+    "advancements.tnts.mass_detonation.title": "Détonation massive !",
+    "advancements.tnts.mass_detonation.description": "Détonnez 10+ TNTs d'un coup avec le Détonateur à distance",
+    "tnts.title.mass_detonation": "Détonation massive !",
+    "tnts.subtitle.mass_detonation": "%s TNTs allumées d'un coup",
+}
+
+MANUAL_FR = {
+    "mega_tnt": "Explosion énorme. Classique, mais avec plus de boum.",
+    "mini_tnt": "Petite et discrète. Idéale pour la démolition fine.",
+    "lava_tnt": "Laisse des flaques de lave dans le cratère.",
+    "rapida_tnt": "Mèche instantanée : 1 seconde et terminé.",
+    "hielo_tnt": "Gèle l'eau et couvre la zone de neige.",
+    "saltarina_tnt": "Envoie tout le monde dans les airs.",
+    "nuclear_tnt": "Colonne de fumée et lueur radioactive.",
+    "limpia_tnt": "Ne casse pas les blocs : ne blesse que les entités.",
+    "rayo_tnt": "Invoque 3 éclairs autour du cratère.",
+    "trampa_tnt": "Bip frénétique avant d'exploser.",
+    "oro_tnt": "Pluie de lingots d'or.",
+    "obsidiana_tnt": "Transforme le cratère en obsidienne.",
+    "crio_tnt": "Gèle les mobs et les joueurs.",
+    "xp_tnt": "Lâche des orbes d'expérience.",
+    "agua_tnt": "Inonde la zone et éteint le feu.",
+    "arena_tnt": "Avalanche de sable tombant du ciel.",
+    "diamante_tnt": "Pluie de diamants.",
+    "esmeralda_tnt": "Pluie d'émeraudes.",
+    "negra_tnt": "Ouvre un trou noir 3D qui dévore blocs, items et êtres vivants.",
+    "viento_tnt": "Rafale qui repousse tout. Ne casse pas les blocs.",
+    "inferno_tnt": "Enflamme la zone et invoque des mobs du Nether.",
+    "hongo_tnt": "Répand champignons et mycélium partout.",
+    "miel_tnt": "Collante : lenteur extrême et blocs de miel.",
+    "heal_tnt": "Éclat doux qui soigne et donne la régénération.",
+    "teleport_tnt": "Téléporte les êtres vivants au hasard.",
+    "confeti_tnt": "Pluie de particules colorées. Fête totale.",
+    "mina_tnt": "Explose quand on marche dessus. Bip d'abord.",
+    "terremoto_tnt": "Cratère de rayon 9, fissures de lave, projette tout très haut.",
+    "meteorito_tnt": "8-12 météores 3D tombent du ciel avec traînée de feu.",
+    "tormenta_tnt": "3 éclairs instantanés plus un nuage punitif de 8 s.",
+    "colosal_tnt": "Explosion en 3 vagues progressives. La plus grosse.",
+    "supernova_tnt": "Flash aveuglant, 400-600 XP et sphère de lumière 3D.",
+    "toxica_tnt": "Nuage vert qui empoisonne et affaiblit. Ne casse pas les blocs.",
+    "fuegos_tnt": "Lance 8-16 fusées colorées dans le ciel.",
+    "gravitatoria_tnt": "Gravité brutale : écrase tout au sol.",
+    "ender_tnt": "Téléporte les êtres vivants et invoque des endermites.",
+    "bubble_tnt": "Aspire vers le cratère comme un tourbillon et fait fondre la glace.",
+    "solar_tnt": "Fait jour, dégage le temps et enflamme une grande zone.",
+}
+
 
 def write_lang():
+    # (lang, manual, patron title, patron description)
+    langs = [
+        (LANG_ES, MANUAL_ES, "Craftea la {n}", "Consigue una {n} crafteándola"),
+        (LANG_EN, MANUAL_EN, "Craft the {n}", "Craft a {n}"),
+        (LANG_PT, MANUAL_PT, "Crafte a {n}", "Consiga uma {n} crafteando-a"),
+        (LANG_DE, MANUAL_DE, "Stelle die {n} her", "Stelle eine {n} her"),
+        (LANG_FR, MANUAL_FR, "Fabriquez la {n}", "Obtenez une {n} en la fabriquant"),
+    ]
+    files = {"es_es.json": LANG_ES, "en_us.json": LANG_EN,
+             "pt_br.json": LANG_PT, "de_de.json": LANG_DE, "fr_fr.json": LANG_FR}
     for name in NAMES:
-        es = LANG_ES[f"block.tnts.{name}"]
-        en = LANG_EN[f"block.tnts.{name}"]
-        LANG_ES[f"advancements.tnts.craft.{name}.title"] = f"Craftea la {es}"
-        LANG_ES[f"advancements.tnts.craft.{name}.description"] = f"Consigue una {es} crafteándola"
-        LANG_EN[f"advancements.tnts.craft.{name}.title"] = f"Craft the {en}"
-        LANG_EN[f"advancements.tnts.craft.{name}.description"] = f"Craft a {en}"
-        if name in MANUAL_ES:
-            LANG_ES[f"tnts.manual.{name}"] = MANUAL_ES[name]
-        if name in MANUAL_EN:
-            LANG_EN[f"tnts.manual.{name}"] = MANUAL_EN[name]
-    write(os.path.join(ASSETS, "lang", "es_es.json"), LANG_ES)
-    write(os.path.join(ASSETS, "lang", "en_us.json"), LANG_EN)
+        for lang, manual, t_pat, d_pat in langs:
+            label = lang[f"block.tnts.{name}"]
+            lang[f"advancements.tnts.craft.{name}.title"] = t_pat.format(n=label)
+            lang[f"advancements.tnts.craft.{name}.description"] = d_pat.format(n=label)
+            if name in manual:
+                lang[f"tnts.manual.{name}"] = manual[name]
+    for fname, lang in files.items():
+        write(os.path.join(ASSETS, "lang", fname), lang)
 
 
 def nbt_string(s):
@@ -1867,6 +2361,8 @@ def main():
     make_launcher_texture()
     make_arrow_texture()
     make_chestplate_texture()
+    make_boots_texture()
+    make_helmet_texture()
     make_pickaxe_texture()
     make_grenade_texture()
     make_black_hole_texture()
@@ -2003,6 +2499,19 @@ def main():
         "key": {"T": {"item": "minecraft:tnt"}, "S": {"item": "minecraft:stick"}},
         "result": {"item": "tnts:tnt_pickaxe"},
     })
+    # botas de TNT: 4 TNT (dos a dos) + casco de TNT: 5 TNT
+    write(os.path.join(DATA, "recipes", "tnt_boots.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["T T", "T T"],
+        "key": {"T": {"item": "minecraft:tnt"}},
+        "result": {"item": "tnts:tnt_boots"},
+    })
+    write(os.path.join(DATA, "recipes", "tnt_helmet.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["TTT", "T T"],
+        "key": {"T": {"item": "minecraft:tnt"}},
+        "result": {"item": "tnts:tnt_helmet"},
+    })
 
     # recetas del lanzador y la flecha (shaped)
     write(os.path.join(DATA, "recipes", "launcher.json"), {
@@ -2018,8 +2527,9 @@ def main():
         "result": {"item": "tnts:tnt_arrow", "count": 2},
     })
 
-    # modelos de item del lanzador, flecha, peto, pico y granada
-    for item in ("launcher", "tnt_arrow", "tnt_chestplate", "tnt_pickaxe", "grenade"):
+    # modelos de item del lanzador, flecha, peto, botas, casco, pico y granada
+    for item in ("launcher", "tnt_arrow", "tnt_chestplate", "tnt_boots", "tnt_helmet",
+                 "tnt_pickaxe", "grenade"):
         write(os.path.join(ASSETS, "models", "item", f"{item}.json"), {
             "parent": "minecraft:item/generated",
             "textures": {"layer0": f"tnts:item/{item}"},

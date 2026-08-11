@@ -60,10 +60,13 @@ public class TntKingSwordItem extends SwordItem {
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         Level level = target.level();
         if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
-            // enciende las TNTs del mod cercanas (radio 6) -> reaccion en cadena
+            // set bonus: con 2+ piezas del set del Rey, la cadena tiene el
+            // DOBLE de radio (12 bloques en vez de 6)
+            int radius = com.tnts.TntKingSet.countPieces(attacker) >= 2 ? 12 : 6;
+            // enciende las TNTs del mod cercanas -> reaccion en cadena
             BlockPos center = target.blockPosition();
             for (BlockPos p : BlockPos.betweenClosed(
-                    center.offset(-6, -3, -6), center.offset(6, 3, 6))) {
+                    center.offset(-radius, -3, -radius), center.offset(radius, 3, radius))) {
                 BlockState state = serverLevel.getBlockState(p);
                 if (state.getBlock() instanceof TntBlock tnt && !state.getValue(TntBlock.LIT)) {
                     tnt.prime(serverLevel, p, state);
