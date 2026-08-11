@@ -21,7 +21,10 @@ public class TntKingRenderer extends MobRenderer<TntKingEntity, TntKingModel> {
 
     @Override
     protected void scale(TntKingEntity entity, PoseStack pose, float partialTick) {
-        pose.scale(1.3F, 1.3F, 1.3F);
+        // 1.3x para imponer sobre los bloques de TNT + animacion de entrada
+        // (el modelo crece con un "pop" elastico al ser convocado)
+        float s = 1.3F * this.model.getModelScale(entity, partialTick);
+        pose.scale(s, s, s);
         super.scale(entity, pose, partialTick);
     }
 

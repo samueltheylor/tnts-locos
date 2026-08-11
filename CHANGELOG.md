@@ -1,5 +1,17 @@
 # TNTs Locos — Changelog
 
+## v1.10.5 — Rey TNT rediseñado: modelo detallado con animaciones completas (solo Java)
+
+- **👑 Modelo v2:** el Rey ya no es un cubo pelado — ahora es una TNT gigante con **brazos** que se balancean, **corona dorada con 5 puntas** (la central más alta), **cejas 3D** que se inclinan, **mecha con llama parpadeante**, remaches en las esquinas y una **cara enfadada detallada** (ojos con pupila, cejas doradas, boca con dientes).
+- **🎬 Animaciones completas:**
+  - **Entrada:** al convocarse hace un **"pop" elástico** (escala 0 → 1.12 → 1 con rebote) mientras la llama de la mecha se enciende enorme.
+  - **Idle:** late como una TNT a punto de explotar + llama que parpadea + brazos balanceándose.
+  - **Furia (<50% HP):** late más rápido, cejas inclinadas hacia dentro (más enfadado) y brazos en alto.
+  - **Carga (embestida):** vibra violentamente mientras acumula la carga de 3s.
+  - **Dash:** se estira y se inclina hacia adelante con los brazos extendidos.
+  - **Aturdido:** brazos caídos y balanceo tambaleante.
+- **Textura nueva 128x64** dibujada a mano píxel a píxel (cuerpo TNT con cara, corona, puntas, brazos, cejas, mecha y llama en su propio rectángulo del atlas).
+
 ## v1.10.4 — Espectáculo extra con particleQuality=2 en las TNTs masivas (solo Java)
 
 - **🌈 Anillos de colores expansivos:** al explotar una masiva (Terremoto, Meteorito, Tormenta, Colosal, Supernova, Nuclear o Agujero Negro) con **calidad de partículas en MÁXIMO** (config → `particleQuality = 2`), se lanza un abanico de **3 capas de anillos de colores** (rojo-naranja, amarillo, cian y púrpura) en radios crecientes (3/7/11) con chispas verticales que dan volumen.
