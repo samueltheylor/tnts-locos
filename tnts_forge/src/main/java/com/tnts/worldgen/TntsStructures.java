@@ -24,4 +24,16 @@ public class TntsStructures {
 
     public static final RegistryObject<StructurePieceType> BUNKER_PIECE =
             PIECE_TYPES.register("tnts_bunker", () -> (ctx, tag) -> new TntsBunkerPiece(tag));
+
+    public static final RegistryObject<StructureType<TntsWarehouseStructure>> WAREHOUSE_TYPE =
+            STRUCTURE_TYPES.register("tnts_warehouse", () -> () -> TntsWarehouseStructure.CODEC);
+
+    public static final RegistryObject<StructurePieceType> WAREHOUSE_PIECE =
+            PIECE_TYPES.register("tnts_warehouse", () -> (ctx, tag) -> new TntsWarehousePiece(tag));
+
+    public static final RegistryObject<StructureType<TntsTestRangeStructure>> TEST_RANGE_TYPE =
+            STRUCTURE_TYPES.register("tnts_test_range", () -> () -> TntsTestRangeStructure.CODEC);
+
+    public static final RegistryObject<StructurePieceType> TEST_RANGE_PIECE =
+            PIECE_TYPES.register("tnts_test_range", () -> (ctx, tag) -> new TntsTestRangePiece(tag));
 }

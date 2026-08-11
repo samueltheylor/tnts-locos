@@ -1,5 +1,11 @@
 # TNTs Locos — Changelog
 
+## v1.10.3 — 2 estructuras nuevas: Almacén de TNT saqueado y Campo de Pruebas (solo Java)
+
+- **🏚️ Almacén de TNT saqueado** (`/locate structure tnts:tnts_warehouse`): gran depósito subterráneo (17x9x17) dividido en **4 celdas cerradas** alrededor de un pasillo en cruz, con **muros de ladrillo que esconden TNTs**, cajas de madera de la mercancía saqueada, **agujeros en el techo** por donde entró el ladrón, **minas** en los accesos y **3 cofres**: uno casi vacío (lo saquearon), uno con provisiones y uno del fondo que aún guarda botín (Mega TNT, TNT de Diamante, pólvora y el Manual). Un **spawner de zombies** guarda la celda noreste.
+- **🎯 Campo de Pruebas de TNT** (`/locate structure tnts:tnts_test_range`): zona de pruebas al aire libre con **muros de observación con ventanas**, **4 blancos de piedra con una TNT encima** (apunta y dispara), **trampas de placa de presión sobre TNT Nuclear enterrada** (¡písalas con cuidado!), un **spawner de esqueletos** como maniquíes vivos en la plataforma central y un **cofre premio** con el Detonador Remoto, granadas, Mini TNTs y pólvora.
+- Se generan en el Overworld cada ~28-30 chunks con separación propia. GameTest nuevo (`warehouse_structure_generates`) → **"All 21 required tests passed"**.
+
 ## v1.10.2 — Espada del Rey TNT + Escudo de TNT como botín raro del boss (solo Java)
 
 - **⚔️ Espada del Rey TNT** (botín raro, 40%): hoja de TNT fundida (1561 de durabilidad, daño de diamante). **Al golpear a un enemigo enciende TODAS las TNTs del mod en un radio de 6 bloques** — convierte cualquier pelea en reacción en cadena. Se repara en el yunque con pólvora. Textura pixel-art: hoja roja con franja blanca, guarda dorada y gema en el pomo.

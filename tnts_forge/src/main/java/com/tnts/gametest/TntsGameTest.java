@@ -448,6 +448,24 @@ public class TntsGameTest {
         helper.succeed();
     }
 
+    /** El almacen saqueado esta registrado y su pieza genera celdas con cofres. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void warehouse_structure_generates(GameTestHelper helper) {
+        RegistryAccess access = helper.getLevel().registryAccess();
+        Registry<Structure> structures = access.registryOrThrow(Registries.STRUCTURE);
+        helper.assertTrue(structures.containsKey(new ResourceLocation("tnts", "tnts_warehouse")),
+                "La estructura tnts_warehouse deberia estar registrada");
+        helper.assertTrue(structures.containsKey(new ResourceLocation("tnts", "tnts_test_range")),
+                "La estructura tnts_test_range deberia estar registrada");
+        helper.assertTrue(access.registryOrThrow(Registries.STRUCTURE_SET)
+                        .containsKey(new ResourceLocation("tnts", "tnts_warehouses")),
+                "El structure set tnts_warehouses deberia estar registrado");
+        helper.assertTrue(access.registryOrThrow(Registries.STRUCTURE_SET)
+                        .containsKey(new ResourceLocation("tnts", "tnts_test_ranges")),
+                "El structure set tnts_test_ranges deberia estar registrado");
+        helper.succeed();
+    }
+
     /** La Espada del Rey enciende TNTs cercanas al golpear. */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void king_sword_primes_tnts(GameTestHelper helper) {
