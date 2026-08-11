@@ -457,6 +457,28 @@ public class TntsGameTest {
         helper.succeed();
     }
 
+    /** La derrota del Rey: parpadea, se agrieta y hace boom sin crashear. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_defeat_animation_no_crash(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        TntKingEntity king = new TntKingEntity(TntsEntities.TNT_KING.get(), helper.getLevel());
+        king.moveTo(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5, 0.0F, 0.0F);
+        helper.getLevel().addFreshEntity(king);
+
+        helper.runAfterDelay(5, () -> {
+            // matarlo con daño suficiente de una vez
+            king.hurt(king.damageSources().generic(), 1000.0F);
+            helper.assertTrue(king.isDying(), "El Rey deberia estar en la secuencia de derrota");
+            helper.runAfterDelay(90, () -> {
+                // ~2.2s despues ya debe haber hecho boom y desaparecido
+                helper.assertTrue(king.isRemoved(),
+                        "El Rey deberia haber hecho boom y desaparecido tras la derrota");
+                helper.succeed();
+            });
+        });
+    }
+
     /** El almacen saqueado esta registrado y su pieza genera celdas con cofres. */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void warehouse_structure_generates(GameTestHelper helper) {

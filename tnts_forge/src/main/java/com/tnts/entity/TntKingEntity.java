@@ -154,6 +154,8 @@ public class TntKingEntity extends Monster {
     public void tick() {
         super.tick();
         if (this.level().isClientSide) return;
+        // muerto: solo corre la secuencia de derrota (tickDeath), nada mas
+        if (this.dead) return;
 
         // barra de jefe para los jugadores cercanos
         if (this.level() instanceof ServerLevel serverLevel) {
@@ -301,12 +303,24 @@ public class TntKingEntity extends Monster {
         }
     }
 
-    // ---------- muerte: botin del jefe ----------
+    // ---------- muerte: secuencia de derrota + botin ----------
+
+    /** Parpadeo blanco activo? (derrota: brilla cada 3 ticks durante 2s). */
+    public boolean isDeathFlashOn() {
+        return this.dead && (this.deathTime / 3) % 2 == 0;
+    }
+
+    /** Esta en la secuencia de derrota? (muerto, aun no removido). */
+    public boolean isDying() {
+        return this.dead;
+    }
 
     @Override
     public void die(DamageSource source) {
         super.die(source);
         this.bossEvent.removeAllPlayers();
+        // el boom real se dispara al final de la secuencia de derrota
+        // (tickDeath), cuando se agrieta entero. Aqui solo el botin.
         if (this.level() instanceof ServerLevel sl) {
             // Corona del Rey (siempre) + TNTs de botin
             this.spawnAtLocation(new ItemStack(ModItems.TNT_KING_CROWN.get()));
@@ -327,11 +341,59 @@ public class TntKingEntity extends Monster {
                 total -= value;
                 sl.addFreshEntity(new ExperienceOrb(sl, this.getX(), this.getY() + 0.5, this.getZ(), value));
             }
-            // boom de muerte (pequeno, no destructivo)
+        }
+    }
+
+    /**
+     * Secuencia de derrota (2.2s): el Rey se queda quieto, parpadea en
+     * blanco, suelta fragmentos de bloque (se agrieta), tiembla y al final
+     * hace BOOM con su propia explosion.
+     */
+    @Override
+    protected void tickDeath() {
+        ++this.deathTime;
+        if (this.level().isClientSide) return;
+        ServerLevel sl = (ServerLevel) this.level();
+
+        // grietas: fragmentos de su propio bloque saltando (mas con el tiempo)
+        int cracks = 2 + this.deathTime / 8;
+        for (int i = 0; i < cracks; i++) {
+            sl.sendParticles(new net.minecraft.core.particles.BlockParticleOption(
+                            ParticleTypes.BLOCK, ModBlocks.MEGA_TNT.get().defaultBlockState()),
+                    this.getX() + (this.random.nextDouble() - 0.5) * 1.6,
+                    this.getY() + this.random.nextDouble() * 2.2,
+                    this.getZ() + (this.random.nextDouble() - 0.5) * 1.6,
+                    2, 0.2, 0.3, 0.2, 0.0);
+        }
+        // humo y chispas de la mecha cada vez mas densos
+        sl.sendParticles(ParticleTypes.SMOKE,
+                this.getX(), this.getY() + 2.1, this.getZ(),
+                com.tnts.config.TntsConfig.particles(2), 0.3, 0.1, 0.3, 0.0);
+        sl.sendParticles(ParticleTypes.SMALL_FLAME,
+                this.getX(), this.getY() + 2.2, this.getZ(),
+                com.tnts.config.TntsConfig.particles(1), 0.2, 0.1, 0.2, 0.01);
+        // temblor de pantalla para los jugadores cerca (cada 6 ticks)
+        if (this.deathTime % 6 == 0) {
+            AABB camBox = new AABB(this.blockPosition()).inflate(32);
+            for (ServerPlayer sp : sl.getEntitiesOfClass(ServerPlayer.class, camBox)) {
+                sp.animateHurt(sp.getYRot());
+            }
+        }
+
+        if (this.deathTime >= 44) {
+            // ¡BOOM final! explota de verdad y desaparece
             sl.explode(this, this.getX(), this.getY(), this.getZ(),
-                    2.0F, false, Level.ExplosionInteraction.NONE);
+                    5.0F, true, Level.ExplosionInteraction.BLOCK);
             sl.sendParticles(ParticleTypes.EXPLOSION_EMITTER,
                     this.getX(), this.getY() + 1, this.getZ(), 1, 0, 0, 0, 0);
+            sl.sendParticles(ParticleTypes.FLASH,
+                    this.getX(), this.getY() + 1, this.getZ(), 3, 0, 0, 0, 0);
+            sl.sendParticles(ParticleTypes.END_ROD,
+                    this.getX(), this.getY() + 1, this.getZ(),
+                    40, 4, 2, 4, 0.2);
+            sl.playSound(null, this.blockPosition(), net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
+                    net.minecraft.sounds.SoundSource.HOSTILE, 4.0F, 0.8F);
+            this.remove(Entity.RemovalReason.KILLED);
         }
     }
 

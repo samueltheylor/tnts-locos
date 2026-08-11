@@ -37,6 +37,9 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
     private final ModelPart fuse;
     private final ModelPart flame;
 
+    /** Parpadeo blanco de la derrota (se lee en renderToBuffer). */
+    private boolean deathFlash = false;
+
     public TntKingModel() {
         super(RenderType::entityCutoutNoCull);
         MeshDefinition mesh = new MeshDefinition();
@@ -130,6 +133,7 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
         boolean charging = entity.isCharging();
         boolean dashing = entity.isDashing();
         boolean stunned = entity.isStunned();
+        boolean dying = entity.isDying();
         int age = entity.tickCount;
 
         // ---- entrada: "pop" + llama grande al aparecer ----
@@ -151,13 +155,23 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
         this.body.zScale = pulse * spawnScale * (dashing ? 1.18F : 1.0F);
         this.body.yRot = yaw;
         this.body.xRot = pitch + (dashing ? 0.35F : 0.0F);
-        if (charging) {
-            // vibra violentamente mientras carga la embestida
-            this.body.xRot += (float) Math.sin(age * 0.9F) * 0.06F;
-            this.body.zRot = (float) Math.sin(age * 1.3F) * 0.05F;
-        }
-        if (stunned) {
-            this.body.zRot = (float) Math.sin(ageInTicks * 0.5F) * 0.04F;
+        if (dying) {
+            // derrota: se agrieta — temblor violento + inclinacion cada vez mayor
+            this.deathFlash = entity.isDeathFlashOn();
+            float shake = 0.14F + entity.deathTime * 0.008F;
+            this.body.xRot = (float) Math.sin(age * 1.4F) * shake + 0.3F;
+            this.body.zRot = (float) Math.cos(age * 1.1F) * shake * 0.7F;
+            this.body.yRot = yaw;
+        } else {
+            this.deathFlash = false;
+            if (charging) {
+                // vibra violentamente mientras carga la embestida
+                this.body.xRot += (float) Math.sin(age * 0.9F) * 0.06F;
+                this.body.zRot = (float) Math.sin(age * 1.3F) * 0.05F;
+            }
+            if (stunned) {
+                this.body.zRot = (float) Math.sin(ageInTicks * 0.5F) * 0.04F;
+            }
         }
 
         // ---- corona: sigue al cuerpo, late con el (sin rotacion extra) ----
@@ -173,7 +187,13 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
         this.rightArm.yRot = yaw - armSwing;
         this.leftArm.zRot = -0.12F;
         this.rightArm.zRot = 0.12F;
-        if (enraged) {
+        if (dying) {
+            // derrota: brazos caidos colgando
+            this.leftArm.xRot = 1.4F + (float) Math.sin(age * 0.9F) * 0.2F;
+            this.rightArm.xRot = 1.4F - (float) Math.sin(age * 0.9F) * 0.2F;
+            this.leftArm.zRot = -0.3F;
+            this.rightArm.zRot = 0.3F;
+        } else if (enraged) {
             this.leftArm.xRot = -2.4F;
             this.rightArm.xRot = -2.4F;
             this.leftArm.zRot = -0.35F;
@@ -218,6 +238,12 @@ public class TntKingModel extends EntityModel<TntKingEntity> {
     @Override
     public void renderToBuffer(PoseStack pose, VertexConsumer buffer, int packedLight,
                                int packedOverlay, float red, float green, float blue, float alpha) {
+        // parpadeo de la derrota: todo el modelo se pinta blanco
+        if (this.deathFlash) {
+            red = 1.0F;
+            green = 1.0F;
+            blue = 1.0F;
+        }
         this.body.render(pose, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.crown.render(pose, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.leftArm.render(pose, buffer, packedLight, packedOverlay, red, green, blue, alpha);

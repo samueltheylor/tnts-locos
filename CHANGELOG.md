@@ -1,5 +1,15 @@
 # TNTs Locos — Changelog
 
+## v1.10.6 — Animación de derrota del Rey TNT: parpadeo blanco, grietas y boom final (solo Java)
+
+- **💀 Secuencia de derrota (2.2 segundos):** al matar al Rey ya no desaparece al instante — se queda quieto y se desmorona de verdad:
+  1. **Parpadeo blanco:** el modelo entero brilla en blanco cada 3 ticks (como el flash de daño de vanilla, pero controlado por el mod).
+  2. **Grietas:** suelta fragmentos de su propio bloque (partículas de bloque de la Mega TNT) cada vez más densos, con humo y chispas de la mecha.
+  3. **Temblor:** se inclina y vibra cada vez más fuerte, con los brazos colgando — y temblor de cámara para los jugadores cercanos.
+  4. **💥 BOOM final:** a los 2.2s explota de verdad (radio 5, rompe bloques) con flash, onda de luz y sonido de explosión — un final de jefe a la altura.
+- El botín (corona, espada, escudo, TNTs y XP) se suelta al morir como siempre, y el boom final es el que lo hace volar.
+- GameTest nuevo (`king_defeat_animation_no_crash`) que mata al Rey y verifica que completa la secuencia sin crashear → **"All 23 required tests passed"**.
+
 ## v1.10.5 — Rey TNT rediseñado: modelo detallado con animaciones completas (solo Java)
 
 - **👑 Modelo v2:** el Rey ya no es un cubo pelado — ahora es una TNT gigante con **brazos** que se balancean, **corona dorada con 5 puntas** (la central más alta), **cejas 3D** que se inclinan, **mecha con llama parpadeante**, remaches en las esquinas y una **cara enfadada detallada** (ojos con pupila, cejas doradas, boca con dientes).
