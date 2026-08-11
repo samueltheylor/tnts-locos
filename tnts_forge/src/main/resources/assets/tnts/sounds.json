@@ -34,6 +34,11 @@
       "tnts:entity/tnt_king_roar"
     ]
   },
+  "entity.tnt_king.charge": {
+    "sounds": [
+      "tnts:entity/tnt_king_charge"
+    ]
+  },
   "music.tnts.tema": {
     "sounds": [
       "tnts:music/tnts_tema"

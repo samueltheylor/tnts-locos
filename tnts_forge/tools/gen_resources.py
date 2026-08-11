@@ -1090,6 +1090,7 @@ def write_sounds_json():
         "item.launcher.shoot": {"sounds": ["tnts:item/launcher_shoot"]},
         "item.shears.defuse": {"sounds": ["tnts:item/shears_defuse"]},
         "entity.tnt_king.roar": {"sounds": ["tnts:entity/tnt_king_roar"]},
+        "entity.tnt_king.charge": {"sounds": ["tnts:entity/tnt_king_charge"]},
         "music.tnts.tema": {"sounds": ["tnts:music/tnts_tema"]},
     }
     for name in NAMES:

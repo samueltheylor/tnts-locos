@@ -71,6 +71,12 @@ public class TntsPrimedTnt extends PrimedTnt {
     /** Multiplicador de radio (Corona del Rey TNT: 1.5x). */
     private float powerMul = 1.0f;
 
+    /**
+     * TNT REAL del Rey TNT: mecha corta, radio enorme, pitido de aviso, y
+     * solo se frena desactivandola con tijeras (eso aturde al Rey).
+     */
+    private boolean royal = false;
+
     /** Marca esta TNT como estatica (no se mueve de su sitio al encenderse). */
     public void setStationary(boolean stationary) {
         this.stationary = stationary;
@@ -79,6 +85,15 @@ public class TntsPrimedTnt extends PrimedTnt {
     /** Ajusta el multiplicador de radio de la explosion. */
     public void setPowerMul(float powerMul) {
         this.powerMul = powerMul;
+    }
+
+    /** Marca esta TNT como REAL (la que lanza el Rey TNT en modo furia). */
+    public void setRoyal(boolean royal) {
+        this.royal = royal;
+    }
+
+    public boolean isRoyal() {
+        return this.royal;
     }
 
     /**
@@ -93,14 +108,32 @@ public class TntsPrimedTnt extends PrimedTnt {
         if (stack.is(net.minecraft.world.item.Items.SHEARS) && !this.isRemoved()) {
             // apagar: desaparece y se devuelve el bloque
             this.discard();
-            ItemStack blockStack = new ItemStack(
-                    net.minecraft.world.item.Item.byBlock(
-                            ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockId))));
-            if (!blockStack.isEmpty()) {
-                ItemEntity drop = new ItemEntity(this.level(),
-                        this.getX(), this.getY() + 0.2, this.getZ(), blockStack);
-                drop.setDeltaMovement(0, 0.2, 0);
-                this.level().addFreshEntity(drop);
+            if (!royal) {
+                // TNT normal: se devuelve el bloque
+                ItemStack blockStack = new ItemStack(
+                        net.minecraft.world.item.Item.byBlock(
+                                ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockId))));
+                if (!blockStack.isEmpty()) {
+                    ItemEntity drop = new ItemEntity(this.level(),
+                            this.getX(), this.getY() + 0.2, this.getZ(), blockStack);
+                    drop.setDeltaMovement(0, 0.2, 0);
+                    this.level().addFreshEntity(drop);
+                }
+            } else {
+                // TNT REAL del Rey: no se devuelve nada, pero desactivarla
+                // ATURDE al Rey 5 segundos -> ventana de dano gratis
+                AABB box = new AABB(this.blockPosition()).inflate(24);
+                for (TntKingEntity king : this.level().getEntitiesOfClass(
+                        TntKingEntity.class, box)) {
+                    king.setStunned(100);
+                }
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.FLASH,
+                            this.getX(), this.getY() + 0.5, this.getZ(), 1, 0, 0, 0, 0);
+                    serverLevel.sendParticles(ParticleTypes.END_ROD,
+                            this.getX(), this.getY() + 0.5, this.getZ(),
+                            20, 0.4, 0.4, 0.4, 0.05);
+                }
             }
             stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(hand));
             if (this.level() instanceof ServerLevel serverLevel) {
@@ -205,6 +238,15 @@ public class TntsPrimedTnt extends PrimedTnt {
             serverLevel.sendParticles(ParticleTypes.NOTE, px, py + 0.8, pz,
                     1, 0, 0, 0, 10.0);
         }
+        // pitido de aviso de la TNT REAL del Rey (cuentas atras urgente)
+        if (royal && fuse <= 25 && fuse % 5 == 0) {
+            float pitch = 1.2f + (25 - fuse) * 0.04f;
+            serverLevel.playSound(null, this.blockPosition(), ModSounds.BEEP.get(),
+                    SoundSource.HOSTILE, 2.0F, pitch);
+            serverLevel.sendParticles(new DustParticleOptions(
+                            new org.joml.Vector3f(1.0F, 0.2F, 0.5F), 1.3F),
+                    fx, fy, fz, 3, 0.1, 0.05, 0.1, 0.02);
+        }
     }
 
     /**
@@ -241,7 +283,10 @@ public class TntsPrimedTnt extends PrimedTnt {
         // si la TNT esta desactivada en config, no explota (red de seguridad)
         if (!com.tnts.config.TntsConfig.isEnabled(getVariantName())) return;
 
-        lvl.explode(this, x, y, z, p.power() * powerMul, p.fire(),
+        // TNT REAL del Rey: radio 2.5x y siempre incendia (no se puede
+        // aguantar; hay que desactivarla con tijeras)
+        float boomPower = royal ? p.power() * 2.5f : p.power() * powerMul;
+        lvl.explode(this, x, y, z, boomPower, royal || p.fire(),
                 p.breaksBlocks() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
 
         if (lvl.isClientSide) return; // el resto es solo servidor
@@ -625,6 +670,19 @@ public class TntsPrimedTnt extends PrimedTnt {
     private void explosionFx(ServerLevel lvl, double x, double y, double z, TntProperties p) {
         String variant = getVariantName();
         int[] color = TntVfx.colorOf(variant);
+        // firma de la TNT REAL del Rey: anillo purpura + rojo
+        if (royal) {
+            for (int i = 0; i < 40; i++) {
+                double a = i / 40.0 * Math.PI * 2;
+                lvl.sendParticles(new DustParticleOptions(
+                                new org.joml.Vector3f(0.9F, 0.15F, 0.5F), 1.5F),
+                        x + Math.cos(a) * 2.5, y + 0.4, z + Math.sin(a) * 2.5,
+                        2, 0.1, 0.1, 0.1, 0.02);
+                lvl.sendParticles(ParticleTypes.FLASH,
+                        x + Math.cos(a) * 1.5, y + 0.8, z + Math.sin(a) * 1.5,
+                        1, 0, 0, 0, 0);
+            }
+        }
         float radius = Math.min(4.5f, Math.max(1.2f, p.power() * 0.4f));
         // estallido de polvo del color propio de la TNT (esfera)
         // (cantidad segun la calidad de particulas de la config)

@@ -576,6 +576,29 @@ def roar():
     return soft_limiter(out, 0.85)
 
 
+def charge():
+    """Carga del Rey TNT (aviso de embestida): gemido grave que sube de tono
+    y se acelera, con retumbo por debajo. Suena mientras el Rey prepara la
+    embestida de 3 segundos."""
+    dur = 1.2
+    n = int(dur * RATE)
+    rng = random.Random(777)
+    out = []
+    lp = 0.0
+    for i in range(n):
+        t = i / RATE
+        white = rng.uniform(-1.0, 1.0)
+        lp = lp * 0.7 + white * 0.3
+        prog = t / dur
+        # sube de tono y se acelera
+        f = 55 + 150 * (prog * prog)
+        whine = math.sin(2 * math.pi * f * t) * (0.4 + 0.6 * prog)
+        rumble = math.sin(2 * math.pi * (38 + 20 * prog) * t) * 0.45
+        trem = 0.7 + 0.3 * math.sin(2 * math.pi * (8 + 14 * prog) * t)
+        out.append((whine * 0.6 + rumble + lp * 0.35) * trem * 0.85)
+    return soft_limiter(out, 0.82)
+
+
 def _nz(i, seed):
     """Ruido pseudoaleatorio determinista (para la bateria del tema)."""
     return math.sin(i * 127.1 + seed * 311.7) * math.sin(i * 269.5 + seed * 74.7)
@@ -708,6 +731,7 @@ def main():
     entity_dir = os.path.join(JAVA_SOUNDS, "entity")
     to_ogg("black_hole_loop", whirl(), entity_dir)
     to_ogg("tnt_king_roar", roar(), entity_dir)
+    to_ogg("tnt_king_charge", charge(), entity_dir)
 
     music_dir = os.path.join(JAVA_SOUNDS, "music")
     to_ogg("tnts_tema", music_track(), music_dir)

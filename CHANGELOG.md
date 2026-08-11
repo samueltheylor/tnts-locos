@@ -1,5 +1,13 @@
 # TNTs Locos — Changelog
 
+## v1.10.1 — Pelea del Rey TNT mejorada: embestida, invocación de piglins y TNT Real (solo Java)
+
+- **🏃 Embestida (modo furia):** cada ~10 segundos el Rey se queda quieto, suena un **gemido que sube de tono durante 3 segundos** (con polvo rojo acumulándose a su alrededor) y luego **sale disparado hacia ti**: 12 de daño + knockback a quien toque, con estela de humo y llamas. Aviso clarísimo para saltar a un lado.
+- **👹 Grito de invocación:** cada ~20 segundos el Rey ruge y **trae piglins del Nether** (piglins brutos y piglins zombificados) con partículas de portal, que atacan a su objetivo. La guardia real del Rey.
+- **💎 TNT REAL:** en modo furia, cada 3 ataques el Rey lanza **2 TNTs Reales** — mecha corta (1.75s), pitido de cuenta atrás urgente, radio **2.5x** e incendia. **No se puede aguantar**: la única forma de frenarlas es **desactivarlas con tijeras** (click derecho), y al hacerlo el Rey queda **aturdido 5 segundos** (inmóvil con estrellitas alrededor de la cabeza) — tu ventana de daño gratis. Así se gana la pelea: desactiva sus TNTs y machaca.
+- **Sonido nuevo**: `entity.tnt_king.charge` (gemido de carga sintetizado que sube de tono).
+- GameTests nuevos (`royal_tnt_defuse_stuns_king`, `king_force_summon`) → **"All 18 required tests passed"**.
+
 ## v1.10.0 — Rey TNT, aldeano, manual, disco, 3 TNTs nuevas, config y defuse (solo Java)
 
 ### 👑 EL REY TNT (jefe del mod)

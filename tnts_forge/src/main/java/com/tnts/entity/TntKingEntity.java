@@ -59,6 +59,19 @@ public class TntKingEntity extends Monster {
 
     private boolean enraged = false;
 
+    // ---- embestida (modo furia) ----
+    private int chargeCooldown = 0;   // ticks hasta poder cargar otra vez
+    private int chargingTicks = 0;    // >0 = aviso de 3s antes de la embestida
+    private boolean dashing = false;  // true = surcando hacia el objetivo
+    private int dashTicks = 0;
+    private Vec3 dashDir = Vec3.ZERO;
+
+    // ---- aturdimiento (desactivar su TNT Real con tijeras) ----
+    private int stunTicks = 0;
+
+    // ---- invocacion de piglins ----
+    private int summonCooldown = 100; // primera invocacion a los 5s
+
     public TntKingEntity(EntityType<? extends TntKingEntity> type, Level level) {
         super(type, level);
         this.setPersistenceRequired();
@@ -67,6 +80,40 @@ public class TntKingEntity extends Monster {
 
     public boolean isEnraged() {
         return this.enraged;
+    }
+
+    public boolean isStunned() {
+        return this.stunTicks > 0;
+    }
+
+    public boolean isCharging() {
+        return this.chargingTicks > 0;
+    }
+
+    public boolean isDashing() {
+        return this.dashing;
+    }
+
+    /** Aturde al Rey (desactivar una TNT Real con tijeras lo deja 5s inmobil). */
+    public void setStunned(int ticks) {
+        this.stunTicks = Math.max(this.stunTicks, ticks);
+        this.getNavigation().stop();
+    }
+
+    /** Empieza el aviso de 3 segundos antes de la embestida. */
+    public void startCharge() {
+        if (this.chargingTicks > 0 || this.dashing) return;
+        this.chargingTicks = 60; // 3 segundos de aviso
+        this.getNavigation().stop();
+        if (this.level() instanceof ServerLevel sl) {
+            sl.playSound(null, this.blockPosition(), ModSounds.KING_CHARGE.get(),
+                    SoundSource.HOSTILE, 2.5F, 1.0F);
+        }
+    }
+
+    /** Invoca piglins del Nether (usado por el cooldown y por los GameTests). */
+    public void forceSummon() {
+        summonPiglins();
     }
 
     // ---------- atributos y AI ----------
@@ -138,6 +185,119 @@ public class TntKingEntity extends Monster {
                             this.getZ() + Math.sin(a) * 2.5, 2, 0.1, 0.3, 0.1, 0.02);
                 }
             }
+        }
+
+        // ==================== PELEA MEJORADA 1.10.1 ====================
+
+        // --- aturdimiento: inmobil (sin movimiento horizontal) + estrellitas ---
+        if (this.stunTicks > 0) {
+            this.stunTicks--;
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.0, 1.0, 0.0));
+            this.getNavigation().stop();
+            if (this.level() instanceof ServerLevel sl && this.stunTicks % 4 == 0) {
+                for (int i = 0; i < 3; i++) {
+                    double a = (this.tickCount + i * 2) * 0.45;
+                    sl.sendParticles(new DustParticleOptions(
+                                    new Vector3f(1.0F, 0.85F, 0.1F), 1.0F),
+                            this.getX() + Math.cos(a) * 0.7, this.getY() + 1.6,
+                            this.getZ() + Math.sin(a) * 0.7, 1, 0, 0, 0, 0);
+                }
+            }
+        }
+
+        // --- invocacion de piglins del Nether (cada ~20s con objetivo) ---
+        if (this.summonCooldown > 0) this.summonCooldown--;
+        if (this.summonCooldown == 0 && this.getTarget() != null) {
+            summonPiglins();
+            this.summonCooldown = 400; // 20 segundos
+        }
+
+        // --- embestida: aviso de 3s (60 ticks) y luego dash ---
+        if (this.chargeCooldown > 0) this.chargeCooldown--;
+        if (this.chargingTicks > 0) {
+            this.chargingTicks--;
+            // aviso: polvo rojo que se acumula + sacudida + gemido que sube
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.3, 1.0, 0.3));
+            if (this.level() instanceof ServerLevel sl) {
+                sl.sendParticles(new DustParticleOptions(
+                                new Vector3f(1.0F, 0.25F, 0.1F), 1.4F),
+                        this.getX() + (this.random.nextDouble() - 0.5) * 1.6,
+                        this.getY() + this.random.nextDouble() * 2.2,
+                        this.getZ() + (this.random.nextDouble() - 0.5) * 1.6,
+                        3, 0.1, 0.1, 0.1, 0.02);
+                if (this.chargingTicks % 12 == 0) {
+                    sl.playSound(null, this.blockPosition(), ModSounds.KING_CHARGE.get(),
+                            SoundSource.HOSTILE, 2.0F, 0.8F + (60 - this.chargingTicks) / 60.0F * 0.4F);
+                }
+            }
+            if (this.chargingTicks <= 0) {
+                // !!! EMBESTIDA !!!
+                this.dashing = true;
+                this.dashTicks = 18;
+                LivingEntity target = this.getTarget();
+                Vec3 dir = target != null
+                        ? target.position().subtract(this.position())
+                        : this.getLookAngle();
+                this.dashDir = new Vec3(dir.x, 0, dir.z).normalize();
+            }
+        }
+        if (this.dashing) {
+            this.dashTicks--;
+            this.setDeltaMovement(this.dashDir.scale(1.7).add(0, this.getDeltaMovement().y, 0));
+            this.hasImpulse = true;
+            if (this.level() instanceof ServerLevel sl) {
+                sl.sendParticles(ParticleTypes.SMOKE, this.getX(), this.getY() + 0.5,
+                        this.getZ(), 3, 0.3, 0.4, 0.3, 0.02);
+                sl.sendParticles(ParticleTypes.FLAME, this.getX(), this.getY() + 0.5,
+                        this.getZ(), 1, 0.2, 0.3, 0.2, 0.0);
+                // dano y knockback a quien toque
+                AABB hit = this.getBoundingBox().inflate(1.3);
+                for (LivingEntity e : sl.getEntitiesOfClass(
+                        LivingEntity.class, hit, e -> e != this && !(e instanceof TntKingEntity))) {
+                    e.hurt(e.damageSources().mobAttack(this), 12.0F);
+                    Vec3 away = e.position().subtract(this.position());
+                    if (away.horizontalDistanceSqr() < 0.001) away = new Vec3(1, 0, 0);
+                    Vec3 n = away.normalize();
+                    e.push(n.x * 1.8, 0.7, n.z * 1.8);
+                    e.hurtMarked = true;
+                }
+            }
+            if (this.dashTicks <= 0) {
+                this.dashing = false;
+                this.chargeCooldown = 200; // 10 segundos hasta la siguiente
+            }
+        }
+    }
+
+    /**
+     * Grito del Rey: invoca piglins brutos y piglins zombificados del Nether
+     * alrededor, con particulas de portal, que atacan a su objetivo.
+     */
+    private void summonPiglins() {
+        if (this.level().isClientSide || !(this.level() instanceof ServerLevel sl)) return;
+        sl.playSound(null, this.blockPosition(), ModSounds.KING_ROAR.get(),
+                SoundSource.HOSTILE, 3.0F, 0.55F);
+        int count = 2 + this.random.nextInt(3);
+        for (int i = 0; i < count; i++) {
+            double a = this.random.nextDouble() * Math.PI * 2;
+            double r = 2.0 + this.random.nextDouble() * 3.0;
+            BlockPos spawn = BlockPos.containing(
+                    this.getX() + Math.cos(a) * r, this.getY(), this.getZ() + Math.sin(a) * r);
+            while (spawn.getY() > sl.getMinBuildHeight() && sl.isEmptyBlock(spawn)) {
+                spawn = spawn.below();
+            }
+            spawn = spawn.above();
+            net.minecraft.world.entity.Mob mob = this.random.nextInt(3) == 0
+                    ? new net.minecraft.world.entity.monster.piglin.PiglinBrute(
+                            net.minecraft.world.entity.EntityType.PIGLIN_BRUTE, sl)
+                    : new net.minecraft.world.entity.monster.ZombifiedPiglin(
+                            net.minecraft.world.entity.EntityType.ZOMBIFIED_PIGLIN, sl);
+            mob.moveTo(spawn.getX() + 0.5, spawn.getY(), spawn.getZ() + 0.5, 0, 0);
+            if (this.getTarget() != null) mob.setTarget(this.getTarget());
+            sl.addFreshEntity(mob);
+            sl.sendParticles(ParticleTypes.PORTAL,
+                    spawn.getX() + 0.5, spawn.getY() + 1, spawn.getZ() + 0.5,
+                    20, 0.4, 0.6, 0.4, 0.1);
         }
     }
 
@@ -217,12 +377,18 @@ public class TntKingEntity extends Monster {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.enraged = tag.getBoolean("KingEnraged");
+        this.stunTicks = tag.getInt("KingStunTicks");
+        this.chargeCooldown = tag.getInt("KingChargeCooldown");
+        this.summonCooldown = tag.getInt("KingSummonCooldown");
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("KingEnraged", this.enraged);
+        tag.putInt("KingStunTicks", this.stunTicks);
+        tag.putInt("KingChargeCooldown", this.chargeCooldown);
+        tag.putInt("KingSummonCooldown", this.summonCooldown);
     }
 
     // ---------- ataque del jefe ----------
@@ -241,11 +407,16 @@ public class TntKingEntity extends Monster {
             this.king = king;
         }
 
+        private int attacks = 0; // para alternar la TNT Real en furia
+
         @Override
         public boolean canUse() {
             LivingEntity target = this.king.getTarget();
             return target != null && target.isAlive()
-                    && this.king.distanceToSqr(target) < 32.0 * 32.0;
+                    && this.king.distanceToSqr(target) < 32.0 * 32.0
+                    && !this.king.isStunned()
+                    && !this.king.isCharging()
+                    && !this.king.isDashing();
         }
 
         @Override
@@ -258,8 +429,18 @@ public class TntKingEntity extends Monster {
             LivingEntity target = this.king.getTarget();
             if (target == null) return;
             this.king.getLookControl().setLookAt(target, 30.0F, 30.0F);
+
+            // en modo furia, cada cierto tiempo carga la EMBESTIDA
+            // (3 segundos de aviso con polvo rojo antes de salir disparado)
+            if (this.king.enraged && this.king.chargeCooldown == 0) {
+                this.king.startCharge();
+                this.cooldown = Math.max(this.cooldown, 45);
+                return;
+            }
+
             if (--this.cooldown <= 0) {
                 attack(target);
+                this.attacks++;
                 this.cooldown = this.king.enraged ? 16 : 34;
             }
         }
@@ -279,9 +460,35 @@ public class TntKingEntity extends Monster {
                         .add(0, 0.38 + dist * 0.025, 0));
                 this.king.level().addFreshEntity(tnt);
             }
+
+            // en modo furia, cada 3 ataque tambien lanza 2 TNTs REALES:
+            // mecha corta, radio enorme, y SOLO se frenan desactivandolas
+            // con tijeras (eso aturde al Rey 5 segundos -> ventana de dano)
+            if (this.king.enraged && this.attacks % 3 == 0) {
+                throwRoyalTnts(target);
+            }
+
             // de vez en cuando planta minas alrededor del objetivo
             if (this.king.random.nextInt(3) == 0) {
                 plantMines(target);
+            }
+        }
+
+        private void throwRoyalTnts(LivingEntity target) {
+            for (int i = 0; i < 2; i++) {
+                TntsPrimedTnt tnt = new TntsPrimedTnt(this.king.level(),
+                        this.king.getX(), this.king.getY() + 2.0, this.king.getZ(),
+                        "tnts:mega_tnt", 35, this.king);
+                tnt.setStationary(false);
+                tnt.setRoyal(true);
+                Vec3 to = target.position().add(0, 0.8, 0).subtract(tnt.position());
+                double dist = Math.max(1.0, to.horizontalDistance());
+                double spread = (i == 0 ? -0.25 : 0.25);
+                Vec3 dir = to.normalize();
+                tnt.setDeltaMovement(
+                        new Vec3(dir.x + spread, 0, dir.z + spread).normalize()
+                                .scale(0.95).add(0, 0.45 + dist * 0.02, 0));
+                this.king.level().addFreshEntity(tnt);
             }
         }
 

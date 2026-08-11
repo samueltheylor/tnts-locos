@@ -5,6 +5,7 @@ import com.tnts.ModItems;
 import com.tnts.block.TntBlock;
 import com.tnts.entity.SupernovaEntity;
 import com.tnts.entity.TntKingEntity;
+import com.tnts.entity.TntsEntities;
 import com.tnts.entity.TntsPrimedTnt;
 import com.tnts.item.TntPickaxeItem;
 import net.minecraft.core.BlockPos;
@@ -355,6 +356,82 @@ public class TntsGameTest {
             helper.assertTrue(!helper.getLevel().getEntitiesOfClass(TntKingEntity.class, area).isEmpty(),
                     "El altar deberia convocar al Rey TNT");
             helper.succeed();
+        });
+    }
+
+    /** Desactivar la TNT REAL del Rey con tijeras lo aturde 5 segundos. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void royal_tnt_defuse_stuns_king(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        // invocar al Rey directamente (los tests comparten mundo: el altar
+        // no convoca si otro test dejo un Rey vivo cerca, y aqui solo nos
+        // importa la TNT Real -> stun, no la invocacion)
+        BlockPos ap = helper.absolutePos(pos);
+        TntKingEntity king = new TntKingEntity(TntsEntities.TNT_KING.get(), helper.getLevel());
+        king.moveTo(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5, 0.0F, 0.0F);
+        helper.getLevel().addFreshEntity(king);
+        // lanzar una TNT REAL junto al Rey (mecha larga para que no explote)
+        TntsPrimedTnt royal = new TntsPrimedTnt(helper.getLevel(),
+                ap.getX() + 0.5, ap.getY() + 1.5, ap.getZ() + 0.5,
+                "tnts:mega_tnt", 200, null);
+        royal.setRoyal(true);
+        helper.getLevel().addFreshEntity(royal);
+        AABB area = new AABB(helper.absolutePos(pos)).inflate(50);
+
+        helper.runAfterDelay(4, () -> {
+            var kings = helper.getLevel().getEntitiesOfClass(TntKingEntity.class, area);
+            var tnts = helper.getLevel().getEntitiesOfClass(TntsPrimedTnt.class, area);
+            helper.assertTrue(!kings.isEmpty() && !tnts.isEmpty(),
+                    "Deberia haber el Rey y su TNT Real");
+            if (kings.isEmpty() || tnts.isEmpty()) {
+                helper.succeed();
+                return;
+            }
+            var player = helper.makeMockPlayer();
+            player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.SHEARS));
+            helper.assertTrue(royal.isAlive() && royal.isRoyal(),
+                    "La TNT Real deberia seguir viva y ser royal");
+            royal.interact(player, InteractionHand.MAIN_HAND);
+            helper.runAfterDelay(2, () -> {
+                helper.assertTrue(royal.isRemoved(),
+                        "La TNT Real deberia haber sido desactivada");
+                helper.assertTrue(king.isAlive() && king.isStunned(),
+                        "Desactivar la TNT Real deberia aturdir al Rey");
+                helper.succeed();
+            });
+        });
+    }
+
+    /** El grito de invocacion del Rey trae piglins del Nether. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_force_summon(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        helper.setBlock(pos, ModBlocks.TNT_ALTAR.get());
+        var summoner = helper.makeMockPlayer();
+        BlockHitResult hit = new BlockHitResult(new Vec3(8.5, 2.5, 8.5), Direction.UP, pos, false);
+        ModBlocks.TNT_ALTAR.get().use(helper.getBlockState(pos), helper.getLevel(), helper.absolutePos(pos),
+                summoner, InteractionHand.MAIN_HAND, hit);
+        AABB area = new AABB(helper.absolutePos(pos)).inflate(50);
+
+        helper.runAfterDelay(4, () -> {
+            var kings = helper.getLevel().getEntitiesOfClass(TntKingEntity.class, area);
+            helper.assertTrue(!kings.isEmpty(), "Deberia estar el Rey TNT");
+            if (kings.isEmpty()) {
+                helper.succeed();
+                return;
+            }
+            kings.get(0).forceSummon();
+            helper.runAfterDelay(2, () -> {
+                helper.assertTrue(
+                        !helper.getLevel().getEntitiesOfClass(
+                                        net.minecraft.world.entity.monster.ZombifiedPiglin.class, area)
+                                .isEmpty()
+                                || !helper.getLevel().getEntitiesOfClass(
+                                        net.minecraft.world.entity.monster.piglin.PiglinBrute.class, area)
+                                .isEmpty(),
+                        "El grito del Rey deberia invocar piglins del Nether");
+                helper.succeed();
+            });
         });
     }
 

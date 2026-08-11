@@ -33,6 +33,8 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> DEFUSE = register("item.shears.defuse");
     /** Rugido del Rey TNT (al aparecer y al enfurecerse). */
     public static final RegistryObject<SoundEvent> KING_ROAR = register("entity.tnt_king.roar");
+    /** Gemido que sube de tono (aviso de la embestida del Rey). */
+    public static final RegistryObject<SoundEvent> KING_CHARGE = register("entity.tnt_king.charge");
     /** Tema de musica del mod (disco para la jukebox). */
     public static final RegistryObject<SoundEvent> TNT_MUSIC = register("music.tnts.tema");
 
