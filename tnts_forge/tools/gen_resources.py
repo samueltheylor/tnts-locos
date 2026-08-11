@@ -1002,6 +1002,77 @@ def make_tnt_king_crown_texture():
     write_png(os.path.join(ITEM_TEX_DIR, "tnt_king_crown.png"), (16, 16), pixel)
 
 
+def make_tnt_king_sword_texture():
+    """Espada del Rey TNT: hoja de TNT fundida (rojo + franja blanca) con
+    guarda dorada y gema roja."""
+    def pixel(x, y):
+        RED = (200, 45, 60, 255)
+        RED_D = (140, 25, 38, 255)
+        RED_L = (240, 90, 105, 255)
+        BAND = (238, 236, 228, 255)
+        GOLD = (251, 191, 36, 255)
+        GOLD_D = (170, 120, 15, 255)
+        EDGE = (60, 10, 18, 255)
+        GEM = (255, 60, 60, 255)
+        # hoja: diagonal del centro hacia arriba-derecha
+        if 8 <= x <= 14 and 1 <= y <= 9 and x - y >= 5:
+            if x == 8 or x == 14:
+                return EDGE
+            # franja blanca horizontal estilo TNT
+            if 4 <= y <= 6:
+                return BAND if (x % 2 == 0) else RED
+            if (x + y) % 4 == 0:
+                return RED_L
+            return RED
+        # guarda dorada
+        if y == 10 and 5 <= x <= 12:
+            if x in (5, 12):
+                return GOLD_L if False else GOLD_D
+            return GOLD
+        if y == 11 and x in (5, 12):
+            return GOLD_D
+        # pomo con gema
+        if 6 <= x <= 8 and 12 <= y <= 14:
+            if y == 13 and x == 7:
+                return GEM
+            return GOLD if (x + y) % 2 == 0 else GOLD_D
+        # mango
+        if x in (6, 7, 8) and 12 <= y <= 14 and not (6 <= x <= 8 and 12 <= y <= 14):
+            return (90, 60, 35, 255)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_king_sword.png"), (16, 16), pixel)
+
+
+def make_tnt_shield_texture():
+    """Escudo de TNT: escudo redondeado de metal rojo con franja blanca y
+    mecha encendida arriba."""
+    def pixel(x, y):
+        RED = (190, 40, 55, 255)
+        RED_D = (130, 24, 36, 255)
+        RED_L = (235, 85, 100, 255)
+        BAND = (240, 238, 230, 255)
+        EDGE = (70, 12, 20, 255)
+        GOLD = (251, 191, 36, 255)
+        cx, cy = 7.5, 8.5
+        d = ((x - cx) ** 2 + ((y - cy) * 1.25) ** 2) ** 0.5
+        if d > 6.6:
+            return (0, 0, 0, 0)
+        if d > 6.0:
+            return EDGE
+        # franja blanca central estilo TNT
+        if 7 <= y <= 9:
+            return BAND if (x + y) % 2 == 0 else RED
+        # remache dorado
+        if (x, y) in ((4, 5), (11, 5), (4, 12), (11, 12)):
+            return GOLD
+        if d < 2.0:
+            return RED_L
+        return RED if (x + y) % 2 == 0 else RED_D
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_shield.png"), (16, 16), pixel)
+
+
 def make_king_texture():
     """Textura 64x64 del Rey TNT: cubo gigante de TNT con cara enfadada
     (ojos amarillos y cejas) y corona dorada encima."""
@@ -1263,6 +1334,8 @@ LANG_ES = {
     "item.tnts.tnt_disc": "Disco de TNTs Locas",
     "item.record.music.tnts.tema.desc": "Codebuff - Tema de TNTs Locas",
     "item.tnts.tnt_king_crown": "Corona del Rey TNT",
+    "item.tnts.tnt_king_sword": "Espada del Rey TNT",
+    "item.tnts.tnt_shield": "Escudo de TNT",
     "item.tnts.tnt_king_spawn_egg": "Generar Rey TNT",
     "entity.tnts.tnt_king": "Rey TNT",
     "entity.minecraft.villager.tnt_expert": "Experto en TNTs",
@@ -1341,6 +1414,8 @@ LANG_EN = {
     "item.tnts.tnt_disc": "TNTs Locos Disc",
     "item.record.music.tnts.tema.desc": "Codebuff - TNTs Locos Theme",
     "item.tnts.tnt_king_crown": "TNT King Crown",
+    "item.tnts.tnt_king_sword": "TNT King Sword",
+    "item.tnts.tnt_shield": "TNT Shield",
     "item.tnts.tnt_king_spawn_egg": "TNT King Spawn Egg",
     "entity.tnts.tnt_king": "TNT King",
     "entity.minecraft.villager.tnt_expert": "TNT Expert",
@@ -1552,6 +1627,8 @@ def main():
     make_tnt_manual_texture()
     make_tnt_disc_texture()
     make_tnt_king_crown_texture()
+    make_tnt_king_sword_texture()
+    make_tnt_shield_texture()
     make_king_texture()
 
     for name in NAMES:
@@ -1630,7 +1707,7 @@ def main():
         })
 
     # items especiales (textura plana)
-    for item in ("tnt_manual", "tnt_disc", "tnt_king_crown"):
+    for item in ("tnt_manual", "tnt_disc", "tnt_king_crown", "tnt_king_sword", "tnt_shield"):
         write(os.path.join(ASSETS, "models", "item", f"{item}.json"), {
             "parent": "minecraft:item/generated",
             "textures": {"layer0": f"tnts:item/{item}"},

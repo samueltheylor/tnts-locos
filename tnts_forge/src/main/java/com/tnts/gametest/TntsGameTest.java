@@ -447,4 +447,58 @@ public class TntsGameTest {
                 "El structure set tnts_bunkers deberia estar registrado");
         helper.succeed();
     }
+
+    /** La Espada del Rey enciende TNTs cercanas al golpear. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_sword_primes_tnts(GameTestHelper helper) {
+        BlockPos tntPos = new BlockPos(8, 2, 8);
+        helper.setBlock(tntPos, ModBlocks.MINI_TNT.get());
+        BlockPos ap = helper.absolutePos(tntPos);
+        AABB area = new AABB(ap).inflate(3);
+        var attacker = helper.makeMockPlayer();
+        var victim = helper.makeMockPlayer();
+        victim.moveTo(ap.getX() + 3, ap.getY(), ap.getZ());
+        helper.getLevel().addFreshEntity(victim);
+
+        helper.runAfterDelay(3, () -> {
+            var sword = new ItemStack(ModItems.TNT_KING_SWORD.get());
+            attacker.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, sword);
+            com.tnts.item.TntKingSwordItem item =
+                    (com.tnts.item.TntKingSwordItem) sword.getItem();
+            item.hurtEnemy(sword, victim, attacker);
+            helper.assertTrue(!helper.getLevel().getEntitiesOfClass(
+                    TntsPrimedTnt.class, area).isEmpty(),
+                    "La Espada del Rey deberia encender la TNT cercana");
+            helper.succeed();
+        });
+    }
+
+    /** El Escudo de TNT bloquea y empuja al atacante (efecto via ShieldBlockEvent). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_shield_pushes_attacker(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        var wearer = helper.makeMockPlayer();
+        var attacker = helper.makeMockPlayer();
+        wearer.moveTo(ap.getX(), ap.getY() + 1, ap.getZ());
+        attacker.moveTo(ap.getX() + 2, ap.getY() + 1, ap.getZ());
+        helper.getLevel().addFreshEntity(wearer);
+        helper.getLevel().addFreshEntity(attacker);
+
+        helper.runAfterDelay(3, () -> {
+            wearer.startUsingItem(net.minecraft.world.InteractionHand.MAIN_HAND);
+            wearer.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
+                    new ItemStack(ModItems.TNT_SHIELD.get()));
+            // forzar el evento: atacante golpea al portador con el escudo activo
+            attacker.attack(wearer);
+            double before = attacker.position().distanceTo(wearer.position());
+            helper.runAfterDelay(2, () -> {
+                double after = attacker.position().distanceTo(wearer.position());
+                helper.assertTrue(after > before,
+                        "El Escudo de TNT deberia empujar al atacante (antes="
+                                + before + ", despues=" + after + ")");
+                helper.succeed();
+            });
+        });
+    }
 }

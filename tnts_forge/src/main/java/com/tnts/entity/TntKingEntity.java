@@ -313,6 +313,13 @@ public class TntKingEntity extends Monster {
             for (int i = 0; i < 3 + this.random.nextInt(4); i++) {
                 this.spawnAtLocation(new ItemStack(randomKingTnt()));
             }
+            // botin raro: espada (40%) y escudo (40%) del Rey
+            if (this.random.nextFloat() < 0.4F) {
+                this.spawnAtLocation(new ItemStack(ModItems.TNT_KING_SWORD.get()));
+            }
+            if (this.random.nextFloat() < 0.4F) {
+                this.spawnAtLocation(new ItemStack(ModItems.TNT_SHIELD.get()));
+            }
             // experiencia
             int total = 200;
             while (total > 0) {

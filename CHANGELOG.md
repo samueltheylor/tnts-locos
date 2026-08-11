@@ -1,5 +1,12 @@
 # TNTs Locos — Changelog
 
+## v1.10.2 — Espada del Rey TNT + Escudo de TNT como botín raro del boss (solo Java)
+
+- **⚔️ Espada del Rey TNT** (botín raro, 40%): hoja de TNT fundida (1561 de durabilidad, daño de diamante). **Al golpear a un enemigo enciende TODAS las TNTs del mod en un radio de 6 bloques** — convierte cualquier pelea en reacción en cadena. Se repara en el yunque con pólvora. Textura pixel-art: hoja roja con franja blanca, guarda dorada y gema en el pomo.
+- **🛡️ Escudo de TNT** (botín raro, 40%): bloquea como un escudo normal y, al bloquear un golpe, **empuja al atacante lejos con un destello de llamas y una pequeña explosión**. Se repara en el yunque con pólvora (o con una Mini TNT). Textura pixel-art: escudo redondeado rojo con franja blanca, remaches dorados y mecha encendida.
+- Ambos **raro (púrpura)**, en la pestaña creativa *TNTs Locas* y con nombres en español/inglés.
+- GameTests nuevos (`king_sword_primes_tnts`, `tnt_shield_pushes_attacker`) → **"All 20 required tests passed"**.
+
 ## v1.10.1 — Pelea del Rey TNT mejorada: embestida, invocación de piglins y TNT Real (solo Java)
 
 - **🏃 Embestida (modo furia):** cada ~10 segundos el Rey se queda quieto, suena un **gemido que sube de tono durante 3 segundos** (con polvo rojo acumulándose a su alrededor) y luego **sale disparado hacia ti**: 12 de daño + knockback a quien toque, con estela de humo y llamas. Aviso clarísimo para saltar a un lado.

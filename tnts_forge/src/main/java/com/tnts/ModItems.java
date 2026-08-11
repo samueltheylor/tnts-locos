@@ -105,6 +105,16 @@ public class ModItems {
                     com.tnts.entity.TntsEntities.TNT_KING, 0x7f1d1d, 0xfde047,
                     new Item.Properties()));
 
+    /** Espada del Rey TNT: botin raro del boss. Enciende TNTs al golpear. */
+    public static final RegistryObject<Item> TNT_KING_SWORD = ITEMS.register("tnt_king_sword",
+            () -> new com.tnts.item.TntKingSwordItem(
+                    new Item.Properties().durability(1561).rarity(net.minecraft.world.item.Rarity.EPIC)));
+
+    /** Escudo de TNT: botin raro del boss. Empuja a los atacantes al bloquear. */
+    public static final RegistryObject<Item> TNT_SHIELD = ITEMS.register("tnt_shield",
+            () -> new com.tnts.item.TntShieldItem(
+                    new Item.Properties().durability(480).rarity(net.minecraft.world.item.Rarity.EPIC)));
+
     private static RegistryObject<Item> blockItem(String name, RegistryObject<Block> block) {
         return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }

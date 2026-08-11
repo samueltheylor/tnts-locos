@@ -29,6 +29,8 @@ public class ModCreativeTabs {
                         output.accept(new ItemStack(ModItems.TNT_MANUAL.get()));
                         output.accept(new ItemStack(ModItems.TNT_DISC.get()));
                         output.accept(new ItemStack(ModItems.TNT_KING_CROWN.get()));
+                        output.accept(new ItemStack(ModItems.TNT_KING_SWORD.get()));
+                        output.accept(new ItemStack(ModItems.TNT_SHIELD.get()));
                         output.accept(new ItemStack(ModItems.TNT_KING_SPAWN_EGG.get()));
                     })
                     .build());
