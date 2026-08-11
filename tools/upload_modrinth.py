@@ -5,6 +5,9 @@
 
 El token se lee de `.modrinth_token` (gitignoreado) o de la variable MODRINTH_TOKEN.
 Requiere: curl (para el multipart con archivos grandes).
+
+Idempotente: si ya existe una version con el mismo numero, la borra antes de
+subir (evita duplicados si el script se corta a mitad).
 """
 import json
 import os
@@ -44,6 +47,25 @@ def main():
     with open(data_path, "w") as f:
         json.dump(data, f)
 
+    import urllib.request
+
+    def api(path, method="GET"):
+        req = urllib.request.Request(
+            f"https://api.modrinth.com/v2{path}",
+            method=method,
+            headers={"Authorization": token,
+                     "User-Agent": "samueltheylor/tnts-locos (dev)"},
+        )
+        with urllib.request.urlopen(req) as r:
+            body = r.read()
+            return json.loads(body.decode("utf-8")) if body else None
+
+    # idempotente: borra versiones previas con el mismo numero
+    for old in api(f"/project/{PROJECT_ID}/version") or []:
+        if old.get("version_number") == version:
+            api(f"/version/{old['id']}", method="DELETE")
+            print(f"borrada version previa {old['id']}")
+
     cmd = [
         "curl", "-s", "-X", "POST", "https://api.modrinth.com/v2/version",
         "-H", f"Authorization: {token}",
@@ -51,7 +73,12 @@ def main():
         "-F", f"data=<{data_path};type=application/json",
         "-F", f"jar=@{jar}",
     ]
-    out = subprocess.run(cmd, capture_output=True, text=True).stdout
+    proc = subprocess.run(cmd, capture_output=True, text=True, errors="replace")
+    out = (proc.stdout or "").strip()
+    if not out:
+        print("ERROR: respuesta vacia de la API (stdout de curl vacio)")
+        print("stderr:", (proc.stderr or "")[:500])
+        sys.exit(1)
     resp = json.loads(out)
     if "id" in resp:
         print(f"OK version {resp['version_number']} subida: https://modrinth.com/mod/{PROJECT_ID}/version/{resp['id']}")
