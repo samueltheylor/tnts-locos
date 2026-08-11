@@ -33,5 +33,6 @@ public class ClientSetup {
         event.registerEntityRenderer(TntsEntities.SHOCKWAVE.get(), ShockwaveRenderer::new);
         event.registerEntityRenderer(TntsEntities.SUPERNOVA.get(), SupernovaRenderer::new);
         event.registerEntityRenderer(TntsEntities.TNT_BLAST.get(), TntBlastRenderer::new);
+        event.registerEntityRenderer(TntsEntities.TNT_KING.get(), TntKingRenderer::new);
     }
 }

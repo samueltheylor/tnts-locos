@@ -29,6 +29,12 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> LAUNCHER_SHOOT = register("item.launcher.shoot");
     /** Remolino grave de la bola negra (Agujero Negro), en bucle. */
     public static final RegistryObject<SoundEvent> BLACK_HOLE_LOOP = register("entity.black_hole.loop");
+    /** Desactivar una TNT con tijeras. */
+    public static final RegistryObject<SoundEvent> DEFUSE = register("item.shears.defuse");
+    /** Rugido del Rey TNT (al aparecer y al enfurecerse). */
+    public static final RegistryObject<SoundEvent> KING_ROAR = register("entity.tnt_king.roar");
+    /** Tema de musica del mod (disco para la jukebox). */
+    public static final RegistryObject<SoundEvent> TNT_MUSIC = register("music.tnts.tema");
 
     static {
         for (String name : TntDefaults.DEFAULTS.keySet()) {

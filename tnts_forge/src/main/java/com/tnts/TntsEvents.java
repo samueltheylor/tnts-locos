@@ -3,15 +3,39 @@ package com.tnts;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /** Eventos del mod (registrados en el bus de eventos de Forge). */
 public class TntsEvents {
+
+    /** Trades del aldeano Experto en TNTs. */
+    @SubscribeEvent
+    public static void onVillagerTrades(VillagerTradesEvent event) {
+        ModVillagers.registerTrades(event);
+    }
+
+    /**
+     * Corona del Rey TNT: mientras la llevas puesta tienes Resistencia al
+     * Fuego permanente (se reaplica al terminar).
+     */
+    @SubscribeEvent
+    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity == null || entity.level().isClientSide) return;
+        if (!entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_KING_CROWN.get())) return;
+        if (!entity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+            entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false));
+        }
+    }
 
     /**
      * Peto de TNT: al recibir dano, empuja al atacante lejos con un destello

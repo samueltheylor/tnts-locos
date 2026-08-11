@@ -36,7 +36,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "diamante_tnt", "esmeralda_tnt", "negra_tnt", "viento_tnt", "inferno_tnt",
          "hongo_tnt", "miel_tnt", "heal_tnt", "teleport_tnt", "confeti_tnt", "mina_tnt",
          "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
-         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt"]
+         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt",
+         "ender_tnt", "bubble_tnt", "solar_tnt"]
 
 # mecha: (duracion segundos, velocidad del siseo)
 FUSES = {
@@ -55,6 +56,9 @@ FUSES = {
     "toxica_tnt": (1.10, 0.85),
     "fuegos_tnt": (0.90, 1.10),
     "gravitatoria_tnt": (1.30, 0.75),
+    "ender_tnt": (1.20, 0.80),
+    "bubble_tnt": (0.90, 1.00),
+    "solar_tnt": (1.00, 0.95),
 }
 
 # explosion: (duracion, frecuencia del retumbo, ganancia, crepitar, cola larga, extra)
@@ -94,6 +98,9 @@ EXPLOSIONS = {
     "toxica_tnt":     (1.80, 42, 0.90, 0.40, 0.40, [("sparkle", ())]),
     "fuegos_tnt":     (1.60, 55, 0.80, 0.90, 0.20, [("sparkle", ())]),
     "gravitatoria_tnt":(2.20, 34, 1.10, 0.60, 0.80, []),
+    "ender_tnt":     (2.00, 40, 0.95, 0.50, 0.60, [("warp", ())]),
+    "bubble_tnt":    (1.60, 55, 0.80, 0.60, 0.30, [("splash", ())]),
+    "solar_tnt":     (1.80, 42, 1.05, 1.00, 0.50, []),
 }
 
 # ---- samples reales CC0 (tools/samples/sample_N.wav, 22050 Hz mono) ----
@@ -517,6 +524,141 @@ def whirl():
     return soft_limiter(out, 0.80)
 
 
+def defuse():
+    """Desactivar una TNT con tijeras: chisporroteo que se apaga + click final."""
+    dur = 0.45
+    n = int(dur * RATE)
+    rng = random.Random(991)
+    out = []
+    prev = 0.0
+    for i in range(n):
+        t = i / RATE
+        white = rng.uniform(-1.0, 1.0)
+        hp = white - prev * 0.5
+        prev = white
+        env = min(1.0, t / 0.02) * min(1.0, (dur - t) / 0.2)
+        # siseo que baja de tono (el filtro se cierra -> se apaga)
+        fizz = hp * math.exp(-t * 16) * env * 0.45
+        # chispas decrecientes
+        if rng.random() < 6.0 / RATE:
+            pop = 1.0
+        else:
+            pop = 0.0
+        fizz += rng.uniform(-1.0, 1.0) * pop * 0.35 * (1 - t / dur)
+        out.append(fizz)
+    # click final seco (tijeras)
+    n2 = int(0.08 * RATE)
+    for i in range(n2):
+        t = i / RATE
+        env = min(1.0, t / 0.004) * min(1.0, (0.08 - t) / 0.03)
+        out.append(math.sin(2 * math.pi * 1900 * t) * env * 0.5)
+    return out
+
+
+def roar():
+    """Rugido del Rey TNT: retumbo grave, gruñido con vibrato y golpe de aire."""
+    dur = 1.6
+    n = int(dur * RATE)
+    rng = random.Random(555)
+    out = []
+    lp = 0.0
+    for i in range(n):
+        t = i / RATE
+        white = rng.uniform(-1.0, 1.0)
+        lp = lp * 0.75 + white * 0.25
+        env = min(1.0, t / 0.1) * min(1.0, (dur - t) / 0.5)
+        # gruñido: diente de sierra grave con vibrato lento
+        f = 38 + 9 * math.sin(2 * math.pi * 7 * t)
+        saw = 2 * abs(2 * ((f * t) % 1.0) - 1.0) - 1.0
+        rumble = math.sin(2 * math.pi * 33 * t)
+        air = lp * 0.6
+        out.append((saw * 0.45 + rumble * 0.55 + air) * env * 0.9)
+    return soft_limiter(out, 0.85)
+
+
+def _nz(i, seed):
+    """Ruido pseudoaleatorio determinista (para la bateria del tema)."""
+    return math.sin(i * 127.1 + seed * 311.7) * math.sin(i * 269.5 + seed * 74.7)
+
+
+def music_track():
+    """Tema musical del disco (72s): marcha explosiva con bateria sintetizada
+    (bombo cada pulso, caja a contratiempo, chasquidos), bajo y melodia en
+    onda cuadrada, y un acento de explosion cada dos compases."""
+    beat = 0.5
+    bars = 8
+    bar_len = 4 * beat
+    total = int(bar_len * bars * 4.5 * RATE)
+    out = [0.0] * total
+
+    def add(t0, gen, dur, amp):
+        start = int(t0 * RATE)
+        n = int(dur * RATE)
+        for i in range(n):
+            idx = start + i
+            if 0 <= idx < len(out):
+                out[idx] += gen(i / RATE, dur) * amp
+
+    def kick(t, dur):
+        env = min(1.0, t / 0.002) * math.exp(-t * 22)
+        return math.sin(2 * math.pi * (90 - 42 * t) * t) * env
+
+    def snare(t, dur):
+        env = min(1.0, t / 0.001) * math.exp(-t * 32)
+        return _nz(int(t * RATE), 7) * env * 0.6
+
+    def hat(t, dur):
+        env = min(1.0, t / 0.001) * math.exp(-t * 90)
+        return _nz(int(t * RATE), 13) * env * 0.25
+
+    def boom(t, dur):
+        env = min(1.0, t / 0.002) * math.exp(-t * 6)
+        return (math.sin(2 * math.pi * 55 * t) * 0.7
+                + _nz(int(t * RATE), 3) * 0.3 * math.exp(-t * 12)) * env
+
+    def square(f, t, dur):
+        if f <= 0:
+            return 0.0
+        env = min(1.0, t / 0.01) * min(1.0, (dur - t) / 0.04)
+        s = math.sin(2 * math.pi * f * t)
+        return (1.0 if s >= 0 else -1.0) * env * 0.30
+
+    # acordes Am - F - C - G (raices para el bajo)
+    roots = [110.00, 110.00, 87.31, 87.31, 130.81, 130.81, 98.00, 98.00]
+    # melodia: 8 corcheas por compas (0 = silencio)
+    E5, G4, A4, C5, D5, F5, G5 = 659.25, 392.00, 440.00, 523.25, 587.33, 698.46, 783.99
+    melody = [
+        E5, 0, G4, 0, A4, 0, C5, 0,
+        E5, 0, E5, G4, A4, 0, G4, 0,
+        F5, 0, A4, 0, C5, 0, F5, 0,
+        F5, 0, F5, A4, C5, 0, D5, 0,
+        G5, 0, E5, 0, C5, 0, E5, 0,
+        G5, 0, E5, D5, C5, 0, D5, 0,
+        A4, 0, C5, 0, E5, 0, A4, 0,
+        G4, 0, A4, 0, G4, 0, 0, 0,
+    ]
+
+    for bar in range(bars * 4):
+        t0 = bar * bar_len
+        root = roots[bar % len(roots)]
+        for b in range(4):
+            bt = t0 + b * beat
+            add(bt, kick, 0.16, 0.9)                      # bombo en cada pulso
+            if b in (1, 3):
+                add(bt, snare, 0.14, 0.8)                 # caja en 2 y 4
+            add(bt + beat / 2, hat, 0.05, 0.7)            # chasquido a contratiempo
+            # bajo: nota de raiz (dos octavas abajo) cada pulso
+            add(bt, lambda t, d, f=root / 2: square(f, t, d), beat, 0.8)
+        # melodia en corcheas
+        for slot, f in enumerate(melody):
+            add(t0 + slot * beat / 2, lambda t, d, f=f: square(f, t, d), beat / 2, 0.7)
+        # acento de explosion cada 2 compases
+        if bar % 2 == 0:
+            add(t0, boom, 1.2, 0.55)
+
+    return soft_limiter(reverb(out, room=60, wet=0.22, dry=1.0, tail=1.2), 0.85)
+
+
 # ---------------- salida ----------------
 
 def to_ogg(name, samples, out_dir, filters=None):
@@ -561,9 +703,14 @@ def main():
     to_ogg("detonator_click", click(), item_dir)
     to_ogg("detonator_burst", burst(), item_dir)
     to_ogg("launcher_shoot", shoot(), item_dir)
+    to_ogg("shears_defuse", defuse(), item_dir)
 
     entity_dir = os.path.join(JAVA_SOUNDS, "entity")
     to_ogg("black_hole_loop", whirl(), entity_dir)
+    to_ogg("tnt_king_roar", roar(), entity_dir)
+
+    music_dir = os.path.join(JAVA_SOUNDS, "music")
+    to_ogg("tnts_tema", music_track(), music_dir)
 
     # copiar los mismos .ogg al Resource Pack de Bedrock
     for root, _, files in os.walk(JAVA_SOUNDS):

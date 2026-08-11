@@ -4,6 +4,7 @@ import com.tnts.ModBlocks;
 import com.tnts.ModItems;
 import com.tnts.block.TntBlock;
 import com.tnts.entity.SupernovaEntity;
+import com.tnts.entity.TntKingEntity;
 import com.tnts.entity.TntsPrimedTnt;
 import com.tnts.item.TntPickaxeItem;
 import net.minecraft.core.BlockPos;
@@ -283,6 +284,76 @@ public class TntsGameTest {
             helper.assertTrue(helper.getBlockState(t1).isAir(), "La Toxica deberia haber explotado");
             helper.assertTrue(helper.getBlockState(t2).isAir(), "La Fuegos deberia haber explotado");
             helper.assertTrue(helper.getBlockState(t3).isAir(), "La Gravitatoria deberia haber explotado");
+            helper.succeed();
+        });
+    }
+
+    /** Desactivar una TNT con tijeras: la apaga y devuelve el bloque. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void shears_defuse_tnt(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        helper.setBlock(pos, ModBlocks.MINI_TNT.get());
+        TntBlock block = (TntBlock) helper.getBlockState(pos).getBlock();
+        block.prime(helper.getLevel(), helper.absolutePos(pos), helper.getBlockState(pos), null);
+        AABB area = new AABB(helper.absolutePos(pos)).inflate(3);
+
+        helper.runAfterDelay(5, () -> {
+            var tnts = helper.getLevel().getEntitiesOfClass(TntsPrimedTnt.class, area);
+            helper.assertTrue(!tnts.isEmpty(), "Deberia haber una TNT encendida");
+            if (tnts.isEmpty()) {
+                helper.succeed();
+                return;
+            }
+            var player = helper.makeMockPlayer();
+            player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.SHEARS));
+            tnts.get(0).interact(player, InteractionHand.MAIN_HAND);
+            helper.runAfterDelay(2, () -> {
+                helper.assertTrue(helper.getLevel().getEntitiesOfClass(TntsPrimedTnt.class, area).isEmpty(),
+                        "La TNT deberia haberse desactivado con las tijeras");
+                helper.assertTrue(!helper.getLevel().getEntitiesOfClass(
+                                net.minecraft.world.entity.item.ItemEntity.class, area).isEmpty(),
+                        "Deberia haberse soltado el bloque de TNT");
+                helper.succeed();
+            });
+        });
+    }
+
+    /** TNTs nuevas 1.10.0: End, Burbuja y Solar explotan sin crashear. */
+    @GameTest(template = "empty", timeoutTicks = 300)
+    public static void new_tnts_110_explode_safely(GameTestHelper helper) {
+        BlockPos t1 = new BlockPos(5, 2, 5);
+        BlockPos t2 = new BlockPos(8, 2, 8);
+        BlockPos t3 = new BlockPos(11, 2, 11);
+        helper.setBlock(t1, ModBlocks.ENDER_TNT.get());
+        helper.setBlock(t2, ModBlocks.BUBBLE_TNT.get());
+        helper.setBlock(t3, ModBlocks.SOLAR_TNT.get());
+        ((TntBlock) helper.getBlockState(t1).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t1), helper.getBlockState(t1), null);
+        ((TntBlock) helper.getBlockState(t2).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t2), helper.getBlockState(t2), null);
+        ((TntBlock) helper.getBlockState(t3).getBlock())
+                .prime(helper.getLevel(), helper.absolutePos(t3), helper.getBlockState(t3), null);
+        helper.runAfterDelay(160, () -> {
+            helper.assertTrue(helper.getBlockState(t1).isAir(), "La End deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t2).isAir(), "La Burbuja deberia haber explotado");
+            helper.assertTrue(helper.getBlockState(t3).isAir(), "La Solar deberia haber explotado");
+            helper.succeed();
+        });
+    }
+
+    /** El altar del bunker convoca al Rey TNT al usarlo. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void altar_spawns_king(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        helper.setBlock(pos, ModBlocks.TNT_ALTAR.get());
+        var player = helper.makeMockPlayer();
+        BlockHitResult hit = new BlockHitResult(new Vec3(8.5, 2.5, 8.5), Direction.UP, pos, false);
+        ModBlocks.TNT_ALTAR.get().use(helper.getBlockState(pos), helper.getLevel(), helper.absolutePos(pos),
+                player, InteractionHand.MAIN_HAND, hit);
+        helper.runAfterDelay(3, () -> {
+            AABB area = new AABB(helper.absolutePos(pos)).inflate(50);
+            helper.assertTrue(!helper.getLevel().getEntitiesOfClass(TntKingEntity.class, area).isEmpty(),
+                    "El altar deberia convocar al Rey TNT");
             helper.succeed();
         });
     }

@@ -35,6 +35,9 @@
     "tnts:supernova_tnt",
     "tnts:toxica_tnt",
     "tnts:fuegos_tnt",
-    "tnts:gravitatoria_tnt"
+    "tnts:gravitatoria_tnt",
+    "tnts:ender_tnt",
+    "tnts:bubble_tnt",
+    "tnts:solar_tnt"
   ]
 }

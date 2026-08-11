@@ -28,6 +28,13 @@ public class TntsMod {
         TntsEntities.ENTITIES.register(bus);
         ModSounds.SOUNDS.register(bus);
 
+        // Aldeano Experto en TNTs (POI + profesion)
+        ModVillagers.POI_TYPES.register(bus);
+        ModVillagers.PROFESSIONS.register(bus);
+
+        // Atributos del Rey TNT
+        bus.addListener(com.tnts.entity.TntKingEntity::onAttributeCreate);
+
         // Estructuras (bunker de TNT)
         TntsStructures.STRUCTURE_TYPES.register(bus);
         TntsStructures.PIECE_TYPES.register(bus);

@@ -56,6 +56,13 @@ public class ModItems {
     public static final RegistryObject<Item> FUEGOS_TNT = blockItem("fuegos_tnt", ModBlocks.FUEGOS_TNT);
     public static final RegistryObject<Item> GRAVITATORIA_TNT = blockItem("gravitatoria_tnt", ModBlocks.GRAVITATORIA_TNT);
 
+    public static final RegistryObject<Item> ENDER_TNT = blockItem("ender_tnt", ModBlocks.ENDER_TNT);
+    public static final RegistryObject<Item> BUBBLE_TNT = blockItem("bubble_tnt", ModBlocks.BUBBLE_TNT);
+    public static final RegistryObject<Item> SOLAR_TNT = blockItem("solar_tnt", ModBlocks.SOLAR_TNT);
+
+    public static final RegistryObject<Item> TNT_TABLE = blockItem("tnt_table", ModBlocks.TNT_TABLE);
+    public static final RegistryObject<Item> TNT_ALTAR = blockItem("tnt_altar", ModBlocks.TNT_ALTAR);
+
     public static final RegistryObject<Item> DETONATOR = ITEMS.register("detonator",
             () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
 
@@ -77,6 +84,26 @@ public class ModItems {
     public static final RegistryObject<Item> TNT_PICKAXE = ITEMS.register("tnt_pickaxe",
             () -> new TntPickaxeItem(Tiers.DIAMOND, 1, -2.8F,
                     new Item.Properties().durability(800)));
+
+    /** Manual de TNTs: abre un GUI con todas las TNTs del mod. */
+    public static final RegistryObject<Item> TNT_MANUAL = ITEMS.register("tnt_manual",
+            () -> new com.tnts.item.TntManualItem(new Item.Properties().stacksTo(1)));
+
+    /** Disco de musica con el tema del mod (tocable en la jukebox). */
+    public static final RegistryObject<Item> TNT_DISC = ITEMS.register("tnt_disc",
+            () -> new net.minecraft.world.item.RecordItem(15, ModSounds.TNT_MUSIC.get(),
+                    new Item.Properties().stacksTo(1).rarity(net.minecraft.world.item.Rarity.RARE), 170));
+
+    /** Corona del Rey TNT: botin del boss. Al llevarla, tus TNTs explotan con +50%% de radio. */
+    public static final RegistryObject<Item> TNT_KING_CROWN = ITEMS.register("tnt_king_crown",
+            () -> new com.tnts.item.TntKingCrownItem(TNT_ARMOR, net.minecraft.world.item.ArmorItem.Type.HELMET,
+                    new Item.Properties().durability(330)));
+
+    /** Huevo de invocacion del Rey TNT. */
+    public static final RegistryObject<Item> TNT_KING_SPAWN_EGG = ITEMS.register("tnt_king_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(
+                    com.tnts.entity.TntsEntities.TNT_KING, 0x7f1d1d, 0xfde047,
+                    new Item.Properties()));
 
     private static RegistryObject<Item> blockItem(String name, RegistryObject<Block> block) {
         return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));

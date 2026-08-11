@@ -76,4 +76,14 @@ public class TntsEntities {
                     .clientTrackingRange(16)
                     .updateInterval(3)
                     .build("tnt_blast"));
+
+    /** EL REY TNT: el jefe del mod (vive en el bunker de TNT abandonado). */
+    public static final RegistryObject<EntityType<TntKingEntity>> TNT_KING =
+            ENTITIES.register("tnt_king", () -> EntityType.Builder
+                    .<TntKingEntity>of(TntKingEntity::new, net.minecraft.world.entity.MobCategory.MONSTER)
+                    .sized(1.3F, 2.6F)
+                    .clientTrackingRange(16)
+                    .updateInterval(3)
+                    .fireImmune()
+                    .build("tnt_king"));
 }

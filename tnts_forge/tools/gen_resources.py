@@ -24,7 +24,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "diamante_tnt", "esmeralda_tnt", "negra_tnt", "viento_tnt", "inferno_tnt",
          "hongo_tnt", "miel_tnt", "heal_tnt", "teleport_tnt", "confeti_tnt", "mina_tnt",
          "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
-         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt"]
+         "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt",
+         "ender_tnt", "bubble_tnt", "solar_tnt"]
 
 # Recetas: nombre -> (ingredientes, cantidad). Cada ingrediente ("item", id) o ("tag", id).
 TNT_RECIPES = {
@@ -63,6 +64,10 @@ TNT_RECIPES = {
     "toxica_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:spider_eye"), ("item", "minecraft:fermented_spider_eye")], 1),
     "fuegos_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:firework_rocket")], 1),
     "gravitatoria_tnt":([("item", "minecraft:tnt"), ("item", "minecraft:anvil")], 1),
+    "ender_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:chorus_fruit"), ("item", "minecraft:end_stone")], 1),
+    "bubble_tnt":    ([("item", "minecraft:tnt"), ("item", "minecraft:pufferfish"), ("item", "minecraft:kelp")], 1),
+    "solar_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:blaze_powder"), ("item", "minecraft:glowstone")], 1),
+    "tnt_manual":    ([("item", "minecraft:book"), ("item", "minecraft:tnt")], 1),
     "grenade":       ([("item", "minecraft:tnt"), ("item", "minecraft:string")], 2),
     "detonator":     ([("tag", "forge:ingots/iron"), ("tag", "forge:dusts/redstone"), ("item", "minecraft:tnt")], 1),
 }
@@ -104,6 +109,9 @@ PALETTES = {
     "toxica_tnt":     ("#14532d", "#dcfce7", "#052e16", "#84cc16", "#052e16"),  # toxica/verde veneno
     "fuegos_tnt":     ("#831843", "#fce7f3", "#4c0519", "#f472b6", "#4c0519"),  # fuegos artificiales/rosa
     "gravitatoria_tnt":("#3b0764", "#e9d5ff", "#1e1b4b", "#a855f7", "#1e1b4b"),  # gravitatoria/purpura
+    "ender_tnt":     ("#4c1d95", "#f5f3ff", "#2e1065", "#d8b4fe", "#2e1065"),  # end/purpura oscuro
+    "bubble_tnt":    ("#0369a1", "#bae6fd", "#082f49", "#7dd3fc", "#082f49"),  # burbuja/agua clara
+    "solar_tnt":     ("#9a3412", "#fef08a", "#450a0a", "#fbbf24", "#7c2d12"),  # solar/amarillo fuego
 }
 
 
@@ -821,6 +829,252 @@ def make_arrow_texture():
     write_png(os.path.join(ITEM_TEX_DIR, "tnt_arrow.png"), (16, 16), pixel)
 
 
+def make_tnt_table_texture():
+    """Mesa de TNTs (estacion de trabajo del aldeano): mesa de madera con un
+    bloque de TNT sobre ella y herramientas de herreria."""
+    def pixel(x, y):
+        WOOD = (139, 90, 43, 255)
+        WOOD_DARK = (100, 62, 28, 255)
+        WOOD_LIGHT = (172, 118, 58, 255)
+        RED = (190, 30, 45, 255)
+        RED_DARK = (120, 18, 25, 255)
+        BAND = (245, 245, 244, 255)
+        EDGE = (35, 30, 28, 255)
+        # patas de la mesa
+        if x in (2, 13) and 10 <= y <= 15:
+            return WOOD_DARK
+        # tablero de la mesa
+        if 1 <= x <= 14 and 8 <= y <= 10:
+            if y == 8:
+                return WOOD_LIGHT
+            if y == 10:
+                return WOOD_DARK
+            if (x * 3 + y * 7) % 11 == 0:
+                return WOOD_DARK
+            return WOOD
+        # bloque de TNT encima
+        if 4 <= x <= 11 and 2 <= y <= 7:
+            if x in (4, 11) or y in (2, 7):
+                return EDGE
+            if y in (4, 5):
+                return BAND
+            if y == 3:
+                return (215, 45, 60, 255)
+            return RED
+        # mecha encendida
+        if x == 8 and y == 1:
+            return (255, 220, 100, 255)
+        if x == 8 and y == 0:
+            return (255, 250, 180, 255)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(TEX_DIR, "tnt_table.png"), (16, 16), pixel)
+
+
+def make_tnt_altar_texture():
+    """Altar del Rey TNT: plataforma de obsidiana con un bloque de TNT
+    brillante en el centro y runas moradas."""
+    def pixel(x, y):
+        OBS = (36, 24, 66, 255)
+        OBS_L = (62, 42, 104, 255)
+        OBS_D = (22, 14, 40, 255)
+        PURPLE = (168, 85, 247, 255)
+        RED = (190, 30, 45, 255)
+        RED_L = (225, 65, 80, 255)
+        BAND = (245, 245, 244, 255)
+        EDGE = (12, 8, 22, 255)
+        # pedestal de obsidiana
+        if 1 <= x <= 14 and 11 <= y <= 15:
+            if y == 15 or x in (1, 14):
+                return EDGE
+            if y == 11:
+                return OBS_L
+            if (x * 5 + y * 3) % 9 == 0:
+                return PURPLE
+            return OBS
+        # corona de piedra con runas
+        if 3 <= x <= 12 and 8 <= y <= 10:
+            if x in (3, 12):
+                return OBS_D
+            if (x * 3 + y * 7) % 11 == 0:
+                return PURPLE
+            return OBS_L
+        # bloque de TNT central brillante
+        if 4 <= x <= 11 and 2 <= y <= 7:
+            if x in (4, 11) or y in (2, 7):
+                return EDGE
+            if y in (4, 5):
+                return BAND
+            if y == 3:
+                return RED_L
+            return RED
+        # brillo superior
+        if 7 <= x <= 8 and y == 1:
+            return (255, 240, 160, 255)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(TEX_DIR, "tnt_altar.png"), (16, 16), pixel)
+
+
+def make_tnt_manual_texture():
+    """Manual de TNTs: un libro rojo con la letra T y una mecha."""
+    def pixel(x, y):
+        RED = (190, 30, 45, 255)
+        RED_D = (120, 18, 25, 255)
+        RED_L = (225, 65, 80, 255)
+        PAGE = (245, 240, 225, 255)
+        EDGE = (60, 8, 14, 255)
+        # cuerpo del libro
+        if 2 <= x <= 13 and 3 <= y <= 13:
+            if x in (2, 13) or y in (3, 13):
+                return EDGE
+            if y == 4:
+                return RED_L
+            # lomo
+            if x in (5, 6):
+                if y in (8, 9):
+                    return PAGE
+                return RED_D
+            # letra T blanca en la portada
+            if 8 <= x <= 11 and 7 <= y <= 11:
+                if y == 7 or x == 9:
+                    return PAGE
+                return RED
+            return RED
+        # mecha en la esquina
+        if x == 13 and y == 2:
+            return (110, 80, 40, 255)
+        if x == 14 and y == 1:
+            return (255, 220, 100, 255)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_manual.png"), (16, 16), pixel)
+
+
+def make_tnt_disc_texture():
+    """Disco de musica de TNTs: disco negro con centro rojo y franja TNT."""
+    def pixel(x, y):
+        cx, cy = 7.5, 7.5
+        d = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5
+        if d > 7.0:
+            return (0, 0, 0, 0)
+        if d > 6.2:
+            return (30, 30, 38, 255)   # borde
+        if d < 2.2:
+            return (190, 30, 45, 255)  # centro rojo
+        # franja blanca
+        if 2.2 <= d < 3.4:
+            return (245, 245, 244, 255)
+        # brillo del vinilo
+        if (x + y) % 3 == 0:
+            return (70, 70, 82, 255)
+        return (45, 45, 52, 255)
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_disc.png"), (16, 16), pixel)
+
+
+def make_tnt_king_crown_texture():
+    """Corona del Rey TNT: corona dorada con gemas rojas."""
+    def pixel(x, y):
+        GOLD = (251, 191, 36, 255)
+        GOLD_D = (180, 130, 20, 255)
+        GOLD_L = (255, 225, 110, 255)
+        EDGE = (110, 75, 8, 255)
+        GEM = (200, 35, 45, 255)
+        # base de la corona
+        if 3 <= x <= 12 and 6 <= y <= 12:
+            if x in (3, 12) or y in (6, 12):
+                return EDGE
+            # gemas
+            if y in (9, 10) and x in (5, 7, 9):
+                return GEM
+            if y == 7 and x in (5, 6, 9, 10):
+                return GOLD_L
+            return GOLD
+        # puntas de la corona
+        for px, height in ((4, 4), (6, 3), (8, 4), (10, 3), (12, 4)):
+            if x == px and y <= height:
+                return GOLD if y < height else GOLD_L
+            if x == px - 1 and y <= height:
+                return GOLD_D
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_king_crown.png"), (16, 16), pixel)
+
+
+def make_king_texture():
+    """Textura 64x64 del Rey TNT: cubo gigante de TNT con cara enfadada
+    (ojos amarillos y cejas) y corona dorada encima."""
+    def tnt_side(px, py, face=False):
+        # cara lateral del cubo (16x16)
+        RED = (150, 24, 36, 255)
+        RED_D = (105, 15, 24, 255)
+        RED_L = (195, 40, 55, 255)
+        BAND = (235, 235, 230, 255)
+        EDGE = (45, 10, 16, 255)
+        if px in (0, 15) or py in (0, 15):
+            return EDGE
+        if 5 <= py <= 10:
+            if py in (5, 10):
+                r, g, b, a = BAND
+                return (max(r - 25, 0), max(g - 25, 0), max(b - 25, 0), a)
+            return BAND
+        if face and 4 <= px <= 11 and 3 <= py <= 12:
+            # cara enfadada: ojos amarillos + cejas + boca
+            if py in (5, 6) and px in (4, 5, 6, 9, 10, 11):
+                return (255, 214, 60, 255)          # ojos
+            if py == 4 and px in (4, 11):
+                return (255, 214, 60, 255)          # puntas de las cejas
+            if py in (9, 10) and px in (6, 7, 8, 9):
+                return (20, 8, 10, 255)             # boca gruesa
+            if py in (3, 12):
+                return (190, 30, 45, 255)           # zona de la cara
+        if py == 3:
+            return RED_L
+        if py == 12:
+            return RED_D
+        if px == 1:
+            return RED_D
+        return RED
+
+    def pixel(x, y):
+        # cuerpo: filas 0-15 -> 4 caras laterales; filas 16-31 -> top/bottom
+        if y < 16:
+            face = 0 <= x < 16  # la cara frontal lleva la cara enfadada
+            return tnt_side(x % 16, y, face)
+        if y < 32:
+            # cara superior (oscura con borde claro)
+            if x < 16:
+                if x % 16 in (0, 15) or y % 16 in (0, 15):
+                    return (255, 214, 60, 255)      # borde dorado
+                return (130, 18, 28, 255)
+            # cara inferior
+            return (90, 12, 20, 255)
+        # corona: filas 32-47 -> 4 lados (12x4 cada uno), filas 48-63 -> top/bottom
+        if y < 36:
+            side = (x // 12) % 4
+            px = x % 12
+            py = y - 32
+            if px in (0, 11) or py in (0, 3):
+                return (110, 75, 8, 255)            # borde oro oscuro
+            if py == 1 and px in (2, 4, 6, 8):
+                return (200, 35, 45, 255)           # gemas rojas
+            if py == 1 and px == 10:
+                return (255, 225, 110, 255)
+            return (251, 191, 36, 255)              # oro
+        if 48 <= y < 52:
+            px = x % 12
+            py = y - 48
+            if px in (0, 11) or py in (0, 3):
+                return (110, 75, 8, 255)
+            return (255, 225, 110, 255)             # top dorado
+        if 52 <= y < 56:
+            return (150, 100, 14, 255)              # bottom dorado
+        return (0, 0, 0, 255)
+
+    write_png(os.path.join(ENTITY_TEX_DIR, "tnt_king.png"), (64, 64), pixel)
+
+
 def write(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -834,6 +1088,9 @@ def write_sounds_json():
         "item.detonator.click": {"sounds": ["tnts:item/detonator_click"]},
         "item.detonator.burst": {"sounds": ["tnts:item/detonator_burst"]},
         "item.launcher.shoot": {"sounds": ["tnts:item/launcher_shoot"]},
+        "item.shears.defuse": {"sounds": ["tnts:item/shears_defuse"]},
+        "entity.tnt_king.roar": {"sounds": ["tnts:entity/tnt_king_roar"]},
+        "music.tnts.tema": {"sounds": ["tnts:music/tnts_tema"]},
     }
     for name in NAMES:
         sounds[f"block.tnt.fuse.{name}"] = {"sounds": [f"tnts:block/tnt/fuse_{name}"]}
@@ -903,6 +1160,26 @@ def write_advancements():
             "criteria": {"craft": {"trigger": "minecraft:recipe_crafted",
                                      "conditions": {"recipe_id": f"tnts:{name}"}}},
         })
+
+    # vencer al Rey TNT
+    write(os.path.join(adv_dir, "defeat_king.json"), {
+        "parent": "tnts:root",
+        "display": {
+            "icon": {"item": "tnts:tnt_king_crown"},
+            "title": {"translate": "advancements.tnts.defeat_king.title"},
+            "description": {"translate": "advancements.tnts.defeat_king.description"},
+            "frame": "challenge",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {
+            "kill": {"trigger": "minecraft:player_killed_entity",
+                      "conditions": {"entity": [{"condition": "minecraft:entity_properties",
+                                                   "predicate": {"type": "tnts:tnt_king"},
+                                                   "entity": "this"}]}}
+        },
+    })
 
     # detonacion masiva con el detonador (10+ de golpe)
     write(os.path.join(adv_dir, "mass_detonation.json"), {
@@ -976,6 +1253,22 @@ LANG_ES = {
     "block.tnts.toxica_tnt": "TNT Tóxica",
     "block.tnts.fuegos_tnt": "TNT de Fuegos Artificiales",
     "block.tnts.gravitatoria_tnt": "TNT Gravitatoria",
+    "block.tnts.ender_tnt": "TNT del End",
+    "block.tnts.bubble_tnt": "TNT Burbuja",
+    "block.tnts.solar_tnt": "TNT Solar",
+    "block.tnts.tnt_table": "Mesa de TNTs",
+    "block.tnts.tnt_altar": "Altar del Rey TNT",
+    "item.tnts.tnt_manual": "Manual de TNTs",
+    "item.tnts.tnt_disc": "Disco de TNTs Locas",
+    "item.record.music.tnts.tema.desc": "Codebuff - Tema de TNTs Locas",
+    "item.tnts.tnt_king_crown": "Corona del Rey TNT",
+    "item.tnts.tnt_king_spawn_egg": "Generar Rey TNT",
+    "entity.tnts.tnt_king": "Rey TNT",
+    "entity.minecraft.villager.tnt_expert": "Experto en TNTs",
+    "tnts.manual.hint": "Todas las TNTs del mod: efecto y radio (config)",
+    "tnts.manual.power": "Radio: %s",
+    "advancements.tnts.defeat_king.title": "¡El Rey ha caído!",
+    "advancements.tnts.defeat_king.description": "Derrota al Rey TNT y consigue su corona",
     "item.tnts.detonator": "Detonador Remoto",
     "item.tnts.launcher": "Lanzador de TNT",
     "item.tnts.tnt_arrow": "Flecha de TNT",
@@ -1038,6 +1331,22 @@ LANG_EN = {
     "block.tnts.toxica_tnt": "Toxic TNT",
     "block.tnts.fuegos_tnt": "Fireworks TNT",
     "block.tnts.gravitatoria_tnt": "Gravity TNT",
+    "block.tnts.ender_tnt": "End TNT",
+    "block.tnts.bubble_tnt": "Bubble TNT",
+    "block.tnts.solar_tnt": "Solar TNT",
+    "block.tnts.tnt_table": "TNT Workbench",
+    "block.tnts.tnt_altar": "TNT King Altar",
+    "item.tnts.tnt_manual": "TNT Manual",
+    "item.tnts.tnt_disc": "TNTs Locos Disc",
+    "item.record.music.tnts.tema.desc": "Codebuff - TNTs Locos Theme",
+    "item.tnts.tnt_king_crown": "TNT King Crown",
+    "item.tnts.tnt_king_spawn_egg": "TNT King Spawn Egg",
+    "entity.tnts.tnt_king": "TNT King",
+    "entity.minecraft.villager.tnt_expert": "TNT Expert",
+    "tnts.manual.hint": "All the mod's TNTs: effect and radius (config)",
+    "tnts.manual.power": "Radius: %s",
+    "advancements.tnts.defeat_king.title": "The King has fallen!",
+    "advancements.tnts.defeat_king.description": "Defeat the TNT King and claim his crown",
     "item.tnts.detonator": "Remote Detonator",
     "item.tnts.launcher": "TNT Launcher",
     "item.tnts.tnt_arrow": "TNT Arrow",
@@ -1064,6 +1373,90 @@ LANG_EN = {
 }
 
 
+# Descripciones del Manual de TNTs (tnts.manual.<nombre>)
+MANUAL_ES = {
+    "mega_tnt": "Explosion enorme. Clasica pero con mas boom.",
+    "mini_tnt": "Pequena y discreta. Ideal para demoliciones finas.",
+    "lava_tnt": "Deja charcos de lava en el crater.",
+    "rapida_tnt": "Mecha instantanea: 1 segundo y fuera.",
+    "hielo_tnt": "Congela el agua y cubre la zona de nieve.",
+    "saltarina_tnt": "Lanza a todo el mundo por los aires.",
+    "nuclear_tnt": "Columna de humo y resplandor radiactivo.",
+    "limpia_tnt": "No rompe bloques: solo daña a las entidades.",
+    "rayo_tnt": "Invoca 3 rayos alrededor del crater.",
+    "trampa_tnt": "Pita como loca antes de explotar.",
+    "oro_tnt": "Lluvia de lingotes de oro.",
+    "obsidiana_tnt": "Convierte el crater en obsidiana.",
+    "crio_tnt": "Congela a los mobs y jugadores.",
+    "xp_tnt": "Suelta orbes de experiencia.",
+    "agua_tnt": "Inunda la zona y apaga el fuego.",
+    "arena_tnt": "Avalancha de arena que cae del cielo.",
+    "diamante_tnt": "Lluvia de diamantes.",
+    "esmeralda_tnt": "Lluvia de esmeraldas.",
+    "negra_tnt": "Abre un agujero negro 3D que devora bloques, items y seres vivos.",
+    "viento_tnt": "Rafaga que empuja todo lejos. No rompe bloques.",
+    "inferno_tnt": "Incendia el area e invoca mobs del Nether.",
+    "hongo_tnt": "Esparce setas y micelio por todos lados.",
+    "miel_tnt": "Pegajosa: lentitud extrema y bloques de miel.",
+    "heal_tnt": "Estallido suave que cura y da regeneracion.",
+    "teleport_tnt": "Teletransporta a los seres vivos a sitios aleatorios.",
+    "confeti_tnt": "Lluvia de particulas de colores. Fiesta total.",
+    "mina_tnt": "Explota al pisarla. Pita antes de reventar.",
+    "terremoto_tnt": "Cratere de radio 9, grietas con lava y lanza todo muy alto.",
+    "meteorito_tnt": "8-12 meteoritos 3D caen del cielo con estela de fuego.",
+    "tormenta_tnt": "3 rayos al instante y una nube que castiga 8 segundos.",
+    "colosal_tnt": "Explosion en 3 oleadas progresivas. La mas grande.",
+    "supernova_tnt": "Destello cegador, 400-600 XP y esfera de luz 3D.",
+    "toxica_tnt": "Nube verde que envenena y debilita. No rompe bloques.",
+    "fuegos_tnt": "Lanza 8-16 cohetes de colores al cielo.",
+    "gravitatoria_tnt": "Gravedad brutal: aplasta a todo contra el suelo.",
+    "ender_tnt": "Teletransporta a los seres vivos e invoca endermites.",
+    "bubble_tnt": "Succiona hacia el crater como un remolino y derrite el hielo.",
+    "solar_tnt": "Hace dia, despeja el tiempo e incendia una gran area.",
+}
+
+MANUAL_EN = {
+    "mega_tnt": "Huge explosion. Classic but with more boom.",
+    "mini_tnt": "Small and discreet. Great for fine demolition.",
+    "lava_tnt": "Leaves lava pools in the crater.",
+    "rapida_tnt": "Instant fuse: 1 second and gone.",
+    "hielo_tnt": "Freezes water and covers the area with snow.",
+    "saltarina_tnt": "Launches everyone into the air.",
+    "nuclear_tnt": "Smoke column and radioactive glow.",
+    "limpia_tnt": "Doesn't break blocks: only damages entities.",
+    "rayo_tnt": "Summons 3 lightning bolts around the crater.",
+    "trampa_tnt": "Beeps like crazy before exploding.",
+    "oro_tnt": "Shower of gold ingots.",
+    "obsidiana_tnt": "Turns the crater into obsidian.",
+    "crio_tnt": "Freezes mobs and players.",
+    "xp_tnt": "Drops experience orbs.",
+    "agua_tnt": "Floods the area and puts out fire.",
+    "arena_tnt": "Sand avalanche falling from the sky.",
+    "diamante_tnt": "Shower of diamonds.",
+    "esmeralda_tnt": "Shower of emeralds.",
+    "negra_tnt": "Opens a 3D black hole that devours blocks, items and mobs.",
+    "viento_tnt": "Gust that pushes everything away. No block breaking.",
+    "inferno_tnt": "Ignites the area and summons Nether mobs.",
+    "hongo_tnt": "Spreads mushrooms and mycelium everywhere.",
+    "miel_tnt": "Sticky: extreme slowness and honey blocks.",
+    "heal_tnt": "Soft burst that heals and grants regeneration.",
+    "teleport_tnt": "Teleports living beings to random places.",
+    "confeti_tnt": "Colorful particle rain. Total party.",
+    "mina_tnt": "Explodes when stepped on. Beeps first.",
+    "terremoto_tnt": "Radius-9 crater, lava fissures, launches everything sky-high.",
+    "meteorito_tnt": "8-12 3D meteors fall from the sky with a fire trail.",
+    "tormenta_tnt": "3 lightning bolts instantly plus a punishing 8s cloud.",
+    "colosal_tnt": "Explosion in 3 progressive waves. The biggest one.",
+    "supernova_tnt": "Blinding flash, 400-600 XP and a 3D light sphere.",
+    "toxica_tnt": "Green cloud that poisons and weakens. No block breaking.",
+    "fuegos_tnt": "Launches 8-16 colorful rockets into the sky.",
+    "gravitatoria_tnt": "Brutal gravity: crushes everything to the ground.",
+    "ender_tnt": "Teleports living beings and summons endermites.",
+    "bubble_tnt": "Sucks toward the crater like a whirlpool and melts ice.",
+    "solar_tnt": "Makes it day, clears the weather and ignites a huge area.",
+}
+
+
 def write_lang():
     for name in NAMES:
         es = LANG_ES[f"block.tnts.{name}"]
@@ -1072,6 +1465,10 @@ def write_lang():
         LANG_ES[f"advancements.tnts.craft.{name}.description"] = f"Consigue una {es} crafteándola"
         LANG_EN[f"advancements.tnts.craft.{name}.title"] = f"Craft the {en}"
         LANG_EN[f"advancements.tnts.craft.{name}.description"] = f"Craft a {en}"
+        if name in MANUAL_ES:
+            LANG_ES[f"tnts.manual.{name}"] = MANUAL_ES[name]
+        if name in MANUAL_EN:
+            LANG_EN[f"tnts.manual.{name}"] = MANUAL_EN[name]
     write(os.path.join(ASSETS, "lang", "es_es.json"), LANG_ES)
     write(os.path.join(ASSETS, "lang", "en_us.json"), LANG_EN)
 
@@ -1149,6 +1546,12 @@ def main():
     make_storm_cloud_texture()
     make_supernova_texture()
     make_armor_layer()
+    make_tnt_table_texture()
+    make_tnt_altar_texture()
+    make_tnt_manual_texture()
+    make_tnt_disc_texture()
+    make_tnt_king_crown_texture()
+    make_king_texture()
 
     for name in NAMES:
         # blockstates: lit=false / lit=true
@@ -1208,6 +1611,55 @@ def main():
         "textures": {"layer0": "tnts:item/detonator"},
     })
 
+    # bloques especiales (no son TNTs): mesa de trabajo y altar del Rey
+    for bname in ("tnt_table", "tnt_altar"):
+        write(os.path.join(ASSETS, "blockstates", f"{bname}.json"), {
+            "variants": {"": {"model": f"tnts:block/{bname}"}}
+        })
+        write(os.path.join(ASSETS, "models", "block", f"{bname}.json"), {
+            "parent": "minecraft:block/cube_all",
+            "textures": {"all": f"tnts:block/{bname}"},
+        })
+        write(os.path.join(ASSETS, "models", "item", f"{bname}.json"), {
+            "parent": f"tnts:block/{bname}"
+        })
+        write(os.path.join(DATA, "loot_tables", "blocks", f"{bname}.json"), {
+            "type": "minecraft:block",
+            "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": f"tnts:{bname}"}]}],
+        })
+
+    # items especiales (textura plana)
+    for item in ("tnt_manual", "tnt_disc", "tnt_king_crown"):
+        write(os.path.join(ASSETS, "models", "item", f"{item}.json"), {
+            "parent": "minecraft:item/generated",
+            "textures": {"layer0": f"tnts:item/{item}"},
+        })
+    # huevo de invocacion del Rey TNT
+    write(os.path.join(ASSETS, "models", "item", "tnt_king_spawn_egg.json"), {
+        "parent": "minecraft:item/template_spawn_egg"
+    })
+
+    # recetas de la mesa de TNTs y el altar del Rey (shaped)
+    write(os.path.join(DATA, "recipes", "tnt_table.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["PPP", "PTP", "PPP"],
+        "key": {"P": {"tag": "minecraft:planks"}, "T": {"item": "minecraft:tnt"}},
+        "result": {"item": "tnts:tnt_table"},
+    })
+    write(os.path.join(DATA, "recipes", "tnt_altar.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["OOO", "OTO", "OOO"],
+        "key": {"O": {"item": "minecraft:obsidian"}, "T": {"item": "tnts:mega_tnt"}},
+        "result": {"item": "tnts:tnt_altar"},
+    })
+    # disco de musica: un anillo de TNTs con una esmeralda en el centro
+    write(os.path.join(DATA, "recipes", "tnt_disc.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["TTT", "TET", "TTT"],
+        "key": {"T": {"item": "minecraft:tnt"}, "E": {"item": "minecraft:emerald"}},
+        "result": {"item": "tnts:tnt_disc"},
+    })
+
     # recetas del peto de TNT y el pico de TNT (shaped)
     write(os.path.join(DATA, "recipes", "tnt_chestplate.json"), {
         "type": "minecraft:crafting_shaped",
@@ -1252,7 +1704,7 @@ def main():
     make_empty_template(os.path.join(RES, "data", "tnts", "structures", "empty.nbt"))
     make_logo(os.path.join(RES, "tnts_logo.png"))
 
-    print(f"Recursos generados para {len(NAMES)} TNTs + detonador + lanzador + flecha, con texturas animadas.")
+    print(f"Recursos generados para {len(NAMES)} TNTs + items especiales (manual, disco, corona, aldeano, Rey TNT), con texturas animadas.")
 
 
 if __name__ == "__main__":

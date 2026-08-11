@@ -77,6 +77,8 @@ public class TntBlock extends Block {
     public void prime(Level level, BlockPos pos, BlockState state, @Nullable Player player) {
         if (state.getValue(LIT)) return;
         if (level.isClientSide) return;
+        // TNT desactivada en config: no se enciende con nada
+        if (!TntsConfig.isEnabled(name)) return;
 
         // quitar el bloque y spawnear la entidad con fisica
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -84,6 +86,12 @@ public class TntBlock extends Block {
         int fuse = getTntProperties().fuse();
         TntsPrimedTnt tnt = new TntsPrimedTnt(
                 level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, blockId, fuse, player);
+        // con la Corona del Rey TNT puesta, tus TNTs explotan con +50% de radio
+        if (player != null && player.getItemBySlot(
+                net.minecraft.world.entity.EquipmentSlot.HEAD)
+                .is(com.tnts.ModItems.TNT_KING_CROWN.get())) {
+            tnt.setPowerMul(1.5f);
+        }
         level.addFreshEntity(tnt);
 
         level.playSound(null, pos, ModSounds.fuse(name), SoundSource.BLOCKS, 1.0F, 1.0F);

@@ -41,7 +41,10 @@ public final class TntVfx {
             Map.entry("mina_tnt", new int[]{168, 162, 158}),
             Map.entry("toxica_tnt", new int[]{132, 204, 22}),
             Map.entry("fuegos_tnt", new int[]{251, 113, 133}),
-            Map.entry("gravitatoria_tnt", new int[]{139, 92, 246}));
+            Map.entry("gravitatoria_tnt", new int[]{139, 92, 246}),
+            Map.entry("ender_tnt", new int[]{217, 70, 239}),
+            Map.entry("bubble_tnt", new int[]{103, 232, 249}),
+            Map.entry("solar_tnt", new int[]{255, 180, 60}));
 
     /** Color RGB del estallido de una variante (rojo por defecto). */
     public static int[] colorOf(String variant) {

@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:ender_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.craft.ender_tnt.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.craft.ender_tnt.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "tnts:ender_tnt"
+      }
+    }
+  }
+}

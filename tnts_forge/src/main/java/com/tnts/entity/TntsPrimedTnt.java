@@ -68,9 +68,52 @@ public class TntsPrimedTnt extends PrimedTnt {
      */
     private boolean stationary = true;
 
+    /** Multiplicador de radio (Corona del Rey TNT: 1.5x). */
+    private float powerMul = 1.0f;
+
     /** Marca esta TNT como estatica (no se mueve de su sitio al encenderse). */
     public void setStationary(boolean stationary) {
         this.stationary = stationary;
+    }
+
+    /** Ajusta el multiplicador de radio de la explosion. */
+    public void setPowerMul(float powerMul) {
+        this.powerMul = powerMul;
+    }
+
+    /**
+     * Desactivar la TNT con tijeras: click derecho con shears sobre la TNT
+     * encendida la apaga y te devuelve el bloque. Evita la reaccion en cadena.
+     */
+    @Override
+    public net.minecraft.world.InteractionResult interact(
+            net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
+        if (this.level().isClientSide) return net.minecraft.world.InteractionResult.sidedSuccess(true);
+        net.minecraft.world.item.ItemStack stack = player.getItemInHand(hand);
+        if (stack.is(net.minecraft.world.item.Items.SHEARS) && !this.isRemoved()) {
+            // apagar: desaparece y se devuelve el bloque
+            this.discard();
+            ItemStack blockStack = new ItemStack(
+                    net.minecraft.world.item.Item.byBlock(
+                            ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockId))));
+            if (!blockStack.isEmpty()) {
+                ItemEntity drop = new ItemEntity(this.level(),
+                        this.getX(), this.getY() + 0.2, this.getZ(), blockStack);
+                drop.setDeltaMovement(0, 0.2, 0);
+                this.level().addFreshEntity(drop);
+            }
+            stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(hand));
+            if (this.level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.POOF,
+                        this.getX(), this.getY() + 0.5, this.getZ(), 8, 0.2, 0.2, 0.2, 0.02);
+                serverLevel.sendParticles(ParticleTypes.SMOKE,
+                        this.getX(), this.getY() + 0.9, this.getZ(), 4, 0.1, 0.05, 0.1, 0.0);
+                serverLevel.playSound(null, this.blockPosition(), ModSounds.DEFUSE.get(),
+                        SoundSource.BLOCKS, 0.8F, 1.0F);
+            }
+            return net.minecraft.world.InteractionResult.sidedSuccess(true);
+        }
+        return super.interact(player, hand);
     }
 
     public TntsPrimedTnt(EntityType<? extends TntsPrimedTnt> type, Level level) {
@@ -133,12 +176,16 @@ public class TntsPrimedTnt extends PrimedTnt {
         double pz = this.getZ();
 
         // mecha: chispas + humo DENSOS en la cara superior (centro del bloque)
+        // (cantidad segun la calidad de particulas de la config)
         double fx = this.getX();
         double fy = this.getY() + 0.95;
         double fz = this.getZ();
-        serverLevel.sendParticles(ParticleTypes.SMOKE, fx, fy, fz, 3, 0.12, 0.05, 0.12, 0.0);
-        serverLevel.sendParticles(ParticleTypes.SMALL_FLAME, fx, fy, fz, 2, 0.08, 0.03, 0.08, 0.01);
-        serverLevel.sendParticles(ParticleTypes.FLAME, fx, fy, fz, 1, 0.04, 0.0, 0.04, 0.0);
+        serverLevel.sendParticles(ParticleTypes.SMOKE, fx, fy, fz,
+                com.tnts.config.TntsConfig.particles(3), 0.12, 0.05, 0.12, 0.0);
+        serverLevel.sendParticles(ParticleTypes.SMALL_FLAME, fx, fy, fz,
+                com.tnts.config.TntsConfig.particles(2), 0.08, 0.03, 0.08, 0.01);
+        serverLevel.sendParticles(ParticleTypes.FLAME, fx, fy, fz,
+                com.tnts.config.TntsConfig.particles(1), 0.04, 0.0, 0.04, 0.0);
         // punto de luz rojo que parpadea sobre la cara superior (4 ticks encendido / 4 apagado)
         if ((this.tickCount / 4) % 2 == 0) {
             serverLevel.sendParticles(new DustParticleOptions(
@@ -191,7 +238,10 @@ public class TntsPrimedTnt extends PrimedTnt {
         double y = this.getY();
         double z = this.getZ();
 
-        lvl.explode(this, x, y, z, p.power(), p.fire(),
+        // si la TNT esta desactivada en config, no explota (red de seguridad)
+        if (!com.tnts.config.TntsConfig.isEnabled(getVariantName())) return;
+
+        lvl.explode(this, x, y, z, p.power() * powerMul, p.fire(),
                 p.breaksBlocks() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
 
         if (lvl.isClientSide) return; // el resto es solo servidor
@@ -234,6 +284,10 @@ public class TntsPrimedTnt extends PrimedTnt {
         if (p.has(TntEffect.TOXIC)) toxicCloud(lvl, x, y, z);
         if (p.has(TntEffect.FIREWORKS)) fireworkShow(lvl, x, y, z);
         if (p.has(TntEffect.GRAVITY)) gravityCrush(lvl, x, y, z, center);
+        // === NUEVAS 1.10.0 ===
+        if (p.has(TntEffect.ENDER)) enderBlast(lvl, x, y, z);
+        if (p.has(TntEffect.BUBBLE)) bubblePull(lvl, x, y, z);
+        if (p.has(TntEffect.SOLAR)) solarBlast(lvl, x, y, z);
 
         // REACCION EN CADENA: enciende TNTs del mod cercanas
         chainReaction(lvl, x, y, z, center);
@@ -573,7 +627,8 @@ public class TntsPrimedTnt extends PrimedTnt {
         int[] color = TntVfx.colorOf(variant);
         float radius = Math.min(4.5f, Math.max(1.2f, p.power() * 0.4f));
         // estallido de polvo del color propio de la TNT (esfera)
-        for (int i = 0; i < 60; i++) {
+        // (cantidad segun la calidad de particulas de la config)
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(60); i++) {
             double a = lvl.random.nextDouble() * Math.PI * 2;
             double b = (lvl.random.nextDouble() - 0.5) * Math.PI;
             double r = radius * (0.25 + 0.75 * lvl.random.nextDouble());
@@ -606,6 +661,9 @@ public class TntsPrimedTnt extends PrimedTnt {
             case "miel_tnt" -> honeyBurst(lvl, x, y, z);
             case "obsidiana_tnt" -> obsidianBurst(lvl, x, y, z);
             case "rapida_tnt" -> quickFlash(lvl, x, y, z);
+            case "ender_tnt" -> enderBurst(lvl, x, y, z);
+            case "bubble_tnt" -> bubbleBurst(lvl, x, y, z);
+            case "solar_tnt" -> solarBurst(lvl, x, y, z);
             default -> { /* mini, limpia, trampa, confeti, mina: solo el estallido de color */ }
         }
         // Efecto 3D generico para TODAS las TNTs: un cubo con la textura
@@ -952,6 +1010,187 @@ public class TntsPrimedTnt extends PrimedTnt {
         }
     }
 
+    // ---------- EFECTOS NUEVOS (1.10.0) ----------
+
+    /**
+     * TNT del End: teletransporta a los seres vivos a sitios aleatorios
+     * (a veces muy alto), invoca endermites y suelta particulas de portal.
+     */
+    private void enderBlast(Level lvl, double x, double y, double z) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // teletransportar a los seres vivos cercanos
+        AABB box = new AABB(x - 14, y - 6, z - 14, x + 14, y + 8, z + 14);
+        for (net.minecraft.world.entity.LivingEntity e : sl.getEntitiesOfClass(
+                net.minecraft.world.entity.LivingEntity.class, box)) {
+            double nx = x + (sl.random.nextDouble() - 0.5) * 48;
+            double nz = z + (sl.random.nextDouble() - 0.5) * 48;
+            // a veces aterrizan muy arriba (chiste del End: "cuidado con la caida")
+            double ny = sl.random.nextInt(6) == 0
+                    ? e.getY() + 30 + sl.random.nextInt(20)
+                    : e.getY();
+            if (e.randomTeleport(nx, ny, nz, true)) {
+                sl.sendParticles(ParticleTypes.PORTAL,
+                        e.getX(), e.getY() + 1, e.getZ(),
+                        com.tnts.config.TntsConfig.particles(14), 0.3, 0.5, 0.3, 0.1);
+            }
+        }
+        // invocar endermites
+        int mites = 2 + sl.random.nextInt(3);
+        for (int i = 0; i < mites; i++) {
+            net.minecraft.world.entity.monster.Endermite mite =
+                    net.minecraft.world.entity.EntityType.ENDERMITE.create(sl);
+            if (mite != null) {
+                mite.moveTo(x + (sl.random.nextDouble() - 0.5) * 8,
+                        y + 0.5, z + (sl.random.nextDouble() - 0.5) * 8);
+                sl.addFreshEntity(mite);
+            }
+        }
+        // particulas de portal en espiral
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(50); i++) {
+            double a = sl.random.nextDouble() * Math.PI * 2;
+            double r = 1 + sl.random.nextDouble() * 7;
+            sl.sendParticles(ParticleTypes.PORTAL,
+                    x + Math.cos(a) * r, y + 0.5 + sl.random.nextDouble() * 5,
+                    z + Math.sin(a) * r,
+                    2, 0.1, 0.2, 0.1, 0.0);
+        }
+    }
+
+    /**
+     * TNT Burbuja: succiona a los seres e items hacia el crater (corriente
+     * bajo el agua), convierte el hielo en agua y suelta burbujas.
+     */
+    private void bubblePull(Level lvl, double x, double y, double z) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // succionar entidades e items hacia el centro (como un remolino de agua)
+        AABB box = new AABB(x - 9, y - 6, z - 9, x + 9, y + 6, z + 9);
+        for (net.minecraft.world.entity.Entity e : sl.getEntitiesOfClass(
+                net.minecraft.world.entity.Entity.class, box,
+                e -> !(e instanceof TntsPrimedTnt))) {
+            Vec3 p = e.position();
+            Vec3 to = new Vec3(x - p.x, y + 1 - p.y, z - p.z);
+            double dist = to.length();
+            if (dist < 0.01) continue;
+            double strength = 1.9 * (1 - Math.min(1, dist / 9.0)) + 0.3;
+            e.setDeltaMovement(e.getDeltaMovement().add(to.normalize().scale(strength)));
+            e.hurtMarked = true;
+        }
+        // hielo -> agua
+        for (BlockPos p : BlockPos.betweenClosed(
+                new BlockPos((int) x, (int) y, (int) z).offset(-5, -3, -5),
+                new BlockPos((int) x, (int) y, (int) z).offset(5, 3, 5))) {
+            BlockState s = sl.getBlockState(p);
+            if (s.is(Blocks.ICE) || s.is(Blocks.PACKED_ICE) || s.is(Blocks.FROSTED_ICE)) {
+                sl.setBlock(p, Blocks.WATER.defaultBlockState(), 3);
+            }
+        }
+        // burbujas por todos lados
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(70); i++) {
+            sl.sendParticles(ParticleTypes.BUBBLE,
+                    x + (sl.random.nextDouble() - 0.5) * 14,
+                    y + sl.random.nextDouble() * 6,
+                    z + (sl.random.nextDouble() - 0.5) * 14,
+                    2, 0.3, 0.3, 0.3, 0.1);
+            sl.sendParticles(ParticleTypes.SPLASH,
+                    x + (sl.random.nextDouble() - 0.5) * 10,
+                    y + sl.random.nextDouble() * 4,
+                    z + (sl.random.nextDouble() - 0.5) * 10,
+                    1, 0.2, 0.3, 0.2, 0.0);
+        }
+    }
+
+    /**
+     * TNT Solar: despeja el tiempo y hace dia, incendia un area enorme,
+     * quema a los seres vivos y suelta particulas de calor.
+     */
+    private void solarBlast(Level lvl, double x, double y, double z) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // hacer dia y despejar el tiempo (solo en el Overworld)
+        if (sl.dimension() == net.minecraft.world.level.Level.OVERWORLD) {
+            sl.setDayTime((sl.getDayTime() / 24000L) * 24000L + 6000L);
+            sl.setWeatherParameters(6000, 0, false, false);
+        }
+        // incendiar una gran area
+        BlockPos center = BlockPos.containing(x, y, z);
+        for (BlockPos p : BlockPos.betweenClosed(
+                center.offset(-10, -2, -10), center.offset(10, 5, 10))) {
+            if (sl.isEmptyBlock(p) && sl.getBlockState(p.below()).isSolid()
+                    && sl.random.nextInt(3) != 0) {
+                sl.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        }
+        // quemar a los seres vivos
+        AABB box = new AABB(x - 10, y - 4, z - 10, x + 10, y + 6, z + 10);
+        for (net.minecraft.world.entity.LivingEntity e : sl.getEntitiesOfClass(
+                net.minecraft.world.entity.LivingEntity.class, box)) {
+            if (e.fireImmune()) continue;
+            e.setRemainingFireTicks(Math.max(e.getRemainingFireTicks(), 140));
+        }
+        // destello cegador + particulas de calor
+        sl.sendParticles(ParticleTypes.FLASH, x, y + 1, z, 2, 0, 0, 0, 0);
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(80); i++) {
+            double a = sl.random.nextDouble() * Math.PI * 2;
+            double r = 1 + sl.random.nextDouble() * 12;
+            sl.sendParticles(ParticleTypes.FLAME,
+                    x + Math.cos(a) * r, y + 0.5 + sl.random.nextDouble() * 5,
+                    z + Math.sin(a) * r,
+                    2, 0.2, 0.2, 0.2, 0.02);
+            sl.sendParticles(new DustParticleOptions(
+                            new org.joml.Vector3f(1.0f, 0.75f, 0.15f), 1.2F),
+                    x + (sl.random.nextDouble() - 0.5) * 16,
+                    y + 1 + sl.random.nextDouble() * 4,
+                    z + (sl.random.nextDouble() - 0.5) * 16,
+                    1, 0, 0, 0, 0);
+        }
+    }
+
+    private void enderBurst(ServerLevel lvl, double x, double y, double z) {
+        lvl.sendParticles(ParticleTypes.FLASH, x, y, z, 1, 0, 0, 0, 0);
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(45); i++) {
+            double a = lvl.random.nextDouble() * Math.PI * 2;
+            double r = 0.5 + lvl.random.nextDouble() * 6;
+            lvl.sendParticles(ParticleTypes.PORTAL,
+                    x + Math.cos(a) * r, y + 0.5 + lvl.random.nextDouble() * 4, z + Math.sin(a) * r,
+                    2, 0.1, 0.2, 0.1, 0.0);
+            lvl.sendParticles(ParticleTypes.END_ROD,
+                    x + (lvl.random.nextDouble() - 0.5) * 7,
+                    y + 0.5 + lvl.random.nextDouble() * 4,
+                    z + (lvl.random.nextDouble() - 0.5) * 7,
+                    1, 0.15, 0.25, 0.15, 0.03);
+        }
+    }
+
+    private void bubbleBurst(ServerLevel lvl, double x, double y, double z) {
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(55); i++) {
+            lvl.sendParticles(ParticleTypes.BUBBLE,
+                    x + (lvl.random.nextDouble() - 0.5) * 9,
+                    y + 0.5 + lvl.random.nextDouble() * 4,
+                    z + (lvl.random.nextDouble() - 0.5) * 9,
+                    2, 0.3, 0.3, 0.3, 0.05);
+            lvl.sendParticles(ParticleTypes.SPLASH,
+                    x + (lvl.random.nextDouble() - 0.5) * 8,
+                    y + 0.5 + lvl.random.nextDouble() * 3,
+                    z + (lvl.random.nextDouble() - 0.5) * 8,
+                    1, 0.2, 0.3, 0.2, 0.0);
+        }
+    }
+
+    private void solarBurst(ServerLevel lvl, double x, double y, double z) {
+        lvl.sendParticles(ParticleTypes.FLASH, x, y, z, 1, 0, 0, 0, 0);
+        for (int i = 0; i < com.tnts.config.TntsConfig.particles(50); i++) {
+            lvl.sendParticles(new DustParticleOptions(new org.joml.Vector3f(1.0f, 0.8f, 0.2f), 1.3F),
+                    x + (lvl.random.nextDouble() - 0.5) * 12,
+                    y + 0.5 + lvl.random.nextDouble() * 4,
+                    z + (lvl.random.nextDouble() - 0.5) * 12,
+                    2, 0.1, 0.1, 0.1, 0.0);
+            lvl.sendParticles(ParticleTypes.FLAME,
+                    x + (lvl.random.nextDouble() - 0.5) * 10,
+                    y + 0.5 + lvl.random.nextDouble() * 3,
+                    z + (lvl.random.nextDouble() - 0.5) * 10,
+                    1, 0.1, 0.1, 0.1, 0.0);
+        }
+    }
+
     // ---------- REACCION EN CADENA ----------
 
     /**
@@ -965,9 +1204,12 @@ public class TntsPrimedTnt extends PrimedTnt {
                 center.offset(-radius, -1, -radius),
                 center.offset(radius, 1, radius))) {
             BlockState state = sl.getBlockState(p);
-            // si el bloque sigue siendo una TNT del mod y no esta encendida
+            // si el bloque sigue siendo una TNT del mod, no esta encendida
+            // y no esta desactivada en config -> se enciende (efecto domino)
             if (state.getBlock() instanceof com.tnts.block.TntBlock tnt
-                    && !state.getValue(com.tnts.block.TntBlock.LIT)) {
+                    && !state.getValue(com.tnts.block.TntBlock.LIT)
+                    && com.tnts.config.TntsConfig.isEnabled(
+                            ForgeRegistries.BLOCKS.getKey(tnt).getPath())) {
                 tnt.prime(sl, p, state, null);
             }
         }

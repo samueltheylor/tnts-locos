@@ -82,10 +82,11 @@ public class TntsConfigScreen extends Screen {
             TntProperties p = TntsConfig.get(name);
             if (p == null) continue;
             graphics.drawString(this.font,
-                    name + "  |  radio " + p.power() + "  |  mecha " + p.fuse() + "t"
+                    name + "  |  " + (TntsConfig.isEnabled(name) ? "activada" : "APAGADA")
+                            + "  |  radio " + p.power() + "  |  mecha " + p.fuse() + "t"
                             + "  |  fuego " + (p.fire() ? "si" : "no")
                             + "  |  rompe " + (p.breaksBlocks() ? "si" : "no"),
-                    16, y, 0xE0E0E0);
+                    16, y, TntsConfig.isEnabled(name) ? 0xE0E0E0 : 0xBF2F2F);
             StringBuilder fx = new StringBuilder("   efectos: ");
             for (TntEffect e : p.effects()) fx.append(e.name()).append(" ");
             graphics.drawString(this.font, fx.toString(), 16, y + 10, 0x909090);

@@ -24,6 +24,21 @@
       "tnts:item/launcher_shoot"
     ]
   },
+  "item.shears.defuse": {
+    "sounds": [
+      "tnts:item/shears_defuse"
+    ]
+  },
+  "entity.tnt_king.roar": {
+    "sounds": [
+      "tnts:entity/tnt_king_roar"
+    ]
+  },
+  "music.tnts.tema": {
+    "sounds": [
+      "tnts:music/tnts_tema"
+    ]
+  },
   "block.tnt.fuse.mega_tnt": {
     "sounds": [
       "tnts:block/tnt/fuse_mega_tnt"
@@ -372,6 +387,36 @@
   "block.tnt.explode.gravitatoria_tnt": {
     "sounds": [
       "tnts:block/tnt/explode_gravitatoria_tnt"
+    ]
+  },
+  "block.tnt.fuse.ender_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ender_tnt"
+    ]
+  },
+  "block.tnt.explode.ender_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_ender_tnt"
+    ]
+  },
+  "block.tnt.fuse.bubble_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_bubble_tnt"
+    ]
+  },
+  "block.tnt.explode.bubble_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_bubble_tnt"
+    ]
+  },
+  "block.tnt.fuse.solar_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_solar_tnt"
+    ]
+  },
+  "block.tnt.explode.solar_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_solar_tnt"
     ]
   }
 }

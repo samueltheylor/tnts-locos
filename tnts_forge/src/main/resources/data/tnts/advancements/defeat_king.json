@@ -1,0 +1,34 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:tnt_king_crown"
+    },
+    "title": {
+      "translate": "advancements.tnts.defeat_king.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.defeat_king.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "tnts:tnt_king"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  }
+}

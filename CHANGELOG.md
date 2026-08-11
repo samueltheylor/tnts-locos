@@ -1,5 +1,35 @@
 # TNTs Locos — Changelog
 
+## v1.10.0 — Rey TNT, aldeano, manual, disco, 3 TNTs nuevas, config y defuse (solo Java)
+
+### 👑 EL REY TNT (jefe del mod)
+- **Nuevo jefe**: vive en el bunker de TNT abandonado. Se convoca con el **Altar del Rey TNT** (bloque nuevo en el centro del bunker).
+- **300 de vida, barra de jefe propia** (roja), lanza TNTs encendidas al jugador con arco (mini, mega, rápida, lava, rayo, oro) y **planta minas** en el suelo.
+- **Modo FURIA** por debajo del 50%: lanza 3 TNTs de golpe, mucho más rápido, con rugido y anillo de polvo rojo.
+- **Botín**: suelta la **Corona del Rey TNT** (siempre), 3-6 TNTs al azar y 200 XP. Al llevarla puesta: **Resistencia al Fuego** + tus TNTs explotan con **+50% de radio**.
+- Modelo 3D propio (cubo gigante con corona dorada y cara enfadada), rugido sintetizado, huevo de invocación en la pestaña creativa y advancement "¡El Rey ha caído!".
+
+### 🧑‍🌾 Aldeano Experto en TNTs
+- Nueva profesión con su **Mesa de TNTs** (estación de trabajo / POI). Un aldeano desempleado que la encuentre se vuelve vendedor: **vende TNTs por esmeraldas** (mini, mega, rápida, rayo, lava, oro, diamante, nuclear y colosal según nivel) y **compra pólvora**.
+
+### 📖 Manual de TNTs + 💿 Disco de música
+- **Manual de TNTs** (item): abre un GUI con scroll con las 38 TNTs — icono, nombre, efecto y radio. Receta: libro + TNT. (También aparece en el cofre del bunker.)
+- **Disco de TNTs Locas**: tema musical propio de 72s (marcha explosiva con batería sintetizada, bajo, melodía y acentos de explosión) tocable en la jukebox. Receta: 8 TNT + esmeralda.
+
+### 🧨 3 TNTs nuevas (38 en total)
+- **🌌 TNT del End**: teletransporta a los seres vivos a sitios aleatorios (¡a veces muy arriba!), invoca endermites. Receta: TNT + fruta de coro + piedra del End.
+- **🫧 TNT Burbuja**: succiona seres e items hacia el cráter como un remolino y derrite el hielo. Receta: TNT + pez globo + alga.
+- **☀️ TNT Solar**: hace día, despeja el tiempo e incendia una gran área. Receta: TNT + polvo de blaze + piedra luminosa.
+
+### ⚙️ Config nueva + tijeras
+- **Toggle por TNT en config**: `enabled = false` desactiva esa TNT del todo (no se enciende con mechero, redstone, detonador ni en cadena). Visible en la pantalla de config ("APAGADA").
+- **Calidad de partículas** global (`particleQuality`: 0 = modo PC débil, 1 = normal, 2 = máximo) — escala todas las partículas del mod.
+- **Desactivar con tijeras**: click derecho con shears sobre una TNT encendida la apaga y te **devuelve el bloque** (con sonido y humo). ¡Adiós reacciones en cadena no deseadas!
+
+### ✅ Verificado
+- **"All 16 required tests passed"** (3 GameTests nuevos: defuse con tijeras, altar→Rey TNT, TNTs nuevas 1.10.0).
+- 38 TNTs, 81 sonidos (incluye rugido del Rey, defuse y el tema del disco).
+
 ## v1.9.8 — Items en espiral hacia el Agujero Negro (solo Java)
 
 - **Estela blanca en espiral:** los items y orbes de XP que entran en la zona de captura (6 bloques) ya no desaparecen al instante — quedan **atrapados en una espiral que acelera** hacia el núcleo: giran cada vez más rápido y caen cada vez más fuerte cuanto más cerca están (velocidad tangencial + radial no lineal).

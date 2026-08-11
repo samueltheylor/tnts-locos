@@ -19,6 +19,12 @@ public class TntsConfig {
 
     private static final Map<String, Supplier<TntProperties>> SETTINGS = new HashMap<>();
 
+    /** Toggle por TNT: false = desactivada (no se enciende con nada). */
+    private static final Map<String, Supplier<Boolean>> ENABLED = new HashMap<>();
+
+    /** Calidad global de particulas (0 = modo PC debil, 1 = normal, 2 = maxima). */
+    private static ForgeConfigSpec.IntValue particleQuality;
+
     /**
      * Preset activo elegido desde la pantalla de config (se aplica al momento
      * sobre todos los valores). 1.0 = equilibrado (los valores del toml).
@@ -53,6 +59,8 @@ public class TntsConfig {
             TntProperties d = entry.getValue();
 
             builder.push(name);
+            ForgeConfigSpec.BooleanValue enabled = builder.comment("false = desactiva esta TNT (no se enciende con mechero, redstone, detonador ni en cadena)")
+                    .define("enabled", true);
             ForgeConfigSpec.DoubleValue power = builder.comment("Radio de la explosion (mas grande = mas boom)")
                     .defineInRange("power", d.power(), 0.1, 100.0);
             ForgeConfigSpec.BooleanValue fire = builder.comment("Incendia los bloques cercanos")
@@ -72,6 +80,8 @@ public class TntsConfig {
                             obj -> obj instanceof String);
             builder.pop();
 
+            ENABLED.put(name, enabled::get);
+
             // Los .get() solo se llaman al acceder (despues de construir el SPEC)
             SETTINGS.put(name, () -> {
                 EnumSet<TntEffect> fx = EnumSet.noneOf(TntEffect.class);
@@ -86,6 +96,13 @@ public class TntsConfig {
                         power.get().floatValue(), fire.get(), breaksBlocks.get(), fuse.get(), fx);
             });
         }
+
+        // Seccion general (ajustes globales)
+        builder.push("general");
+        particleQuality = builder.comment("Calidad de particulas: 0 = modo PC debil (menos particulas, mejor rendimiento), "
+                        + "1 = normal, 2 = maxima (mas espectaculo)")
+                .defineInRange("particleQuality", 1, 0, 2);
+        builder.pop();
 
         SPEC = builder.build();
 
@@ -102,5 +119,22 @@ public class TntsConfig {
     public static TntProperties get(String blockName) {
         Supplier<TntProperties> supplier = SETTINGS.get(blockName);
         return supplier != null ? supplier.get() : null;
+    }
+
+    /** Esta TNT activada en config? (false = no se enciende con nada). */
+    public static boolean isEnabled(String blockName) {
+        Supplier<Boolean> enabled = ENABLED.get(blockName);
+        return enabled == null || enabled.get();
+    }
+
+    /** Multiplicador de particulas segun la calidad elegida en config. */
+    public static float particleMul() {
+        int q = particleQuality != null ? particleQuality.get() : 1;
+        return q == 0 ? 0.35f : (q == 2 ? 1.8f : 1.0f);
+    }
+
+    /** Escala una cantidad de particulas por la calidad configurada. */
+    public static int particles(int count) {
+        return Math.max(1, Math.round(count * particleMul()));
     }
 }

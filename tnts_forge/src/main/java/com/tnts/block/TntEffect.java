@@ -63,5 +63,11 @@ public enum TntEffect {
     /** Fuegos Artificiales: lanza cohetes de colores al cielo (TNT de Fuegos Artificiales). */
     FIREWORKS,
     /** Gravitatoria: gravedad brutal que aplasta a todo contra el suelo (TNT Gravitatoria). */
-    GRAVITY
+    GRAVITY,
+    /** End: teletransporta a los seres vivos a sitios aleatorios e invoca endermites (TNT del End). */
+    ENDER,
+    /** Burbuja: succiona a los seres e items hacia el crater y derrite el hielo (TNT Burbuja). */
+    BUBBLE,
+    /** Solar: hace dia, despeja el tiempo e incendia un area enorme (TNT Solar). */
+    SOLAR
 }

@@ -225,6 +225,24 @@
       "conditions": {
         "block": "tnts:gravitatoria_tnt"
       }
+    },
+    "explode_ender_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ender_tnt"
+      }
+    },
+    "explode_bubble_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:bubble_tnt"
+      }
+    },
+    "explode_solar_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:solar_tnt"
+      }
     }
   }
 }

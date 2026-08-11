@@ -51,6 +51,11 @@ public class DetonatorItem extends Item {
             if (!level.isLoaded(pos)) continue; // saltar chunks sin cargar
             BlockState state = level.getBlockState(pos);
             if (state.getBlock() instanceof TntBlock tntBlock) {
+                // respetar el toggle de config (TNTs desactivadas no se encienden)
+                if (!com.tnts.config.TntsConfig.isEnabled(
+                        net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(tntBlock).getPath())) {
+                    continue;
+                }
                 tntBlock.prime(level, pos, state, player);
                 count++;
                 // destello en cada TNT encendida

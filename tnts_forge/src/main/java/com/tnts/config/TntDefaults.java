@@ -50,6 +50,10 @@ public class TntDefaults {
         add("toxica_tnt",      new TntProperties(4.0f,  false, false, 45, of(TntEffect.TOXIC)));      // nube venenosa, no rompe bloques
         add("fuegos_tnt",      new TntProperties(3.0f,  false, false, 40, of(TntEffect.FIREWORKS)));  // cohetes de colores, no rompe bloques
         add("gravitatoria_tnt",new TntProperties(8.0f,  false, true,  55, of(TntEffect.GRAVITY)));    // aplasta a todo contra el suelo
+        // === TNTs NUEVAS (1.10.0) ===
+        add("ender_tnt",      new TntProperties(5.0f,  false, true,  40, of(TntEffect.ENDER)));      // del End: teletransporta + endermites
+        add("bubble_tnt",     new TntProperties(4.0f,  false, true,  40, of(TntEffect.BUBBLE)));     // burbuja: succiona y derrite hielo
+        add("solar_tnt",      new TntProperties(6.0f,  true,  true,  40, of(TntEffect.SOLAR)));      // solar: hace dia e incendia
     }
 
     private static EnumSet<TntEffect> none() {

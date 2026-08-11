@@ -76,17 +76,22 @@ public class TntsBunkerPiece extends StructurePiece {
                         } else {
                             level.setBlock(new BlockPos(x, y, z), stoneBricks, 2);
                         }
-                    } else if (dy == -2 && ((dx == -3 && dz == -3) || (dx == 3 && dz == 3) || (dx == 0 && dz == 3))) {
+                    } else if (dy == -2 && ((dx == -3 && dz == -3) || (dx == 0 && dz == 3))) {
                         // minas en el suelo
                         level.setBlock(new BlockPos(x, y, z), mine, 2);
                     } else if (dx == 0 && dy == -2 && dz == 0) {
-                        // cofre con provisiones en el centro
+                        // ALTAR DEL REY TNT en el centro: al usarlo convoca al jefe
+                        level.setBlock(new BlockPos(x, y, z),
+                                ModBlocks.TNT_ALTAR.get().defaultBlockState(), 2);
+                    } else if (dx == 3 && dy == -2 && dz == 3) {
+                        // cofre con provisiones en una esquina
                         level.setBlock(new BlockPos(x, y, z), Blocks.CHEST.defaultBlockState(), 2);
                         if (level.getBlockEntity(new BlockPos(x, y, z)) instanceof ChestBlockEntity chest) {
                             chest.setItem(0, new ItemStack(ModItems.MINI_TNT.get(), 3));
                             chest.setItem(1, new ItemStack(ModItems.MEGA_TNT.get(), 1));
                             chest.setItem(2, new ItemStack(Items.GUNPOWDER, 4));
                             chest.setItem(3, new ItemStack(Items.IRON_INGOT, 3));
+                            chest.setItem(4, new ItemStack(ModItems.TNT_MANUAL.get(), 1));
                         }
                     } else {
                         level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 2);

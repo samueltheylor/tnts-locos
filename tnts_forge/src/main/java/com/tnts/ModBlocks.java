@@ -52,6 +52,16 @@ public class ModBlocks {
     public static final RegistryObject<Block> TOXICA_TNT = register("toxica_tnt", MapColor.COLOR_GREEN);
     public static final RegistryObject<Block> FUEGOS_TNT = register("fuegos_tnt", MapColor.COLOR_MAGENTA);
     public static final RegistryObject<Block> GRAVITATORIA_TNT = register("gravitatoria_tnt", MapColor.COLOR_PURPLE);
+    // === NUEVAS 1.10.0 ===
+    public static final RegistryObject<Block> ENDER_TNT = register("ender_tnt", MapColor.COLOR_PURPLE);
+    public static final RegistryObject<Block> BUBBLE_TNT = register("bubble_tnt", MapColor.COLOR_LIGHT_BLUE);
+    public static final RegistryObject<Block> SOLAR_TNT = register("solar_tnt", MapColor.COLOR_ORANGE);
+    /** Mesa de TNTs: la estacion de trabajo del aldeano experto. */
+    public static final RegistryObject<Block> TNT_TABLE = BLOCKS.register("tnt_table",
+            () -> new com.tnts.block.TntTableBlock(MapColor.COLOR_BROWN));
+    /** Altar del Rey TNT: al usarlo convoca al boss (se encuentra en el bunker). */
+    public static final RegistryObject<Block> TNT_ALTAR = BLOCKS.register("tnt_altar",
+            () -> new com.tnts.block.TntAltarBlock(MapColor.COLOR_RED));
 
     private static RegistryObject<Block> register(String name, MapColor color) {
         Supplier<Block> supplier = () -> new TntBlock(name, TntDefaults.DEFAULTS.get(name), color);
@@ -69,7 +79,9 @@ public class ModBlocks {
                 TELEPORT_TNT.get(), CONFETI_TNT.get(), MINA_TNT.get(),
                 TERREMOTO_TNT.get(), METEORITO_TNT.get(), TORMENTA_TNT.get(),
                 COLOSAL_TNT.get(), SUPERNOVA_TNT.get(),
-                TOXICA_TNT.get(), FUEGOS_TNT.get(), GRAVITATORIA_TNT.get());
+                TOXICA_TNT.get(), FUEGOS_TNT.get(), GRAVITATORIA_TNT.get(),
+                ENDER_TNT.get(), BUBBLE_TNT.get(), SOLAR_TNT.get(),
+                TNT_TABLE.get(), TNT_ALTAR.get());
     }
 
     /** Nombres de todas las variantes (orden de la config). */
