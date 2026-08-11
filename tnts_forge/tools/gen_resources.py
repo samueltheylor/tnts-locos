@@ -1327,6 +1327,76 @@ def make_king_texture():
 
     img.save(os.path.join(ENTITY_TEX_DIR, "tnt_king.png"))
 
+    # ===== FASES VISUALES: grietas progresivas =====
+    # (atlas en formato de cubo: las 4 caras laterales del cuerpo estan en
+    #  y=16..32, x=0..64; el top en (16,0)-(32,16); la corona en y=32..48)
+    def draw_crack(pxs, x0, y0, x1, y1, width=0):
+        CRACK = (34, 13, 17, 255)
+        CRACK_D = (18, 7, 9, 255)
+        x0, y0, x1, y1 = int(x0), int(y0), int(x1), int(y1)
+        dx, dy = abs(x1 - x0), -abs(y1 - y0)
+        sx, sy = (1 if x0 < x1 else -1), (1 if y0 < y1 else -1)
+        err = dx + dy
+        while True:
+            for ox in range(-width, width + 1):
+                for oy in range(-width, width + 1):
+                    if ox * ox + oy * oy <= width * width:
+                        xx, yy = x0 + ox, y0 + oy
+                        if 0 <= xx < 128 and 0 <= yy < 64:
+                            pxs[xx, yy] = CRACK if (xx * 7 + yy * 13) % 2 else CRACK_D
+            if x0 == x1 and y0 == y1:
+                break
+            e2 = 2 * err
+            if e2 >= dy:
+                err += dy
+                x0 += sx
+            if e2 <= dx:
+                err += dx
+                y0 += sy
+
+    def apply_cracks(pxs, level):
+        if level >= 1:
+            # cara LEFT (0,16)
+            draw_crack(pxs, 2, 18, 8, 27)
+            draw_crack(pxs, 13, 17, 11, 24)
+            # cara FRONT (16,16): grieta vertical central entre los ojos
+            draw_crack(pxs, 23, 17, 24, 24)
+            draw_crack(pxs, 18, 28, 21, 30)
+            # cara RIGHT (32,16)
+            draw_crack(pxs, 37, 17, 41, 26)
+            draw_crack(pxs, 44, 18, 39, 28)
+            # cara BACK (48,16)
+            draw_crack(pxs, 50, 18, 50, 27)
+            draw_crack(pxs, 55, 17, 57, 25)
+        if level >= 2:
+            # mas grietas, mas gruesas
+            draw_crack(pxs, 23, 17, 23, 29, 1)   # central mas larga
+            draw_crack(pxs, 17, 19, 20, 22, 1)
+            draw_crack(pxs, 27, 18, 30, 24, 1)
+            draw_crack(pxs, 2, 26, 9, 30, 1)
+            draw_crack(pxs, 37, 25, 45, 30, 1)
+            draw_crack(pxs, 49, 17, 52, 23, 1)
+            # grietas en el TOP del cubo (16,0)-(32,16)
+            draw_crack(pxs, 24, 2, 24, 12, 1)
+            draw_crack(pxs, 18, 6, 29, 8, 1)
+            # corona agrietada
+            draw_crack(pxs, 12, 40, 20, 47, 1)
+            draw_crack(pxs, 26, 44, 32, 47, 1)
+            draw_crack(pxs, 36, 33, 42, 40, 1)
+            # puntas de la corona agrietadas
+            for su in (48, 56, 64, 72, 80):
+                draw_crack(pxs, su + 3, 32, su + 4, 38, 1)
+            # cantos del cubo oscurecidos (grietas en los bordes)
+            for x in (16, 32, 48):
+                for yy in range(17, 31):
+                    if (x + yy) % 3 == 0:
+                        pxs[x, yy] = (26, 10, 13, 255)
+
+    apply_cracks(pxs, 1)
+    img.save(os.path.join(ENTITY_TEX_DIR, "tnt_king_damaged.png"))
+    apply_cracks(pxs, 2)
+    img.save(os.path.join(ENTITY_TEX_DIR, "tnt_king_damaged2.png"))
+
 
 def write(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)

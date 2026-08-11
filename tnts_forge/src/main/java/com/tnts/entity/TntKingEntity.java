@@ -82,6 +82,19 @@ public class TntKingEntity extends Monster {
         return this.enraged;
     }
 
+    /**
+     * Fases visuales: cuantas mas grietas tiene el Rey (0 = sano, 1 = agrietado,
+     * 2 = muy agrietado) segun su vida. El renderer elige la textura con esta
+     * escala, y el tick suelta fragmentos de bloque cuanto mas bajo esta.
+     */
+    public int getCrackLevel() {
+        if (this.dead) return 2; // en la derrota ya se agrieta entero
+        float ratio = this.getHealth() / this.getMaxHealth();
+        if (ratio <= 1.0F / 3.0F) return 2;
+        if (ratio <= 2.0F / 3.0F) return 1;
+        return 0;
+    }
+
     public boolean isStunned() {
         return this.stunTicks > 0;
     }
@@ -186,6 +199,29 @@ public class TntKingEntity extends Monster {
                             this.getX() + Math.cos(a) * 2.5, this.getY() + 0.5,
                             this.getZ() + Math.sin(a) * 2.5, 2, 0.1, 0.3, 0.1, 0.02);
                 }
+            }
+        }
+
+        // ==================== FASES VISUALES (1.10.9) ====================
+        // cuanto menos vida, mas se agrieta: suelta fragmentos de su propio
+        // bloque con mas frecuencia segun el nivel de grietas
+        int cracks = this.getCrackLevel();
+        if (cracks > 0 && this.level() instanceof ServerLevel sl) {
+            int interval = cracks == 2 ? 5 : 12;
+            if (this.tickCount % interval == 0) {
+                int n = cracks == 2 ? 3 : 1;
+                for (int i = 0; i < n; i++) {
+                    sl.sendParticles(new net.minecraft.core.particles.BlockParticleOption(
+                                    ParticleTypes.BLOCK, ModBlocks.MEGA_TNT.get().defaultBlockState()),
+                            this.getX() + (this.random.nextDouble() - 0.5) * 1.6,
+                            this.getY() + this.random.nextDouble() * 2.2,
+                            this.getZ() + (this.random.nextDouble() - 0.5) * 1.6,
+                            2, 0.2, 0.3, 0.2, 0.0);
+                }
+                // humo de la mecha cada vez mas denso con el daño
+                sl.sendParticles(ParticleTypes.SMOKE,
+                        this.getX(), this.getY() + 2.1, this.getZ(),
+                        cracks, 0.3, 0.1, 0.3, 0.0);
             }
         }
 

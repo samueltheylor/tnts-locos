@@ -12,8 +12,12 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class TntKingRenderer extends MobRenderer<TntKingEntity, TntKingModel> {
 
-    private static final ResourceLocation TEXTURE =
-            new ResourceLocation("tnts", "textures/entity/tnt_king.png");
+    /** Fases visuales: textura segun el nivel de grietas (0 sano, 1 agrietado, 2 muy agrietado). */
+    private static final ResourceLocation[] TEXTURES = {
+            new ResourceLocation("tnts", "textures/entity/tnt_king.png"),
+            new ResourceLocation("tnts", "textures/entity/tnt_king_damaged.png"),
+            new ResourceLocation("tnts", "textures/entity/tnt_king_damaged2.png"),
+    };
 
     public TntKingRenderer(EntityRendererProvider.Context context) {
         super(context, new TntKingModel(), 1.0F);
@@ -30,6 +34,6 @@ public class TntKingRenderer extends MobRenderer<TntKingEntity, TntKingModel> {
 
     @Override
     public ResourceLocation getTextureLocation(TntKingEntity entity) {
-        return TEXTURE;
+        return TEXTURES[Math.min(2, Math.max(0, entity.getCrackLevel()))];
     }
 }

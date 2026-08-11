@@ -522,6 +522,35 @@ public class TntsGameTest {
         });
     }
 
+    /** Fases visuales: el Rey se agrieta (getCrackLevel) al perder vida. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_cracks_at_low_health(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        TntKingEntity king = new TntKingEntity(TntsEntities.TNT_KING.get(), helper.getLevel());
+        king.moveTo(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5, 0.0F, 0.0F);
+        helper.getLevel().addFreshEntity(king);
+
+        helper.runAfterDelay(5, () -> {
+            helper.assertTrue(king.getCrackLevel() == 0,
+                    "A vida completa el Rey deberia estar sano (nivel 0)");
+            // bajar al ~50% -> nivel 1 (agrietado) — setHealth directo para
+            // evitar la invulnerabilidad temporal tras el primer hurt
+            king.setHealth(150.0F);
+            helper.assertTrue(king.getCrackLevel() == 1,
+                    "Al 50% de vida el Rey deberia tener grietas (nivel 1)");
+            // bajar a <33% -> nivel 2 (muy agrietado)
+            king.setHealth(90.0F);
+            helper.assertTrue(king.getCrackLevel() == 2,
+                    "Por debajo del 33% el Rey deberia estar muy agrietado (nivel 2)");
+            // un tick con particulas de fragmentos (no debe crashear)
+            helper.runAfterDelay(10, () -> {
+                helper.assertTrue(king.isAlive(), "El Rey deberia seguir vivo con sus grietas");
+                helper.succeed();
+            });
+        });
+    }
+
     /** El Escudo de TNT bloquea y empuja al atacante (efecto via ShieldBlockEvent). */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void tnt_shield_pushes_attacker(GameTestHelper helper) {

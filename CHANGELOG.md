@@ -1,5 +1,15 @@
 # TNTs Locos — Changelog
 
+## v1.10.9 — Fases visuales del Rey TNT: se agrieta y suelta fragmentos (solo Java)
+
+- **💥 3 texturas del Rey segun la vida** (el renderer elige la textura con `getCrackLevel()`):
+  - **Sano** (>66% de vida): la textura original impecable.
+  - **Agrietado** (33-66%): primeras grietas negras en las 4 caras del cubo, en la cara frontal (la vertical central entre los ojos), y en las puntas de la corona.
+  - **Muy agrietado** (<33%): grietas más largas y gruesas en todo el cuerpo (incluido el top del cubo), la corona agrietada y los cantos del cubo oscurecidos — se ve a punto de reventar.
+- **🧱 Fragmentos de bloque:** cuanto menos vida, más frecuente y denso suelta trozos de su propio bloque (partículas de la Mega TNT) + humo de la mecha cada vez más denso. Se siente el daño acumulado mientras peleas.
+- En la **derrota** (muerte) siempre usa la textura más agrietada antes del boom final.
+- GameTest nuevo (`king_cracks_at_low_health`): verifica que a vida completa está en nivel 0, al 50% en nivel 1, por debajo del 33% en nivel 2, y que el tick con partículas no crashea → **"All 24 required tests passed"**.
+
 ## v1.10.8 — Rey TNT completo: atlas de textura corregido + brazos en el hombro (solo Java)
 
 - **🐛 EL BUG GRANDE: el atlas de la textura usaba formato de BLOQUE y el modelo es de ENTIDAD.** Minecraft lee los cubos de entidad con un layout distinto al de los bloques: el generador dibujaba las 4 caras laterales en la fila superior (donde Minecraft espera top/bottom) y dejaba VACÍAS las zonas donde Minecraft lee los costados. Por eso **el cuerpo del Rey no se veía por los lados** ("de los dos lados no se ve nada") y la corona/mecha/llama tampoco se veían bien.
