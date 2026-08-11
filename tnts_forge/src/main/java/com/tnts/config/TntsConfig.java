@@ -137,4 +137,9 @@ public class TntsConfig {
     public static int particles(int count) {
         return Math.max(1, Math.round(count * particleMul()));
     }
+
+    /** Calidad maxima (particleQuality = 2): espectaculo extra en las masivas. */
+    public static boolean maxQuality() {
+        return particleQuality != null && particleQuality.get() == 2;
+    }
 }

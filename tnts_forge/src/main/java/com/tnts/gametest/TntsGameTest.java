@@ -448,6 +448,15 @@ public class TntsGameTest {
         helper.succeed();
     }
 
+    /** particleQuality=2: el espectaculo extra de las masivas no crashea. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void massive_quality2_show_no_crash(GameTestHelper helper) {
+        // ejercita el espectaculo de quality=2 directamente (en el server de
+        // tests la config va a 1, asi que se fuerza la llamada publica)
+        TntsPrimedTnt.massiveQualityShow(helper.getLevel(), 8.5, 3.5, 8.5);
+        helper.succeed();
+    }
+
     /** El almacen saqueado esta registrado y su pieza genera celdas con cofres. */
     @GameTest(template = "empty", timeoutTicks = 200)
     public static void warehouse_structure_generates(GameTestHelper helper) {

@@ -294,6 +294,12 @@ public class TntsPrimedTnt extends PrimedTnt {
         ServerLevel sl = (ServerLevel) lvl;
         explosionFx(sl, x, y, z, p);
 
+        // particleQuality=2: espectaculo extra en las TNTs masivas — anillos de
+        // colores expansivos + destello de camara, con bucles acotados
+        if (com.tnts.config.TntsConfig.maxQuality() && isMassive(p)) {
+            massiveQualityShow(sl, x, y, z);
+        }
+
         BlockPos center = this.blockPosition();
         if (p.has(TntEffect.FREEZES)) freezeWater(lvl, center, 7);
         if (p.has(TntEffect.SNOW)) snowCover(lvl, center, 7);
@@ -1527,6 +1533,48 @@ public class TntsPrimedTnt extends PrimedTnt {
         // Sonido de supernova
         lvl.playSound(null, x, y, z, ModSounds.explode("supernova_tnt"), SoundSource.BLOCKS, 4.0F, 0.4F);
         lvl.playSound(null, x, y, z, ModSounds.explode("negra_tnt"), SoundSource.BLOCKS, 3.0F, 0.5F);
+    }
+
+    /** Es una TNT masiva? (las que merecen el espectaculo de quality=2). */
+    private static boolean isMassive(TntProperties p) {
+        return p.has(TntEffect.EARTHQUAKE) || p.has(TntEffect.METEOR) || p.has(TntEffect.STORM)
+                || p.has(TntEffect.COLOSSAL) || p.has(TntEffect.SUPERNOVA)
+                || p.has(TntEffect.NUCLEAR) || p.has(TntEffect.BLACKHOLE);
+    }
+
+    /**
+     * Espectaculo extra (particleQuality=2) en las masivas: un abanico de
+     * anillos de colores que se expande desde el centro + destello de camara
+     * para los jugadores cercanos. Todo con bucles acotados (3 anillos x 24
+     * puntos x 3 capas = ~216 particulas) para no cargar el PC.
+     */
+    public static void massiveQualityShow(ServerLevel sl, double x, double y, double z) {
+        // 3 capas de anillos de colores que crecen (rojo/amarillo, cian, purpura)
+        org.joml.Vector3f[] palette = {
+                new org.joml.Vector3f(1.0f, 0.35f, 0.2f),  // rojo-naranja
+                new org.joml.Vector3f(1.0f, 0.85f, 0.2f),  // amarillo
+                new org.joml.Vector3f(0.35f, 0.9f, 1.0f),  // cian
+                new org.joml.Vector3f(0.7f, 0.35f, 1.0f),  // purpura
+        };
+        for (int layer = 0; layer < 3; layer++) {
+            for (int i = 0; i < 24; i++) {
+                double a = i / 24.0 * Math.PI * 2;
+                double r = 3 + layer * 4; // anillos en radio 3, 7 y 11
+                sl.sendParticles(new DustParticleOptions(palette[(layer + i) % 4], 1.4F),
+                        x + Math.cos(a) * r, y + 0.4 + layer * 0.6, z + Math.sin(a) * r,
+                        1, 0.05, 0.05, 0.05, 0.0);
+                // chispa vertical arriba para dar volumen
+                sl.sendParticles(new DustParticleOptions(palette[(layer + i + 1) % 4], 1.1F),
+                        x + Math.cos(a) * r * 0.6, y + 1.2 + layer, z + Math.sin(a) * r * 0.6,
+                        1, 0.04, 0.04, 0.04, 0.0);
+            }
+        }
+        // destello de camara: flash en el centro + temblor en los jugadores cerca
+        sl.sendParticles(ParticleTypes.FLASH, x, y + 1, z, 3, 0, 0, 0, 0);
+        AABB camBox = new AABB(x - 32, y - 16, z - 32, x + 32, y + 16, z + 32);
+        for (ServerPlayer sp : sl.getEntitiesOfClass(ServerPlayer.class, camBox)) {
+            sp.animateHurt(sp.getYRot());
+        }
     }
 
     @Override

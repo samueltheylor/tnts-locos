@@ -1,5 +1,12 @@
 # TNTs Locos — Changelog
 
+## v1.10.4 — Espectáculo extra con particleQuality=2 en las TNTs masivas (solo Java)
+
+- **🌈 Anillos de colores expansivos:** al explotar una masiva (Terremoto, Meteorito, Tormenta, Colosal, Supernova, Nuclear o Agujero Negro) con **calidad de partículas en MÁXIMO** (config → `particleQuality = 2`), se lanza un abanico de **3 capas de anillos de colores** (rojo-naranja, amarillo, cian y púrpura) en radios crecientes (3/7/11) con chispas verticales que dan volumen.
+- **📸 Destello de cámara:** flash blanco en el centro de la explosión + **temblor de pantalla** para todos los jugadores en un radio de 32 bloques (la animación de daño de vanilla, sin daño real — el mismo truco del Agujero Negro).
+- **⚡ Sin pérdida de rendimiento:** todo con bucles acotados (~216 partículas por explosión, partículas de polvo ligeras) — el modo PC débil (0) y el normal (1) no cambian nada.
+- GameTest nuevo (`massive_quality2_show_no_crash`) que ejercita el espectáculo en el servidor → **"All 22 required tests passed"**.
+
 ## v1.10.3 — 2 estructuras nuevas: Almacén de TNT saqueado y Campo de Pruebas (solo Java)
 
 - **🏚️ Almacén de TNT saqueado** (`/locate structure tnts:tnts_warehouse`): gran depósito subterráneo (17x9x17) dividido en **4 celdas cerradas** alrededor de un pasillo en cruz, con **muros de ladrillo que esconden TNTs**, cajas de madera de la mercancía saqueada, **agujeros en el techo** por donde entró el ladrón, **minas** en los accesos y **3 cofres**: uno casi vacío (lo saquearon), uno con provisiones y uno del fondo que aún guarda botín (Mega TNT, TNT de Diamante, pólvora y el Manual). Un **spawner de zombies** guarda la celda noreste.
