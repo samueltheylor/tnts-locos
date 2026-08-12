@@ -1,0 +1,23 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:mini_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.king_guardian_defeated.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.king_guardian_defeated.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "tnts:king_guardian_defeated"
+    }
+  }
+}

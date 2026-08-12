@@ -60,6 +60,9 @@ public class TntsEvents {
                 && player.getDeltaMovement().y < 0.4
                 && player.tickCount % 10 == 0
                 && entity.level() instanceof ServerLevel serverLevel) {
+            if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+                ModTriggers.DOUBLE_JUMPED.trigger(sp);
+            }
             player.setDeltaMovement(player.getDeltaMovement().multiply(1, 0, 1)
                     .add(0, 0.85, 0));
             player.hurtMarked = true;
@@ -74,6 +77,12 @@ public class TntsEvents {
                     SoundSource.PLAYERS, 0.7F, 1.6F);
             player.getItemBySlot(EquipmentSlot.FEET)
                     .hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(EquipmentSlot.FEET));
+        }
+
+        // SET BONUS DEL REY: dispara los advancements segun cuantas piezas lleva
+        if (entity instanceof net.minecraft.server.level.ServerPlayer sp && !sp.level().isClientSide) {
+            int pieces = TntKingSet.countPieces(entity);
+            if (pieces >= 2) ModTriggers.KING_SET.trigger(sp, pieces);
         }
 
         // AURA DEL REY (4 piezas): enciende las TNTs cercanas cada 40 ticks
@@ -117,6 +126,9 @@ public class TntsEvents {
      * <p>
      * Set bonus (3 piezas): "Escudo Real" — inmunidad al dano de las TNTs
      * del propio mod (las explosiones propias ya no te hieren).
+     * <p>
+     * Armadura de TNT (4 piezas): "Blindaje de TNT" — el daño de cualquier
+     * explosion se reduce a la mitad.
      */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
@@ -132,6 +144,12 @@ public class TntsEvents {
                 event.setCanceled(true);
                 return;
             }
+        }
+
+        // ARMADURA DE TNT (4 piezas): +50% resistencia a explosiones
+        if (TntArmorSet.isComplete(wearer)
+                && event.getSource().is(net.minecraft.world.damagesource.DamageTypes.EXPLOSION)) {
+            event.setAmount(event.getAmount() * 0.5F);
         }
 
         if (!wearer.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.TNT_CHESTPLATE.get())) return;

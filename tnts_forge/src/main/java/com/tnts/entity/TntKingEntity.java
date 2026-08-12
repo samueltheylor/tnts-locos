@@ -62,6 +62,9 @@ public class TntKingEntity extends Monster {
     /** Guardian del almacen: aparece con menos vida y sin botin de jefe. */
     private boolean guardian = false;
 
+    /** Ultimo nivel de grietas visto (para disparar el advancement de fase). */
+    private int lastCrackLevel = 0;
+
     // ---- embestida (modo furia) ----
     private int chargeCooldown = 0;   // ticks hasta poder cargar otra vez
     private int chargingTicks = 0;    // >0 = aviso de 3s antes de la embestida
@@ -230,6 +233,16 @@ public class TntKingEntity extends Monster {
         // cuanto menos vida, mas se agrieta: suelta fragmentos de su propio
         // bloque con mas frecuencia segun el nivel de grietas
         int cracks = this.getCrackLevel();
+        if (cracks > this.lastCrackLevel) {
+            this.lastCrackLevel = cracks;
+            // dispara el advancement de fase (min 1 o 2 segun la grieta)
+            if (this.level() instanceof ServerLevel sl) {
+                AABB advBox = new AABB(this.blockPosition()).inflate(48);
+                for (ServerPlayer sp : sl.getEntitiesOfClass(ServerPlayer.class, advBox)) {
+                    com.tnts.ModTriggers.KING_PHASE.trigger(sp, cracks);
+                }
+            }
+        }
         if (cracks > 0 && this.level() instanceof ServerLevel sl) {
             int interval = cracks == 2 ? 5 : 12;
             if (this.tickCount % interval == 0) {
@@ -384,6 +397,10 @@ public class TntKingEntity extends Monster {
         if (this.level() instanceof ServerLevel sl) {
             if (this.guardian) {
                 // guardián del almacen: botin humilde, sin corona ni items del jefe
+                // y el advancement de haber derrotado a la guardia del almacen
+                if (source.getEntity() instanceof ServerPlayer killer) {
+                    com.tnts.ModTriggers.KING_GUARDIAN_DEFEATED.trigger(killer);
+                }
                 for (int i = 0; i < 2 + this.random.nextInt(3); i++) {
                     this.spawnAtLocation(new ItemStack(randomKingTnt()));
                 }
@@ -523,6 +540,7 @@ public class TntKingEntity extends Monster {
         this.chargeCooldown = tag.getInt("KingChargeCooldown");
         this.summonCooldown = tag.getInt("KingSummonCooldown");
         this.guardian = tag.getBoolean("KingGuardian");
+        this.lastCrackLevel = tag.getInt("KingLastCrack");
     }
 
     @Override
@@ -533,6 +551,7 @@ public class TntKingEntity extends Monster {
         tag.putInt("KingChargeCooldown", this.chargeCooldown);
         tag.putInt("KingSummonCooldown", this.summonCooldown);
         tag.putBoolean("KingGuardian", this.guardian);
+        tag.putInt("KingLastCrack", this.lastCrackLevel);
     }
 
     // ---------- ataque del jefe ----------

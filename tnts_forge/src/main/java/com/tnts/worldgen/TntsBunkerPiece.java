@@ -100,6 +100,17 @@ public class TntsBunkerPiece extends StructurePiece {
             }
         }
 
+        // EL REY TNT: vive en el bunker. Aparece en el centro (sobre el altar)
+        // con su barra de jefe completa. 60% de probabilidades.
+        if (random.nextFloat() < 0.6F && chunkBox.isInside(new BlockPos(pos.getX(), pos.getY() - 2, pos.getZ()))) {
+            BlockPos kingPos = new BlockPos(pos.getX(), pos.getY() - 2, pos.getZ());
+            com.tnts.entity.TntKingEntity king = new com.tnts.entity.TntKingEntity(
+                    com.tnts.entity.TntsEntities.TNT_KING.get(), level.getLevel());
+            king.moveTo(kingPos.getX() + 0.5, kingPos.getY() + 1, kingPos.getZ() + 0.5,
+                    level.getRandom().nextFloat() * 360.0F, 0.0F);
+            level.getLevel().addFreshEntity(king);
+        }
+
         // antorchas en las paredes mirando hacia dentro
         if (chunkBox.isInside(new BlockPos(pos.getX() - 5, pos.getY() + 1, pos.getZ()))) {
             level.setBlock(new BlockPos(pos.getX() - 5, pos.getY() + 1, pos.getZ()),

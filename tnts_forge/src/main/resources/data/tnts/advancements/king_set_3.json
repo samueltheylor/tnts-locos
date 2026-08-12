@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:king_set_2",
+  "display": {
+    "icon": {
+      "item": "tnts:tnt_king_crown"
+    },
+    "title": {
+      "translate": "advancements.tnts.king_set_3.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.king_set_3.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "tnts:king_set",
+      "conditions": {
+        "min": 3
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:tnt_boots"
+    },
+    "title": {
+      "translate": "advancements.tnts.double_jump.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.double_jump.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "jump": {
+      "trigger": "tnts:double_jumped"
+    }
+  }
+}

@@ -559,6 +559,37 @@ def make_helmet_texture():
     write_png(os.path.join(ITEM_TEX_DIR, "tnt_helmet.png"), (16, 16), pixel)
 
 
+def make_leggings_texture():
+    """Pantalon de TNT: pierna roja con franja TNT, cintura oscura y remaches."""
+    def pixel(x, y):
+        if x in (0, 15) or y in (0, 15):
+            return (0, 0, 0, 0)
+        RED = (190, 30, 45, 255)
+        RED_LIGHT = (220, 60, 75, 255)
+        RED_DARK = (120, 18, 25, 255)
+        BAND = (245, 245, 244, 255)
+        EDGE = (35, 30, 28, 255)
+        # perfil del pantalon: dos piernas (4-7 y 9-12)
+        leg = x if x <= 7 else x - 1
+        if not (4 <= leg <= 7 and 3 <= y <= 13):
+            if 4 <= x <= 11 and y == 3:
+                return EDGE  # cintura
+            return (0, 0, 0, 0)
+        if y == 3:
+            return EDGE  # cintura
+        if x in (4, 7, 9, 12):
+            return EDGE  # borde de la pierna
+        if y in (8, 9):
+            return BAND  # franja TNT
+        if y == 10:
+            return RED_DARK
+        if y == 4:
+            return RED_LIGHT
+        return RED
+
+    write_png(os.path.join(ITEM_TEX_DIR, "tnt_leggings.png"), (16, 16), pixel)
+
+
 def make_pickaxe_texture():
     """Pico de TNT mejorado: mango de madera con veta, cabeza roja con
     sombreado metálico, filo brillante y detalles de TNT."""
@@ -770,9 +801,14 @@ def make_supernova_texture():
 
 
 def make_armor_layer():
-    """Capa de armadura del Peto de TNT (64x32) mejorada: torso y brazos rojos
-    con sombreado, franja TNT, correas, hombreras reforzadas y detalles.
-    Regiones reales del layout de vanilla (cuerpo en x 16-47, brazos en x 48-55)."""
+    """Capas de armadura de TNT (64x32) con el layout REAL de vanilla 1.20.1.
+
+    layer_1 (la usan casco, peto Y botas): cabeza, cuerpo, brazos y piernas.
+      - cabeza: top (8,0)-(15,7), bottom (16,0)-(23,7), caras (0,8)-(31,15)
+      - cuerpo: (16,16)-(39,31)  brazos: (40,16)-(55,31)  piernas: (0,16)-(15,31)
+    layer_2 (solo la usan los pantalones): piernas (0,16)-(15,31)
+      + falda del cuerpo (16,24)-(39,31).
+    """
     RED = (190, 30, 45, 255)
     RED_LIGHT = (228, 66, 82, 255)
     RED_DARK = (120, 18, 25, 255)
@@ -783,117 +819,237 @@ def make_armor_layer():
     LEATHER = (110, 72, 40, 255)
     LEATHER_DARK = (75, 48, 25, 255)
     METAL = (180, 175, 165, 255)
+    GOLD = (235, 200, 120, 255)
+    GOLD_D = (160, 120, 50, 255)
 
-    def body_px(x, y):
-        if not (16 <= x <= 47 and 20 <= y <= 31):
-            return (0, 0, 0, 0)
-        # Borde exterior
-        if x in (16, 47) or y == 31:
-            return EDGE
-        # Hombrera superior (gradiente)
-        if y == 20:
-            return RED_LIGHT  # brillo
-        if y == 21:
-            return (210, 48, 62, 255)
-        # Correas de cuero
-        if x in (22, 23, 30, 31, 38, 39):
-            if y in (20, 31):
-                return LEATHER_DARK
-            if y in (24, 27, 30):
-                return METAL  # hebillas
-            return LEATHER
-        # Cuerpo rojo
-        if y in (24, 25):
-            return BAND if x not in (22, 23, 30, 31, 38, 39) else BAND_SHADE
-        if y in (26, 27):
-            return RED_VDARK  # sombra bajo la franja
-        # Logo TNT mini en el centro
-        if y == 23 and x in (29, 30, 31, 32, 33, 34):
-            if x in (29, 30, 34):
-                return (255, 255, 255, 255)  # T y parte de N
-            if x in (31, 32):
-                return (245, 245, 244, 255)  # franja interior
-            return (200, 35, 45, 255)
-        # Sombreado
-        if x <= 18:
-            return RED_DARK  # lado izquierdo oscuro
-        if x >= 45:
-            return RED_DARK  # lado derecho oscuro
-        if y == 30:
-            return RED_VDARK  # borde inferior
-        return RED
+    def band_fn(x, y, shade):
+        # franja blanca de TNT con sombreado
+        return BAND if not shade else BAND_SHADE
 
-    def arm_px(x, y):
-        if not (48 <= x <= 55 and 16 <= y <= 31):
-            return (0, 0, 0, 0)
-        if x in (48, 55) or y == 31:
+    def tnt_face(x, y, w, h, shade=False):
+        # patron de un cubo rojo con franja central TNT y bordes
+        if x in (0, w - 1) or y in (0, h - 1):
             return EDGE
-        # Hombrera reforzada
-        if y in (16, 17):
-            return RED_DARK if x in (48, 55) else RED_LIGHT
-        # Correa
-        if x in (50, 51):
-            if y in (20, 28):
-                return METAL  # hebillas
-            return LEATHER
-        # Franja
-        if y in (24, 25):
-            return BAND
-        # Sombreado
-        if x in (49, 54):
+        if h >= 12:
+            if y in (h // 2 - 1, h // 2):
+                return band_fn(x, y, shade)
+            if y == h // 2 + 1:
+                return RED_VDARK
+        elif h >= 6:
+            if y in (2, 3):
+                return band_fn(x, y, shade)
+        if x in (1, w - 2):
             return RED_DARK
-        if y == 26:
+        if y == h - 2:
             return RED_VDARK
+        if y == 1:
+            return RED_LIGHT
         return RED
 
-    def head_px(x, y):
-        # casco de TNT: region de la cabeza (x 0-7, y 0-7)
-        if not (0 <= x <= 7 and 0 <= y <= 7):
-            return (0, 0, 0, 0)
+    # ---------- layer 1: cabeza ----------
+    def head_top(x, y):  # top (8,0)-(15,7)
         if x in (0, 7) or y in (0, 7):
             return EDGE
-        if y == 1:
-            return RED_LIGHT  # brillo superior
-        if y in (4, 5):
-            return BAND if x not in (3, 4) else BAND_SHADE  # franja TNT
-        if (x, y) in ((2, 2), (5, 2)):
-            return METAL  # remaches
-        if x in (1, 6):
-            return RED_DARK
-        if y == 6:
-            return RED_VDARK
-        return RED
+        if (x, y) in ((2, 2), (5, 2), (2, 5), (5, 5)):
+            return GOLD  # remaches dorados
+        return RED_LIGHT if y == 1 else RED
 
-    def pixel(x, y):
-        p = head_px(x, y)
-        if p[3] != 0:
-            return p
-        p = body_px(x, y)
-        if p[3] != 0:
-            return p
-        return arm_px(x, y)
-
-    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_1.png"), (64, 32), pixel)
-
-    def boots_px(x, y):
-        # botas de TNT: piernas en layer_2 (x 0-15, y 16-27)
-        if not (0 <= x <= 15 and 16 <= y <= 27):
-            return (0, 0, 0, 0)
-        # cada pierna es 8x12: izquierda x 0-7, derecha x 8-15
-        leg = x % 8
-        if leg in (0, 7) or y == 16 or y == 27:
+    def head_side(x, y):  # caras (0,8)-(31,15): 4 caras de 8x8
+        cx = x % 8
+        if cx in (0, 7) or y in (8, 15):
             return EDGE
-        if y in (20, 21):
-            return BAND if leg not in (3, 4) else BAND_SHADE  # franja TNT
-        if (leg, y) in ((2, 17), (5, 17)):
-            return METAL  # remaches
-        if leg in (1, 6):
-            return RED_DARK
-        if y == 26:
+        if y in (11, 12):
+            return BAND if cx not in (3, 4) else BAND_SHADE
+        if y == 13:
             return RED_VDARK
+        if cx in (1, 6):
+            return RED_DARK
+        if y == 9:
+            return RED_LIGHT
         return RED
 
-    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_2.png"), (64, 32), boots_px)
+    def head_bottom(x, y):  # bottom (16,0)-(23,7)
+        return RED_VDARK
+
+    # ---------- layer 1: cuerpo (16,16)-(39,31) ----------
+    def body_px(x, y):
+        lx = x - 16
+        ly = y - 16
+        if not (0 <= lx <= 23 and 0 <= ly <= 15):
+            return (0, 0, 0, 0)
+        if ly <= 3:
+            # cara superior/inferior del cubo del cuerpo (8x4)
+            if lx in (0, 7, 8, 15, 16, 23) or ly in (0, 3):
+                return EDGE
+            if (lx, ly) in ((11, 1), (20, 1)):
+                return GOLD
+            return RED_LIGHT if ly == 1 else RED
+        # caras laterales (4 caras de 8x12: 16-19, 20-27, 28-35, 32-39)
+        fx = (lx - 4) % 8
+        if fx < 0:
+            fx += 8
+        if lx in (4, 7) or ly == 15:
+            return EDGE
+        if ly in (9, 10):
+            return BAND if fx not in (3, 4) else BAND_SHADE
+        if ly == 11:
+            return RED_VDARK
+        if fx in (0, 7):
+            return EDGE
+        if fx in (1, 6):
+            return RED_DARK
+        if ly == 5:
+            return RED_LIGHT
+        return RED
+
+    # ---------- layer 1: brazos (40,16)-(55,31) ----------
+    def arm_px(x, y):
+        lx = x - 40
+        ly = y - 16
+        if not (0 <= lx <= 15 and 0 <= ly <= 15):
+            return (0, 0, 0, 0)
+        if ly <= 3:
+            # top/bottom del brazo (4x4 en 44-47 / 48-51)
+            if 4 <= lx <= 11:
+                if lx in (4, 7, 8, 11) or ly in (0, 3):
+                    return EDGE
+                return RED_LIGHT if ly == 1 else RED
+            return (0, 0, 0, 0)
+        # caras laterales (4 caras de 4x12: 40-43, 44-47, 48-51, 52-55)
+        fx = (lx - 4) % 4
+        if lx in (4, 7) or ly == 15:
+            return EDGE
+        if ly in (9, 10):
+            return BAND if fx not in (1, 2) else BAND_SHADE
+        if ly == 11:
+            return RED_VDARK
+        if fx == 0 or fx == 3:
+            return EDGE
+        if fx == 1:
+            return RED_DARK
+        if ly == 5:
+            return RED_LIGHT
+        return RED
+
+    # ---------- layer 1 + layer 2: piernas (0,16)-(15,31) ----------
+    def leg_px(x, y, boot=False):
+        lx = x % 8
+        ly = y - 16
+        if not (0 <= lx <= 7 and 0 <= ly <= 15):
+            return (0, 0, 0, 0)
+        if ly <= 3:
+            # top/bottom de la pierna (4x4 en 4-7 / 8-11)
+            if not (4 <= x % 16 <= 11):
+                return (0, 0, 0, 0)
+            if x % 16 in (4, 7, 8, 11) or ly in (0, 3):
+                return EDGE
+            return RED_LIGHT if ly == 1 else RED
+        if lx in (0, 7) or ly == 15:
+            return EDGE
+        if boot:
+            # bota: franja a media altura y suela oscura
+            if ly in (8, 9):
+                return BAND if lx not in (3, 4) else BAND_SHADE
+            if ly >= 12:
+                return RED_VDARK
+            if ly in (10, 11):
+                return RED_DARK
+            if ly == 5:
+                return RED_LIGHT
+            return RED
+        # pantalon: franja a media pierna
+        if ly in (6, 7):
+            return BAND if lx not in (3, 4) else BAND_SHADE
+        if ly == 8:
+            return RED_VDARK
+        if lx in (1, 6):
+            return RED_DARK
+        if ly == 5:
+            return RED_LIGHT
+        return RED
+
+    def pixel1(x, y):
+        # cabeza: top (8,0)-(15,7), bottom (16,0)-(23,7), caras (0,8)-(31,15)
+        if 8 <= x <= 15 and 0 <= y <= 7:
+            return head_top(x - 8, y)
+        if 16 <= x <= 23 and 0 <= y <= 7:
+            return head_bottom(x - 16, y)
+        if 0 <= x <= 31 and 8 <= y <= 15:
+            return head_side(x, y)
+        # cuerpo
+        if 16 <= x <= 39 and 16 <= y <= 31:
+            return body_px(x, y)
+        # brazos
+        if 40 <= x <= 55 and 16 <= y <= 31:
+            return arm_px(x, y)
+        # piernas (botas)
+        if 0 <= x <= 15 and 16 <= y <= 31:
+            return leg_px(x, y, boot=True)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_1.png"), (64, 32), pixel1)
+
+    def pixel2(x, y):
+        # pantalones: piernas completas
+        if 0 <= x <= 15 and 16 <= y <= 31:
+            return leg_px(x, y, boot=False)
+        # falda del pantalon (16,24)-(39,31)
+        if 16 <= x <= 39 and 24 <= y <= 31:
+            return tnt_face(x - 16, y - 24, 8, 8, x >= 24)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_layer_2.png"), (64, 32), pixel2)
+
+    # ---------- capa de la CORONA del Rey (modelo 3D custom) ----------
+    # banda 10x2x10 @ texOffs(0,0): top (10,0)-(19,9), bottom (20,0)-(29,9),
+    #   caras laterales (0,10)-(39,11)
+    # 4 puntas 2x4x2 @ texOffs(40,0): top (42,0)-(43,1), bottom (44,0)-(45,1),
+    #   caras (40,2)-(47,5)
+    # punta central 2x6x2 @ texOffs(48,0): top (50,0)-(51,1), bottom (52,0)-(53,1),
+    #   caras (48,2)-(55,7)
+    GEM = (200, 35, 60, 255)
+
+    def gold_px(lx, ly, w, h):
+        # patron dorado con borde oscuro y brillo en el borde superior
+        if lx in (0, w - 1) or ly in (0, h - 1):
+            return GOLD_D
+        if ly == 1:
+            return (255, 224, 150, 255)
+        if (lx + ly) % 2 == 0:
+            return GOLD
+        return (215, 175, 95, 255)
+
+    def crown_px(x, y):
+        # banda
+        if 10 <= x <= 19 and 0 <= y <= 9:
+            return gold_px(x - 10, y, 10, 10)
+        if 20 <= x <= 29 and 0 <= y <= 9:
+            return GOLD_D
+        if 0 <= x <= 39 and 10 <= y <= 11:
+            cx = x % 10
+            if cx in (0, 9):
+                return GOLD_D
+            if cx in (4, 5):
+                return GEM  # gema roja en la cara frontal
+            return gold_px(cx, y - 10, 10, 2)
+        # puntas de las esquinas (comparten UV)
+        if 42 <= x <= 43 and 0 <= y <= 1:
+            return GOLD
+        if 44 <= x <= 45 and 0 <= y <= 1:
+            return GOLD_D
+        if 40 <= x <= 47 and 2 <= y <= 5:
+            return gold_px(x - 40, y - 2, 8, 4)
+        # punta central
+        if 50 <= x <= 51 and 0 <= y <= 1:
+            return GOLD
+        if 52 <= x <= 53 and 0 <= y <= 1:
+            return GOLD_D
+        if 48 <= x <= 55 and 2 <= y <= 7:
+            return gold_px(x - 48, y - 2, 8, 6)
+        return (0, 0, 0, 0)
+
+    write_png(os.path.join(ASSETS, "textures", "models", "armor", "tnt_king_crown_layer_1.png"),
+              (64, 32), crown_px)
 
 
 def make_arrow_texture():
@@ -1632,6 +1788,112 @@ def write_advancements():
         "criteria": {"mass": {"trigger": "tnts:mass_detonated"}},
     })
 
+    # doble salto con las botas de TNT
+    write(os.path.join(adv_dir, "double_jump.json"), {
+        "parent": "tnts:root",
+        "display": {
+            "icon": {"item": "tnts:tnt_boots"},
+            "title": {"translate": "advancements.tnts.double_jump.title"},
+            "description": {"translate": "advancements.tnts.double_jump.description"},
+            "frame": "task",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"jump": {"trigger": "tnts:double_jumped"}},
+    })
+
+    # vision nocturna del casco de TNT (trigger vanilla de efectos)
+    write(os.path.join(adv_dir, "night_vision.json"), {
+        "parent": "tnts:root",
+        "display": {
+            "icon": {"item": "tnts:tnt_helmet"},
+            "title": {"translate": "advancements.tnts.night_vision.title"},
+            "description": {"translate": "advancements.tnts.night_vision.description"},
+            "frame": "task",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"effect": {"trigger": "minecraft:effects_changed",
+                                 "conditions": {"effects": {"minecraft:night_vision": {}}}}},
+    })
+
+    # set bonus del Rey: 2 piezas
+    write(os.path.join(adv_dir, "king_set_2.json"), {
+        "parent": "tnts:defeat_king",
+        "display": {
+            "icon": {"item": "tnts:tnt_king_sword"},
+            "title": {"translate": "advancements.tnts.king_set_2.title"},
+            "description": {"translate": "advancements.tnts.king_set_2.description"},
+            "frame": "goal",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"set": {"trigger": "tnts:king_set", "conditions": {"min": 2}}},
+    })
+
+    # set bonus del Rey: 3 piezas
+    write(os.path.join(adv_dir, "king_set_3.json"), {
+        "parent": "tnts:king_set_2",
+        "display": {
+            "icon": {"item": "tnts:tnt_king_crown"},
+            "title": {"translate": "advancements.tnts.king_set_3.title"},
+            "description": {"translate": "advancements.tnts.king_set_3.description"},
+            "frame": "goal",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"set": {"trigger": "tnts:king_set", "conditions": {"min": 3}}},
+    })
+
+    # set bonus del Rey: 4 piezas
+    write(os.path.join(adv_dir, "king_set_4.json"), {
+        "parent": "tnts:king_set_3",
+        "display": {
+            "icon": {"item": "tnts:tnt_shield"},
+            "title": {"translate": "advancements.tnts.king_set_4.title"},
+            "description": {"translate": "advancements.tnts.king_set_4.description"},
+            "frame": "challenge",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"set": {"trigger": "tnts:king_set", "conditions": {"min": 4}}},
+    })
+
+    # derrotar al Rey guardian del almacen
+    write(os.path.join(adv_dir, "king_guardian_defeated.json"), {
+        "parent": "tnts:root",
+        "display": {
+            "icon": {"item": "tnts:mini_tnt"},
+            "title": {"translate": "advancements.tnts.king_guardian_defeated.title"},
+            "description": {"translate": "advancements.tnts.king_guardian_defeated.description"},
+            "frame": "goal",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": False,
+        },
+        "criteria": {"kill": {"trigger": "tnts:king_guardian_defeated"}},
+    })
+
+    # ver al Rey agrietarse del todo (fase visual 2)
+    write(os.path.join(adv_dir, "king_phase.json"), {
+        "parent": "tnts:defeat_king",
+        "display": {
+            "icon": {"item": "tnts:mega_tnt"},
+            "title": {"translate": "advancements.tnts.king_phase.title"},
+            "description": {"translate": "advancements.tnts.king_phase.description"},
+            "frame": "goal",
+            "show_toast": True,
+            "announce_to_chat": True,
+            "hidden": True,
+        },
+        "criteria": {"phase": {"trigger": "tnts:king_phase", "conditions": {"min": 2}}},
+    })
+
     # explotar todas las variantes (reto oculto)
     write(os.path.join(adv_dir, "all_variants.json"), {
         "parent": "tnts:root",
@@ -1707,6 +1969,20 @@ LANG_ES = {
     "tnts.manual.power": "Radio: %s",
     "advancements.tnts.defeat_king.title": "¡El Rey ha caído!",
     "advancements.tnts.defeat_king.description": "Derrota al Rey TNT y consigue su corona",
+    "advancements.tnts.double_jump.title": "¡Doble salto!",
+    "advancements.tnts.double_jump.description": "Haz un impulso de explosión con las Botas de TNT",
+    "advancements.tnts.night_vision.title": "Visión de TNT",
+    "advancements.tnts.night_vision.description": "Ponte el Casco de TNT y ve en la oscuridad",
+    "advancements.tnts.king_set_2.title": "Poder del Rey",
+    "advancements.tnts.king_set_2.description": "Lleva 2 piezas del set del Rey: la Espada enciende TNTs al doble de radio",
+    "advancements.tnts.king_set_3.title": "Escudo Real",
+    "advancements.tnts.king_set_3.description": "Lleva 3 piezas del set del Rey: eres inmune a tus propias TNTs",
+    "advancements.tnts.king_set_4.title": "Aura del Rey",
+    "advancements.tnts.king_set_4.description": "Lleva las 4 piezas del set del Rey: tu aura enciende TNTs cercanas",
+    "advancements.tnts.king_guardian_defeated.title": "Guardia derrotada",
+    "advancements.tnts.king_guardian_defeated.description": "Derrota al Rey guardián del Almacén de TNT",
+    "advancements.tnts.king_phase.title": "Se está agrietando...",
+    "advancements.tnts.king_phase.description": "Lleva al Rey TNT al borde: obsérvalo agrietarse del todo",
     "item.tnts.detonator": "Detonador Remoto",
     "item.tnts.launcher": "Lanzador de TNT",
     "item.tnts.tnt_arrow": "Flecha de TNT",
@@ -1714,6 +1990,7 @@ LANG_ES = {
     "item.tnts.tnt_chestplate": "Peto de TNT",
     "item.tnts.tnt_boots": "Botas de TNT",
     "item.tnts.tnt_helmet": "Casco de TNT",
+    "item.tnts.tnt_leggings": "Pantalón de TNT",
     "item.tnts.tnt_pickaxe": "Pico de TNT",
     "tnts.config.title": "Config de TNTs Locas",
     "tnts.config.hint": "Elige un preset (se aplica al momento, sin reiniciar) o edita tnts-common.toml",
@@ -1789,6 +2066,20 @@ LANG_EN = {
     "tnts.manual.power": "Radius: %s",
     "advancements.tnts.defeat_king.title": "The King has fallen!",
     "advancements.tnts.defeat_king.description": "Defeat the TNT King and claim his crown",
+    "advancements.tnts.double_jump.title": "Double jump!",
+    "advancements.tnts.double_jump.description": "Blast off with the TNT Boots",
+    "advancements.tnts.night_vision.title": "TNT Vision",
+    "advancements.tnts.night_vision.description": "Wear the TNT Helmet and see in the dark",
+    "advancements.tnts.king_set_2.title": "King's Power",
+    "advancements.tnts.king_set_2.description": "Wear 2 King set pieces: the Sword primes TNTs at double range",
+    "advancements.tnts.king_set_3.title": "Royal Shield",
+    "advancements.tnts.king_set_3.description": "Wear 3 King set pieces: become immune to your own TNTs",
+    "advancements.tnts.king_set_4.title": "King's Aura",
+    "advancements.tnts.king_set_4.description": "Wear all 4 King set pieces: your aura primes nearby TNTs",
+    "advancements.tnts.king_guardian_defeated.title": "Guard down",
+    "advancements.tnts.king_guardian_defeated.description": "Defeat the guardian King of the TNT Warehouse",
+    "advancements.tnts.king_phase.title": "It's cracking...",
+    "advancements.tnts.king_phase.description": "Bring the TNT King to the brink: watch him crack completely",
     "item.tnts.detonator": "Remote Detonator",
     "item.tnts.launcher": "TNT Launcher",
     "item.tnts.tnt_arrow": "TNT Arrow",
@@ -1796,6 +2087,7 @@ LANG_EN = {
     "item.tnts.tnt_chestplate": "TNT Chestplate",
     "item.tnts.tnt_boots": "TNT Boots",
     "item.tnts.tnt_helmet": "TNT Helmet",
+    "item.tnts.tnt_leggings": "TNT Leggings",
     "item.tnts.tnt_pickaxe": "TNT Pickaxe",
     "tnts.config.title": "TNTs Locos Config",
     "tnts.config.hint": "Pick a preset (applies instantly, no restart) or edit tnts-common.toml",
@@ -1956,6 +2248,20 @@ LANG_PT = {
     "tnts.manual.power": "Raio: %s",
     "advancements.tnts.defeat_king.title": "O Rei caiu!",
     "advancements.tnts.defeat_king.description": "Derrote o Rei TNT e pegue a coroa dele",
+    "advancements.tnts.double_jump.title": "Pulo duplo!",
+    "advancements.tnts.double_jump.description": "Faça um impulso de explosão com as Botas de TNT",
+    "advancements.tnts.night_vision.title": "Visão TNT",
+    "advancements.tnts.night_vision.description": "Use o Capacete de TNT e enxergue no escuro",
+    "advancements.tnts.king_set_2.title": "Poder do Rei",
+    "advancements.tnts.king_set_2.description": "Use 2 peças do set do Rei: a Espada acende TNTs com dobro de alcance",
+    "advancements.tnts.king_set_3.title": "Escudo Real",
+    "advancements.tnts.king_set_3.description": "Use 3 peças do set do Rei: fique imune às suas próprias TNTs",
+    "advancements.tnts.king_set_4.title": "Aura do Rei",
+    "advancements.tnts.king_set_4.description": "Use as 4 peças do set do Rei: sua aura acende TNTs próximas",
+    "advancements.tnts.king_guardian_defeated.title": "Guarda derrotado",
+    "advancements.tnts.king_guardian_defeated.description": "Derrote o Rei guardião do Armazém de TNT",
+    "advancements.tnts.king_phase.title": "Está rachando...",
+    "advancements.tnts.king_phase.description": "Leve o Rei TNT ao limite: veja-o rachar por completo",
     "item.tnts.detonator": "Detonador Remoto",
     "item.tnts.launcher": "Lançador de TNT",
     "item.tnts.tnt_arrow": "Flecha de TNT",
@@ -1963,6 +2269,7 @@ LANG_PT = {
     "item.tnts.tnt_chestplate": "Peitoral de TNT",
     "item.tnts.tnt_boots": "Botas de TNT",
     "item.tnts.tnt_helmet": "Capacete de TNT",
+    "item.tnts.tnt_leggings": "Calças de TNT",
     "item.tnts.tnt_pickaxe": "Picareta de TNT",
     "tnts.config.title": "Config de TNTs Loucas",
     "tnts.config.hint": "Escolha um preset (aplica na hora, sem reiniciar) ou edite tnts-common.toml",
@@ -2080,6 +2387,20 @@ LANG_DE = {
     "tnts.manual.power": "Radius: %s",
     "advancements.tnts.defeat_king.title": "Der König ist gefallen!",
     "advancements.tnts.defeat_king.description": "Besiege den TNT-König und nimm seine Krone",
+    "advancements.tnts.double_jump.title": "Doppelsprung!",
+    "advancements.tnts.double_jump.description": "Mach einen Explosionssprung mit den TNT-Stiefeln",
+    "advancements.tnts.night_vision.title": "TNT-Sicht",
+    "advancements.tnts.night_vision.description": "Trage den TNT-Helm und sieh im Dunkeln",
+    "advancements.tnts.king_set_2.title": "Macht des Königs",
+    "advancements.tnts.king_set_2.description": "Trage 2 Königsteile: Das Schwert zündet TNTs mit doppelter Reichweite",
+    "advancements.tnts.king_set_3.title": "Königsschild",
+    "advancements.tnts.king_set_3.description": "Trage 3 Königsteile: Werde immun gegen deine eigenen TNTs",
+    "advancements.tnts.king_set_4.title": "Aura des Königs",
+    "advancements.tnts.king_set_4.description": "Trage alle 4 Königsteile: Deine Aura zündet nahe TNTs",
+    "advancements.tnts.king_guardian_defeated.title": "Wache besiegt",
+    "advancements.tnts.king_guardian_defeated.description": "Besiege den Wächterkönig des TNT-Lagers",
+    "advancements.tnts.king_phase.title": "Es rissst...",
+    "advancements.tnts.king_phase.description": "Bring den TNT-König an den Rand: Sieh ihn ganz zerbrechen",
     "item.tnts.detonator": "Fernzünder",
     "item.tnts.launcher": "TNT-Werfer",
     "item.tnts.tnt_arrow": "TNT-Pfeil",
@@ -2087,6 +2408,7 @@ LANG_DE = {
     "item.tnts.tnt_chestplate": "TNT-Brustpanzer",
     "item.tnts.tnt_boots": "TNT-Stiefel",
     "item.tnts.tnt_helmet": "TNT-Helm",
+    "item.tnts.tnt_leggings": "TNT-Hose",
     "item.tnts.tnt_pickaxe": "TNT-Spitzhacke",
     "tnts.config.title": "TNTs Locos Konfiguration",
     "tnts.config.hint": "Wähle ein Preset (sofort anwendbar, ohne Neustart) oder bearbeite tnts-common.toml",
@@ -2204,6 +2526,20 @@ LANG_FR = {
     "tnts.manual.power": "Rayon : %s",
     "advancements.tnts.defeat_king.title": "Le Roi est tombé !",
     "advancements.tnts.defeat_king.description": "Vainquez le Roi TNT et récupérez sa couronne",
+    "advancements.tnts.double_jump.title": "Double saut !",
+    "advancements.tnts.double_jump.description": "Faites un bond explosif avec les Bottes TNT",
+    "advancements.tnts.night_vision.title": "Vision TNT",
+    "advancements.tnts.night_vision.description": "Portez le Casque TNT et voyez dans le noir",
+    "advancements.tnts.king_set_2.title": "Pouvoir du Roi",
+    "advancements.tnts.king_set_2.description": "Portez 2 pièces du set du Roi : l'Épée allume les TNT à double portée",
+    "advancements.tnts.king_set_3.title": "Bouclier Royal",
+    "advancements.tnts.king_set_3.description": "Portez 3 pièces du set du Roi : soyez immunisé contre vos propres TNT",
+    "advancements.tnts.king_set_4.title": "Aura du Roi",
+    "advancements.tnts.king_set_4.description": "Portez les 4 pièces du set du Roi : votre aura allume les TNT proches",
+    "advancements.tnts.king_guardian_defeated.title": "Garde vaincu",
+    "advancements.tnts.king_guardian_defeated.description": "Vainquez le Roi gardien de l'Entrepôt TNT",
+    "advancements.tnts.king_phase.title": "Ça se fissure...",
+    "advancements.tnts.king_phase.description": "Menez le Roi TNT au bord : regardez-le se fissurer complètement",
     "item.tnts.detonator": "Détonateur à distance",
     "item.tnts.launcher": "Lanceur de TNT",
     "item.tnts.tnt_arrow": "Flèche TNT",
@@ -2211,6 +2547,7 @@ LANG_FR = {
     "item.tnts.tnt_chestplate": "Plastron TNT",
     "item.tnts.tnt_boots": "Bottes TNT",
     "item.tnts.tnt_helmet": "Casque TNT",
+    "item.tnts.tnt_leggings": "Pantalon TNT",
     "item.tnts.tnt_pickaxe": "Pioche TNT",
     "tnts.config.title": "Config de TNTs Dingo",
     "tnts.config.hint": "Choisissez un préréglage (application immédiate, sans redémarrer) ou modifiez tnts-common.toml",
@@ -2363,6 +2700,7 @@ def main():
     make_chestplate_texture()
     make_boots_texture()
     make_helmet_texture()
+    make_leggings_texture()
     make_pickaxe_texture()
     make_grenade_texture()
     make_black_hole_texture()
@@ -2512,6 +2850,13 @@ def main():
         "key": {"T": {"item": "minecraft:tnt"}},
         "result": {"item": "tnts:tnt_helmet"},
     })
+    # pantalon de TNT: 7 TNT (vanilla leggings)
+    write(os.path.join(DATA, "recipes", "tnt_leggings.json"), {
+        "type": "minecraft:crafting_shaped",
+        "pattern": ["TTT", "T T", "T T"],
+        "key": {"T": {"item": "minecraft:tnt"}},
+        "result": {"item": "tnts:tnt_leggings"},
+    })
 
     # recetas del lanzador y la flecha (shaped)
     write(os.path.join(DATA, "recipes", "launcher.json"), {
@@ -2529,7 +2874,7 @@ def main():
 
     # modelos de item del lanzador, flecha, peto, botas, casco, pico y granada
     for item in ("launcher", "tnt_arrow", "tnt_chestplate", "tnt_boots", "tnt_helmet",
-                 "tnt_pickaxe", "grenade"):
+                 "tnt_leggings", "tnt_pickaxe", "grenade"):
         write(os.path.join(ASSETS, "models", "item", f"{item}.json"), {
             "parent": "minecraft:item/generated",
             "textures": {"layer0": f"tnts:item/{item}"},

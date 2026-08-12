@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:defeat_king",
+  "display": {
+    "icon": {
+      "item": "tnts:mega_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.king_phase.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.king_phase.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "phase": {
+      "trigger": "tnts:king_phase",
+      "conditions": {
+        "min": 2
+      }
+    }
+  }
+}

@@ -91,6 +91,11 @@ public class ModItems {
             () -> new ArmorItem(TNT_ARMOR, ArmorItem.Type.HELMET,
                     new Item.Properties().durability(165)));
 
+    /** Pantalon de TNT: completa la armadura (set bonus de 4 piezas). */
+    public static final RegistryObject<Item> TNT_LEGGINGS = ITEMS.register("tnt_leggings",
+            () -> new ArmorItem(TNT_ARMOR, ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().durability(225)));
+
     public static final RegistryObject<Item> TNT_PICKAXE = ITEMS.register("tnt_pickaxe",
             () -> new TntPickaxeItem(Tiers.DIAMOND, 1, -2.8F,
                     new Item.Properties().durability(800)));

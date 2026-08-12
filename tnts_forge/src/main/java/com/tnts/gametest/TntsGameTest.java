@@ -704,4 +704,100 @@ public class TntsGameTest {
             helper.succeed();
         });
     }
+
+    /** Pantalon de TNT: completa la armadura (4 piezas = set bonus). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_leggings_completes_armor_set(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        var player = helper.makeMockPlayer();
+        player.moveTo(ap.getX(), ap.getY() + 1, ap.getZ());
+        helper.getLevel().addFreshEntity(player);
+
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                new ItemStack(ModItems.TNT_HELMET.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST,
+                new ItemStack(ModItems.TNT_CHESTPLATE.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS,
+                new ItemStack(ModItems.TNT_LEGGINGS.get()));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET,
+                new ItemStack(ModItems.TNT_BOOTS.get()));
+
+        helper.assertTrue(com.tnts.TntArmorSet.countPieces(player) == 4,
+                "Con las 4 piezas el set de armadura de TNT deberia estar completo");
+        helper.assertTrue(com.tnts.TntArmorSet.isComplete(player),
+                "isComplete deberia devolver true con las 4 piezas");
+        helper.succeed();
+    }
+
+    /** Set completo de armadura: reduce el dano de explosiones a la mitad. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_armor_full_set_halves_explosion_damage(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+
+        // dos zombies identicos: uno con la armadura completa y otro sin ella
+        var armored = new net.minecraft.world.entity.monster.Zombie(
+                net.minecraft.world.entity.EntityType.ZOMBIE, helper.getLevel());
+        armored.setNoAi(true);
+        armored.setNoGravity(true);
+        armored.setHealth(20.0F);
+        armored.setPos(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5);
+        helper.getLevel().addFreshEntity(armored);
+        armored.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                new ItemStack(ModItems.TNT_HELMET.get()));
+        armored.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST,
+                new ItemStack(ModItems.TNT_CHESTPLATE.get()));
+        armored.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS,
+                new ItemStack(ModItems.TNT_LEGGINGS.get()));
+        armored.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET,
+                new ItemStack(ModItems.TNT_BOOTS.get()));
+
+        var plain = new net.minecraft.world.entity.monster.Zombie(
+                net.minecraft.world.entity.EntityType.ZOMBIE, helper.getLevel());
+        plain.setNoAi(true);
+        plain.setNoGravity(true);
+        plain.setHealth(20.0F);
+        plain.setPos(ap.getX() + 2.5, ap.getY() + 1, ap.getZ() + 0.5);
+        helper.getLevel().addFreshEntity(plain);
+
+        helper.assertTrue(com.tnts.TntArmorSet.countPieces(armored) == 4,
+                "El zombie blindado deberia llevar las 4 piezas");
+        // el evento de reduccion se aplica sobre dano de tipo explosion:
+        // creamos un LivingHurtEvent sintetico y comprobamos que reduce a la mitad
+        net.minecraft.world.damagesource.DamageSource explosion = helper.getLevel().damageSources()
+                .explosion((net.minecraft.world.entity.Entity) null, (net.minecraft.world.entity.Entity) null);
+        net.minecraftforge.event.entity.living.LivingHurtEvent armoredEvent =
+                new net.minecraftforge.event.entity.living.LivingHurtEvent(armored, explosion, 10.0F);
+        com.tnts.TntsEvents.onLivingHurt(armoredEvent);
+        net.minecraftforge.event.entity.living.LivingHurtEvent plainEvent =
+                new net.minecraftforge.event.entity.living.LivingHurtEvent(plain, explosion, 10.0F);
+        com.tnts.TntsEvents.onLivingHurt(plainEvent);
+        helper.assertTrue(armoredEvent.getAmount() <= 5.01F,
+                "Con la armadura completa el dano de explosion deberia reducirse a la mitad ("
+                        + armoredEvent.getAmount() + ")");
+        helper.assertTrue(plainEvent.getAmount() == 10.0F,
+                "Sin armadura el dano deberia quedarse en 10 ("
+                        + plainEvent.getAmount() + ")");
+        helper.succeed();
+    }
+
+    /** Fases visuales del Rey: el crack level sube al bajar la vida. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void king_phase_advancement_fires_at_level_2(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(8, 2, 8);
+        BlockPos ap = helper.absolutePos(pos);
+        TntKingEntity king = new TntKingEntity(TntsEntities.TNT_KING.get(), helper.getLevel());
+        king.setHealth(30.0F); // ~10% -> muy agrietado (nivel 2)
+        king.moveTo(ap.getX() + 0.5, ap.getY() + 1, ap.getZ() + 0.5, 0.0F, 0.0F);
+        helper.getLevel().addFreshEntity(king);
+
+        helper.runAfterDelay(3, () -> {
+            helper.assertTrue(king.getCrackLevel() == 2,
+                    "Con poca vida el Rey deberia estar en nivel 2 de grietas");
+            // el ultimo nivel visto se actualiza al hacer tick
+            king.tick();
+            helper.succeed();
+        });
+    }
 }

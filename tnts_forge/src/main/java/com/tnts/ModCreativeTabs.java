@@ -27,6 +27,7 @@ public class ModCreativeTabs {
                         output.accept(new ItemStack(ModItems.TNT_CHESTPLATE.get()));
                         output.accept(new ItemStack(ModItems.TNT_BOOTS.get()));
                         output.accept(new ItemStack(ModItems.TNT_HELMET.get()));
+                        output.accept(new ItemStack(ModItems.TNT_LEGGINGS.get()));
                         output.accept(new ItemStack(ModItems.TNT_PICKAXE.get()));
                         output.accept(new ItemStack(ModItems.TNT_MANUAL.get()));
                         output.accept(new ItemStack(ModItems.TNT_DISC.get()));

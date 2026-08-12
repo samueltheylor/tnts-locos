@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:defeat_king",
+  "display": {
+    "icon": {
+      "item": "tnts:tnt_king_sword"
+    },
+    "title": {
+      "translate": "advancements.tnts.king_set_2.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.king_set_2.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "tnts:king_set",
+      "conditions": {
+        "min": 2
+      }
+    }
+  }
+}

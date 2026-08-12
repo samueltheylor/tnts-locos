@@ -1,0 +1,28 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:tnt_helmet"
+    },
+    "title": {
+      "translate": "advancements.tnts.night_vision.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.night_vision.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "effect": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:night_vision": {}
+        }
+      }
+    }
+  }
+}

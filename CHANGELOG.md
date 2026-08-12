@@ -1,5 +1,15 @@
 # TNTs Locos — Changelog
 
+## v1.10.11 — Pantalón de TNT, armadura completa, corona 3D en el jugador, fixes de capas y más advancements (solo Java)
+
+- **👖 Pantalón de TNT:** la armadura de TNT por fin está COMPLETA (casco + peto + pantalón + botas). Receta: 7 TNT en forma de pantalón.
+- **🛡️ SET BONUS de la armadura de TNT (4 piezas):** "Blindaje de TNT" — el daño de CUALQUIER explosión se reduce a la mitad (+50% de resistencia a explosiones).
+- **👑 CORONA 3D en el jugador:** la Corona del Rey ya no se ve plana (ni invisible) — ahora se renderiza con un **modelo 3D propio**: banda dorada con gema roja y 5 puntas (4 en las esquinas + 1 central más alta), con su propia textura. ¡El rey de verdad la lleva!
+- **🐛 FIX de las capas de armadura (el bug de verdad):** el generador dibujaba la cabeza de la armadura en `(0-7,0-7)` pero el modelo de armadura de Minecraft lee la cabeza en las caras `(0-31,8-15)` + top/bottom — por eso **la corona y el casco no se veían en el jugador**. Y las **botas se dibujaban en layer_2 cuando las botas usan layer_1** (solo los pantalones usan layer_2) — por eso no se veían las botas. Las dos capas (64x32) ahora usan el layout REAL de vanilla 1.20.1: layer_1 con cabeza/cuerpo/brazos/piernas (casco, peto y botas) y layer_2 con piernas + falda (pantalones).
+- **🏰 El Rey de verdad en el búnker:** el búnker de TNT abandonado ahora tiene un **60% de probabilidades de estar habitado por el Rey TNT** (con su barra de jefe completa y botín completo), como dice su descripción — ya no solo el guardián del almacén.
+- **🏆 6 advancements nuevos:** "¡Doble salto!" (botas), "Visión de TNT" (casco), "Poder del Rey" (set 2 piezas), "Escudo Real" (set 3), "Aura del Rey" (set 4) y "Se está agrietando..." (fases visuales del Rey) + "Guardia derrotada" (Rey guardián del almacén). Triggers nuevos `tnts:double_jumped`, `tnts:king_set`, `tnts:king_phase` y `tnts:king_guardian_defeated`.
+- GameTests nuevos (`tnt_leggings_completes_armor_set`, `tnt_armor_full_set_halves_explosion_damage`, `king_phase_advancement_fires_at_level_2`) → **"All 31 required tests passed"**.
+
 ## v1.10.10 — Set del Rey, Botas + Casco de TNT, Rey guardián del almacén y 3 idiomas nuevos (solo Java)
 
 - **👑 Set bonus del Rey TNT** (Corona + Peto + Espada + Escudo) con sinergias progresivas:
