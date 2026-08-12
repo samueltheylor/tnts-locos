@@ -292,8 +292,14 @@ public class TntsPrimedTnt extends PrimedTnt {
         // TNT REAL del Rey: radio 2.5x y siempre incendia (no se puede
         // aguantar; hay que desactivarla con tijeras)
         float boomPower = royal ? p.power() * 2.5f : p.power() * powerMul;
-        lvl.explode(this, x, y, z, boomPower, royal || p.fire(),
-                p.breaksBlocks() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+        // las TNT que CONSTRUYEN (Casa/Mansion) no hacen crater: si la
+        // explosion destruye el suelo primero, la estructura queda hundida
+        // dentro del hoyo. Solo construyen (con su polvareda de particulas).
+        boolean builds = p.has(TntEffect.HOUSE) || p.has(TntEffect.MANSION);
+        if (!builds && boomPower > 0.01f) {
+            lvl.explode(this, x, y, z, boomPower, royal || p.fire(),
+                    p.breaksBlocks() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+        }
 
         if (lvl.isClientSide) return; // el resto es solo servidor
 
@@ -1241,14 +1247,14 @@ public class TntsPrimedTnt extends PrimedTnt {
         net.minecraft.world.level.block.state.BlockState plank = Blocks.OAK_PLANKS.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState log = Blocks.OAK_LOG.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState roofPlank = Blocks.SPRUCE_PLANKS.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stairDown = Blocks.SPRUCE_STAIRS.defaultBlockState()
+        net.minecraft.world.level.block.state.BlockState stairEast = Blocks.SPRUCE_STAIRS.defaultBlockState()
                 .setValue(net.minecraft.world.level.block.StairBlock.FACING,
-                        net.minecraft.core.Direction.SOUTH)
+                        net.minecraft.core.Direction.EAST)
                 .setValue(net.minecraft.world.level.block.StairBlock.HALF,
                         net.minecraft.world.level.block.state.properties.Half.TOP);
-        net.minecraft.world.level.block.state.BlockState stairDownN = stairDown
+        net.minecraft.world.level.block.state.BlockState stairWest = stairEast
                 .setValue(net.minecraft.world.level.block.StairBlock.FACING,
-                        net.minecraft.core.Direction.NORTH);
+                        net.minecraft.core.Direction.WEST);
         net.minecraft.world.level.block.state.BlockState glass = Blocks.GLASS_PANE.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState torch = Blocks.TORCH.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState lantern = Blocks.LANTERN.defaultBlockState();
@@ -1314,26 +1320,37 @@ public class TntsPrimedTnt extends PrimedTnt {
         }
         buildSet(sl, new BlockPos(bx, by + 2, bz + 4), glass);
 
-        // techo de ABETO a dos aguas: fila de escalones invertidos + cumbrera
-        for (int dx = -4; dx <= 4; dx++) {
+        // techo de ABETO a dos aguas REAL: las pendientes caen hacia el este/oeste
+        // (dx=+-4) desde la cumbrera central (dx=0) que corre norte-sur.
+        // relleno inferior del techo (by+4)
+        for (int dx = -3; dx <= 3; dx++) {
             for (int dz = -4; dz <= 4; dz++) {
-                if (Math.abs(dx) == 4) {
-                    buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz),
-                            dx < 0 ? stairDownN : stairDown);
-                } else if (Math.abs(dx) <= 3) {
-                    buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz), roofPlank);
-                }
+                buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz), roofPlank);
             }
         }
-        // cumbrera superior
+        // primera fila de pendiente: escalones invertidos sobre las paredes laterales
+        for (int dz = -4; dz <= 4; dz++) {
+            buildSet(sl, new BlockPos(bx - 4, by + 4, bz + dz), stairEast);
+            buildSet(sl, new BlockPos(bx + 4, by + 4, bz + dz), stairWest);
+        }
+        // segunda fila de pendiente (mas alta, mas cerca de la cumbrera)
+        for (int dz = -4; dz <= 4; dz++) {
+            buildSet(sl, new BlockPos(bx - 3, by + 5, bz + dz), stairEast);
+            buildSet(sl, new BlockPos(bx + 3, by + 5, bz + dz), stairWest);
+        }
+        // cumbrera central (la mas alta, norte-sur)
         for (int dz = -3; dz <= 3; dz++) {
-            buildSet(sl, new BlockPos(bx, by + 5, bz + dz), roofPlank);
+            buildSet(sl, new BlockPos(bx, by + 6, bz + dz), roofPlank);
         }
 
-        // chimenea de piedra sobre el horno (atraviesa el techo)
-        for (int dy = 4; dy <= 6; dy++) {
+        // chimenea de piedra sobre el horno (atraviesa el techo y sobresale)
+        for (int dy = 4; dy <= 8; dy++) {
             buildSet(sl, new BlockPos(bx + 3, by + dy, bz + 3), stone);
         }
+        buildSet(sl, new BlockPos(bx + 2, by + 8, bz + 3), stone);
+        buildSet(sl, new BlockPos(bx + 4, by + 8, bz + 3), stone);
+        buildSet(sl, new BlockPos(bx + 3, by + 8, bz + 2), stone);
+        buildSet(sl, new BlockPos(bx + 3, by + 8, bz + 4), stone);
 
         // mobiliario interior
         buildSet(sl, new BlockPos(bx - 3, by + 1, bz - 3),

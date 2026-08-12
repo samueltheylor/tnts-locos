@@ -1,5 +1,11 @@
 # TNTs Locos — Changelog
 
+## v1.10.18 — Fix visual de Casa y Mansión: ya no se construyen dentro de un cráter (solo Java)
+
+- **🐛 EL BUG: la Casa y la Mansión se construían DENTRO de un cráter.** La explosión genérica corría ANTES de la construcción (power 2.0 rompiendo bloques) → la estructura quedaba hundida en un hoyo con los bordes de tierra alrededor. Ahora las TNT que construyen **no explotan** (solo hacen su polvareda de partículas y construyen) → la casa/mansión se levanta sobre el terreno plano, sin hoyo.
+- **🏠 Techo de la Casa a dos aguas REAL:** los escalones del techo estaban rotados 90° (miraban norte-sur en vez de hacia la cumbrera), por eso el techo se veía raro. Ahora las pendientes caen de verdad hacia el este/oeste desde la cumbrera central: 2 filas de escalones invertidos por lado + cumbrera a by+6, con chimenea de piedra más alta que sobresale del techo.
+- GameTests: **"All 34 required tests passed"**.
+
 ## v1.10.17 — Casa y Mansión rediseñadas: la Mansión ahora es de cuarzo (solo Java)
 
 - **🏠 Casa mejorada:** paredes de roble y abeto con marco, tejado a dos aguas de abeto, chimenea de piedra con humo, porche con columnas, faroles colgantes, macetas con flores y jardín alrededor — una casita acogedora de verdad.
