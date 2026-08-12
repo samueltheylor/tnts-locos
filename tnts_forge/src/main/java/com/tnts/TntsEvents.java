@@ -20,6 +20,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 /** Eventos del mod (registrados en el bus de eventos de Forge). */
 public class TntsEvents {
 
+    /** Cooldown del doble salto de las Botas de TNT (en ticks). */
+    private static final int BOOT_JUMP_COOLDOWN = 10;
+
+    /** Clave en los datos persistentes del jugador con el tick del ultimo doble salto. */
+    private static final String KEY_BOOT_JUMP = "tnts_last_boot_jump";
+
     /** Trades del aldeano Experto en TNTs. */
     @SubscribeEvent
     public static void onVillagerTrades(VillagerTradesEvent event) {
@@ -27,39 +33,47 @@ public class TntsEvents {
     }
 
     /**
-     * Corona del Rey TNT: mientras la llevas puesta tienes Resistencia al
-     * Fuego permanente (se reaplica al terminar).
+     * Efectos de jugador del mod: Corona (resistencia al fuego), Casco
+     * (vision nocturna), Botas (doble salto) y set bonus del Rey (advancements
+     * + aura).
      * <p>
-     * Set bonus (4 piezas): aura del Rey — cada 2s enciende las TNTs del
-     * mod cercanas automaticamente con un destello dorado.
+     * Solo se procesan para jugadores: el resto de entidades no pueden llevar
+     * estos items de forma util, y ademas evita recorrer todos los mobs del
+     * servidor (vacas, zombies, granjas...) en cada tick.
      */
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
-        LivingEntity entity = event.getEntity();
-        if (entity == null || entity.level().isClientSide) return;
+        // Solo jugadores: corona, casco, botas y set bonus del Rey son efectos
+        // de jugador. Saltarse el resto de entidades tambien evita recorrer
+        // todos los mobs del servidor (vacas, zombies, granjas...) cada tick.
+        if (!(event.getEntity() instanceof net.minecraft.world.entity.player.Player player)) return;
+        if (player.isRemoved() || player.level().isClientSide) return;
 
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_KING_CROWN.get())) {
-            if (!entity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false));
+        // Corona del Rey TNT: resistencia al fuego permanente mientras la llevas
+        if (player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_KING_CROWN.get())) {
+            if (!player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 0, false, false));
             }
         }
 
         // Casco de TNT: vision nocturna mientras lo llevas puesto
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_HELMET.get())) {
-            if (!entity.hasEffect(MobEffects.NIGHT_VISION)) {
-                entity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
+        if (player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.TNT_HELMET.get())) {
+            if (!player.hasEffect(MobEffects.NIGHT_VISION)) {
+                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
             }
         }
 
         // Botas de TNT: impulso de explosion al agacharte estando en el aire
-        // (doble salto con mini-explosion; cooldown de 10 ticks)
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ModItems.TNT_BOOTS.get())
-                && entity instanceof net.minecraft.world.entity.player.Player player
+        // (doble salto con mini-explosion). Cooldown REAL de 10 ticks desde el
+        // ultimo uso (antes dependia de la fase del tick: solo funcionaba 1 de
+        // cada 10 ticks, una ruleta rusa).
+        if (player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.TNT_BOOTS.get())
                 && !player.onGround()
                 && player.isShiftKeyDown()
                 && player.getDeltaMovement().y < 0.4
-                && player.tickCount % 10 == 0
-                && entity.level() instanceof ServerLevel serverLevel) {
+                && player.tickCount - player.getPersistentData().getInt(KEY_BOOT_JUMP) >= BOOT_JUMP_COOLDOWN
+                && player.level() instanceof ServerLevel serverLevel) {
+            player.getPersistentData().putInt(KEY_BOOT_JUMP, player.tickCount);
             if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
                 ModTriggers.DOUBLE_JUMPED.trigger(sp);
             }
@@ -79,27 +93,25 @@ public class TntsEvents {
                     .hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(EquipmentSlot.FEET));
         }
 
-        // SET BONUS DEL REY: dispara los advancements segun cuantas piezas lleva
-        if (entity instanceof net.minecraft.server.level.ServerPlayer sp && !sp.level().isClientSide) {
-            int pieces = TntKingSet.countPieces(entity);
-            if (pieces >= 2) ModTriggers.KING_SET.trigger(sp, pieces);
+        // SET BONUS DEL REY: dispara el advancement segun cuantas piezas lleva
+        // (countPieces se calcula UNA vez y se reutiliza en el aura)
+        int pieces = TntKingSet.countPieces(player);
+        if (pieces >= 2 && player instanceof net.minecraft.server.level.ServerPlayer sp) {
+            ModTriggers.KING_SET.trigger(sp, pieces);
         }
 
         // AURA DEL REY (4 piezas): enciende las TNTs cercanas cada 40 ticks
-        if (TntKingSet.countPieces(entity) >= 4
-                && entity.tickCount % 40 == 0
-                && entity.level() instanceof ServerLevel serverLevel) {
-            BlockPos center = entity.blockPosition();
+        if (pieces >= 4 && player.tickCount % 40 == 0 && player.level() instanceof ServerLevel auraLevel) {
+            BlockPos center = player.blockPosition();
             int primed = 0;
             for (BlockPos p : BlockPos.betweenClosed(
                     center.offset(-8, -4, -8), center.offset(8, 4, 8))) {
-                BlockState state = serverLevel.getBlockState(p);
+                BlockState state = auraLevel.getBlockState(p);
                 if (state.getBlock() instanceof com.tnts.block.TntBlock tnt
                         && !state.getValue(com.tnts.block.TntBlock.LIT)) {
-                    tnt.prime(serverLevel, p, state,
-                            entity instanceof net.minecraft.world.entity.player.Player pl ? pl : null);
+                    tnt.prime(auraLevel, p, state, player);
                     // si la mecha se encendio, el bloque ya no es una TNT apagada
-                    if (!(serverLevel.getBlockState(p).getBlock() instanceof com.tnts.block.TntBlock)) {
+                    if (!(auraLevel.getBlockState(p).getBlock() instanceof com.tnts.block.TntBlock)) {
                         primed++;
                     }
                 }
@@ -107,14 +119,14 @@ public class TntsEvents {
             if (primed > 0) {
                 // destello dorado del aura
                 for (int i = 0; i < 24; i++) {
-                    double a = entity.level().random.nextDouble() * Math.PI * 2;
-                    double r = 1.0 + entity.level().random.nextDouble() * 2.5;
-                    serverLevel.sendParticles(new net.minecraft.core.particles.DustParticleOptions(
+                    double a = auraLevel.random.nextDouble() * Math.PI * 2;
+                    double r = 1.0 + auraLevel.random.nextDouble() * 2.5;
+                    auraLevel.sendParticles(new net.minecraft.core.particles.DustParticleOptions(
                                     new org.joml.Vector3f(1.0F, 0.8F, 0.1F), 1.0F),
-                            entity.getX() + Math.cos(a) * r, entity.getY() + 1.0,
-                            entity.getZ() + Math.sin(a) * r, 1, 0, 0.3, 0, 0);
+                            player.getX() + Math.cos(a) * r, player.getY() + 1.0,
+                            player.getZ() + Math.sin(a) * r, 1, 0, 0.3, 0, 0);
                 }
-                serverLevel.playSound(null, entity.blockPosition(), ModSounds.BEEP.get(),
+                auraLevel.playSound(null, player.blockPosition(), ModSounds.BEEP.get(),
                         SoundSource.PLAYERS, 0.8F, 1.3F);
             }
         }
@@ -133,7 +145,7 @@ public class TntsEvents {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         LivingEntity wearer = event.getEntity();
-        if (wearer == null || wearer.level().isClientSide) return;
+        if (wearer == null || wearer.isRemoved() || wearer.level().isClientSide) return;
 
         // SET BONUS (3 piezas): inmunidad a explosiones de TNTs del mod
         if (TntKingSet.countPieces(wearer) >= 3
@@ -179,7 +191,7 @@ public class TntsEvents {
     @SubscribeEvent
     public static void onShieldBlock(ShieldBlockEvent event) {
         LivingEntity wearer = event.getEntity();
-        if (wearer == null || wearer.level().isClientSide) return;
+        if (wearer == null || wearer.isRemoved() || wearer.level().isClientSide) return;
         if (!wearer.getUseItem().is(ModItems.TNT_SHIELD.get())) return;
 
         Entity attacker = event.getDamageSource().getEntity();

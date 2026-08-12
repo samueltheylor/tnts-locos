@@ -50,10 +50,12 @@ public class TntManualScreen extends Screen {
                 y += ROW_HEIGHT;
                 continue;
             }
-            // icono de la TNT
-            ItemStack icon = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("tnts", name)));
-            if (!icon.isEmpty()) {
-                graphics.renderItem(icon, 22, y + 2);
+            // icono de la TNT (guard defensivo: si el item no existe,
+            // new ItemStack(null) crashearia antes de poder comprobar nada)
+            net.minecraft.world.item.Item item =
+                    ForgeRegistries.ITEMS.getValue(new ResourceLocation("tnts", name));
+            if (item != null) {
+                graphics.renderItem(new ItemStack(item), 22, y + 2);
             }
             // nombre + efecto
             graphics.drawString(this.font, Component.translatable("block.tnts." + name),

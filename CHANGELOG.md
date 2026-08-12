@@ -1,5 +1,14 @@
 # TNTs Locos — Changelog
 
+## v1.10.15 — Pulido: rendimiento, doble salto fiable, efectos solo para jugadores y guardas anti-crash (solo Java)
+
+- **⚡ Rendimiento: `onLivingTick` ya no recorre todos los mobs del servidor.** El handler que aplica corona/casco/botas/set bonus corría para CADA entidad (vacas, zombies, granjas...) en cada tick, haciendo hasta 4 checks de item + 2 conteos de piezas por entidad. Ahora solo procesa **jugadores** (early-return para el resto) y `countPieces` se calcula **una sola vez** por tick.
+- **👢 Doble salto fiable:** antes dependía de la fase del tick (`tickCount % 10 == 0`) — solo funcionaba 1 de cada 10 ticks y si te agachabas en el tick equivocado no saltaba. Ahora usa un **cooldown real** (10 ticks desde el último uso, guardado por jugador): funciona SIEMPRE que no lo hayas usado recién.
+- **👑 Efectos solo para jugadores (consistencia):** un zombie con la corona puesta ya no se vuelve inmune al fuego — los efectos del set del Rey son de jugador.
+- **🛡️ Guardas anti-crash:** `isRemoved()` en los handlers de daño y bloqueo con escudo, para que ningún mob a medio morir pueda tumbar el servidor.
+- **🐛 Crash latente del Manual de TNTs cazado:** el manual hacía `new ItemStack(item)` ANTES de comprobar si el item existía — si alguna TNT no tuviera item registrado (como pasó con Casa/Mansión en v1.10.12), abrir el manual crasheaba. Ahora comprueba `item != null` antes de crear el stack.
+- GameTests: **"All 32 required tests passed"**.
+
 ## v1.10.14 — FIX del crash "The stack count must be 1" al abrir el inventario creativo (solo Java)
 
 - **🐛 FIX del crash:** `java.lang.IllegalArgumentException: The stack count must be 1` al abrir el inventario creativo. **Causa raíz:** las TNT Casa y TNT Mansión (v1.10.12) tenían su **bloque registrado pero NO su item** — al añadirlas a la pestaña creativa, `new ItemStack(bloque)` devolvía un stack **vacío** (item = AIR, count 0) y el hook de Forge que valida `getCount() == 1` en cada item de la pestaña lanzaba la excepción.
