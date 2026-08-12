@@ -1226,9 +1226,10 @@ public class TntsPrimedTnt extends PrimedTnt {
     }
 
     /**
-     * TNT Casa: construye una casita de madera acogedora (7x5x7 interior)
-     * con puerta, ventanas, techo a dos aguas, cama, mesa de crafteo,
-     * horno, cofre y antorchas. El suelo se nivela bajo el piso.
+     * TNT Casa: construye una casita acogedora mejorada (9x9, interior 7x7)
+     * con techo de abeto, chimenea de piedra con humo, porche, faroles,
+     * macetas, jardin con flores, puerta, ventanas, cama, mesa de crafteo,
+     * horno, cofre y antorchas. El suelo se nivela bajo el piso y el jardin.
      */
     private void buildHouse(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel sl)) return;
@@ -1239,8 +1240,8 @@ public class TntsPrimedTnt extends PrimedTnt {
 
         net.minecraft.world.level.block.state.BlockState plank = Blocks.OAK_PLANKS.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState log = Blocks.OAK_LOG.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stair = Blocks.OAK_STAIRS.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stairDown = Blocks.OAK_STAIRS.defaultBlockState()
+        net.minecraft.world.level.block.state.BlockState roofPlank = Blocks.SPRUCE_PLANKS.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState stairDown = Blocks.SPRUCE_STAIRS.defaultBlockState()
                 .setValue(net.minecraft.world.level.block.StairBlock.FACING,
                         net.minecraft.core.Direction.SOUTH)
                 .setValue(net.minecraft.world.level.block.StairBlock.HALF,
@@ -1250,10 +1251,12 @@ public class TntsPrimedTnt extends PrimedTnt {
                         net.minecraft.core.Direction.NORTH);
         net.minecraft.world.level.block.state.BlockState glass = Blocks.GLASS_PANE.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState torch = Blocks.TORCH.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState lantern = Blocks.LANTERN.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState stone = Blocks.STONE_BRICKS.defaultBlockState();
 
-        // nivelar el suelo debajo del piso (relleno de tierra dentro del perimetro)
+        // nivelar el suelo: debajo de la casa + porche y jardin delante
         for (int dx = -4; dx <= 4; dx++) {
-            for (int dz = -4; dz <= 4; dz++) {
+            for (int dz = -6; dz <= 4; dz++) {
                 for (int dy = by - 3; dy < by; dy++) {
                     BlockPos p = new BlockPos(bx + dx, dy, bz + dz);
                     if (!sl.getBlockState(p).isSolid()
@@ -1270,6 +1273,9 @@ public class TntsPrimedTnt extends PrimedTnt {
                 buildSet(sl, new BlockPos(bx + dx, by, bz + dz), plank);
             }
         }
+        // porche delante de la puerta (a nivel del piso interior)
+        buildSet(sl, new BlockPos(bx - 1, by, bz - 5), plank);
+        buildSet(sl, new BlockPos(bx, by, bz - 5), plank);
 
         // paredes (perimetro de 9x9, de by+1 a by+3)
         for (int dy = 1; dy <= 3; dy++) {
@@ -1308,20 +1314,25 @@ public class TntsPrimedTnt extends PrimedTnt {
         }
         buildSet(sl, new BlockPos(bx, by + 2, bz + 4), glass);
 
-        // techo a dos aguas: fila de escalones invertidos + cumbrera
+        // techo de ABETO a dos aguas: fila de escalones invertidos + cumbrera
         for (int dx = -4; dx <= 4; dx++) {
             for (int dz = -4; dz <= 4; dz++) {
                 if (Math.abs(dx) == 4) {
                     buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz),
                             dx < 0 ? stairDownN : stairDown);
                 } else if (Math.abs(dx) <= 3) {
-                    buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz), plank);
+                    buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz), roofPlank);
                 }
             }
         }
         // cumbrera superior
         for (int dz = -3; dz <= 3; dz++) {
-            buildSet(sl, new BlockPos(bx, by + 5, bz + dz), plank);
+            buildSet(sl, new BlockPos(bx, by + 5, bz + dz), roofPlank);
+        }
+
+        // chimenea de piedra sobre el horno (atraviesa el techo)
+        for (int dy = 4; dy <= 6; dy++) {
+            buildSet(sl, new BlockPos(bx + 3, by + dy, bz + 3), stone);
         }
 
         // mobiliario interior
@@ -1343,7 +1354,22 @@ public class TntsPrimedTnt extends PrimedTnt {
         buildSet(sl, new BlockPos(bx, by + 1, bz + 3), torch);
         buildSet(sl, new BlockPos(bx, by + 1, bz - 3), torch);
 
+        // faroles colgando a los lados de la puerta + macetas
+        buildSet(sl, new BlockPos(bx - 1, by + 2, bz - 4), lantern);
+        buildSet(sl, new BlockPos(bx + 1, by + 2, bz - 4), lantern);
+        buildSet(sl, new BlockPos(bx - 1, by + 1, bz - 4), Blocks.POTTED_POPPY.defaultBlockState());
+        buildSet(sl, new BlockPos(bx + 1, by + 1, bz - 4), Blocks.POTTED_DANDELION.defaultBlockState());
+
+        // jardin delante: flores sobre la tierra nivelada
+        buildSet(sl, new BlockPos(bx - 3, by - 1, bz - 5), Blocks.POPPY.defaultBlockState());
+        buildSet(sl, new BlockPos(bx - 2, by - 1, bz - 6), Blocks.DANDELION.defaultBlockState());
+        buildSet(sl, new BlockPos(bx, by - 1, bz - 6), Blocks.POPPY.defaultBlockState());
+        buildSet(sl, new BlockPos(bx + 2, by - 1, bz - 6), Blocks.AZURE_BLUET.defaultBlockState());
+        buildSet(sl, new BlockPos(bx + 3, by - 1, bz - 5), Blocks.DANDELION.defaultBlockState());
+
         // humo de la chimenea + chispas de construccion
+        sl.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                bx + 3.5, by + 6.5, bz + 3.5, 4, 0.15, 0.25, 0.15, 0.01);
         for (int i = 0; i < 30; i++) {
             sl.sendParticles(ParticleTypes.CLOUD,
                     bx + (sl.random.nextDouble() - 0.5) * 9,
@@ -1359,9 +1385,11 @@ public class TntsPrimedTnt extends PrimedTnt {
     }
 
     /**
-     * TNT Mansión: construye una mansion de lujo de dos plantas (13x11x13)
-     * con torres en las esquinas, tejado de cobre, puertas dobles, faroles,
-     * biblioteca, cama de lujo y cofre con botin. Muy cara de craftear.
+     * TNT Mansión: construye una mansion de CUARZO estilo YouTube (15x15)
+     * de dos plantas con suelo intermedio y escalera de mano, 4 torres con
+     * remate de oro, tejado escalonado de cuarzo con corona dorada, doble
+     * puerta, ventanales, fuente con agua delante, alfombra roja, biblioteca,
+     * cama de lujo, cofre y lamparas. Muy cara de craftear.
      */
     private void buildMansion(Level lvl, double x, double y, double z) {
         if (!(lvl instanceof ServerLevel sl)) return;
@@ -1370,26 +1398,28 @@ public class TntsPrimedTnt extends PrimedTnt {
         int by = base.getY();
         int bz = base.getZ();
 
-        net.minecraft.world.level.block.state.BlockState quartz = Blocks.QUARTZ_BLOCK.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stone = Blocks.STONE_BRICKS.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState log = Blocks.DARK_OAK_LOG.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState plank = Blocks.DARK_OAK_PLANKS.defaultBlockState();
+        // ---- materiales: cuarzo blanco + detalles de ORO (look YouTube) ----
+        net.minecraft.world.level.block.state.BlockState quartz = Blocks.SMOOTH_QUARTZ.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState quartzBricks = Blocks.QUARTZ_BRICKS.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState pillar = Blocks.QUARTZ_PILLAR.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState gold = Blocks.GOLD_BLOCK.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState glass = Blocks.GLASS_PANE.defaultBlockState();
         net.minecraft.world.level.block.state.BlockState lantern = Blocks.LANTERN.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState copper = Blocks.CUT_COPPER.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stair = Blocks.STONE_BRICK_STAIRS.defaultBlockState();
-        net.minecraft.world.level.block.state.BlockState stairDown = Blocks.STONE_BRICK_STAIRS.defaultBlockState()
-                .setValue(net.minecraft.world.level.block.StairBlock.FACING,
+        net.minecraft.world.level.block.state.BlockState carpet = Blocks.RED_CARPET.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState water = Blocks.WATER.defaultBlockState();
+        net.minecraft.world.level.block.state.BlockState doorLower = Blocks.DARK_OAK_DOOR.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.DoorBlock.FACING,
                         net.minecraft.core.Direction.SOUTH)
-                .setValue(net.minecraft.world.level.block.StairBlock.HALF,
-                        net.minecraft.world.level.block.state.properties.Half.TOP);
-        net.minecraft.world.level.block.state.BlockState stairDownN = stairDown
-                .setValue(net.minecraft.world.level.block.StairBlock.FACING,
-                        net.minecraft.core.Direction.NORTH);
+                .setValue(net.minecraft.world.level.block.DoorBlock.HALF,
+                        net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER)
+                .setValue(net.minecraft.world.level.block.DoorBlock.OPEN, true);
+        net.minecraft.world.level.block.state.BlockState doorUpper = doorLower
+                .setValue(net.minecraft.world.level.block.DoorBlock.HALF,
+                        net.minecraft.world.level.block.state.properties.DoubleBlockHalf.UPPER);
 
-        // nivelar el suelo debajo
+        // nivelar el suelo: 15x15 de la mansion + zona de la fuente delante
         for (int dx = -7; dx <= 7; dx++) {
-            for (int dz = -7; dz <= 7; dz++) {
+            for (int dz = -10; dz <= 7; dz++) {
                 for (int dy = by - 4; dy < by; dy++) {
                     BlockPos p = new BlockPos(bx + dx, dy, bz + dz);
                     if (!sl.getBlockState(p).isSolid()
@@ -1400,114 +1430,156 @@ public class TntsPrimedTnt extends PrimedTnt {
             }
         }
 
-        // piso: cuarzo con borde de piedra
+        // piso: borde de ORO, interior de cuarzo liso
         for (int dx = -7; dx <= 7; dx++) {
             for (int dz = -7; dz <= 7; dz++) {
                 boolean edge = Math.abs(dx) == 7 || Math.abs(dz) == 7;
-                buildSet(sl, new BlockPos(bx + dx, by, bz + dz), edge ? stone : quartz);
+                buildSet(sl, new BlockPos(bx + dx, by, bz + dz), edge ? gold : quartz);
             }
         }
 
-        // planta baja (paredes by+1 a by+3) y planta alta (by+4 a by+6)
+        // paredes de 2 plantas (baja by+1..3, alta by+5..6) con suelo intermedio
+        // en by+4; esquinas y pilares de fachada en QUARTZ_PILLAR
         for (int dy = 1; dy <= 6; dy++) {
             for (int dx = -7; dx <= 7; dx++) {
                 for (int dz = -7; dz <= 7; dz++) {
                     boolean wall = Math.abs(dx) == 7 || Math.abs(dz) == 7;
                     if (!wall) continue;
                     boolean corner = Math.abs(dx) == 7 && Math.abs(dz) == 7;
-                    boolean upper = dy >= 4;
+                    boolean facadePillar = dz == -7 && Math.abs(dx) == 4;
+                    boolean sidePillar = Math.abs(dx) == 7 && Math.abs(dz) == 3;
+                    boolean backPillar = dz == 7 && Math.abs(dx) == 3;
                     BlockPos p = new BlockPos(bx + dx, by + dy, bz + dz);
-                    if (corner && dy <= 3) {
-                        buildSet(sl, p, log);
+                    if (corner || facadePillar || sidePillar || backPillar) {
+                        buildSet(sl, p, pillar);
                     } else {
-                        buildSet(sl, p, upper ? quartz : stone);
+                        buildSet(sl, p, quartz);
                     }
                 }
             }
         }
-
-        // torres en las 4 esquinas (más altas, con remate)
-        for (int tx : new int[]{-7, 7}) {
-            for (int tz : new int[]{-7, 7}) {
-                for (int dy = 1; dy <= 8; dy++) {
-                    buildSet(sl, new BlockPos(bx + tx, by + dy, bz + tz), log);
-                }
-                buildSet(sl, new BlockPos(bx + tx, by + 9, bz + tz), copper);
-                buildSet(sl, new BlockPos(bx + tx, by + 10, bz + tz),
-                        Blocks.CUT_COPPER_STAIRS.defaultBlockState()
-                                .setValue(net.minecraft.world.level.block.StairBlock.FACING,
-                                        net.minecraft.core.Direction.SOUTH));
-                buildSet(sl, new BlockPos(bx + tx, by + 10, bz + tz - 1),
-                        Blocks.CUT_COPPER_STAIRS.defaultBlockState()
-                                .setValue(net.minecraft.world.level.block.StairBlock.FACING,
-                                        net.minecraft.core.Direction.NORTH));
+        // suelo intermedio (by+4) de la 2a planta, con hueco de escalera atras
+        for (int dx = -6; dx <= 6; dx++) {
+            for (int dz = -6; dz <= 6; dz++) {
+                if (dx == 0 && dz == 6) continue; // hueco de la escalera de mano
+                buildSet(sl, new BlockPos(bx + dx, by + 4, bz + dz), quartz);
             }
         }
-
-        // puertas dobles en el frente (z = bz-7)
-        for (int dx : new int[]{-1, 0}) {
-            buildSet(sl, new BlockPos(bx + dx, by + 1, bz - 7),
-                    Blocks.DARK_OAK_DOOR.defaultBlockState()
-                            .setValue(net.minecraft.world.level.block.DoorBlock.FACING,
-                                    net.minecraft.core.Direction.SOUTH)
-                            .setValue(net.minecraft.world.level.block.DoorBlock.HALF,
-                                    net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER)
-                            .setValue(net.minecraft.world.level.block.DoorBlock.OPEN, dx == -1));
-            buildSet(sl, new BlockPos(bx + dx, by + 2, bz - 7),
-                    Blocks.DARK_OAK_DOOR.defaultBlockState()
-                            .setValue(net.minecraft.world.level.block.DoorBlock.FACING,
-                                    net.minecraft.core.Direction.SOUTH)
-                            .setValue(net.minecraft.world.level.block.DoorBlock.HALF,
-                                    net.minecraft.world.level.block.state.properties.DoubleBlockHalf.UPPER)
-                            .setValue(net.minecraft.world.level.block.DoorBlock.OPEN, dx == -1));
+        // escalera de mano en el hueco (sobre la pared trasera)
+        for (int dy = 1; dy <= 3; dy++) {
+            buildSet(sl, new BlockPos(bx, by + dy, bz + 6),
+                    Blocks.LADDER.defaultBlockState()
+                            .setValue(net.minecraft.world.level.block.LadderBlock.FACING,
+                                    net.minecraft.core.Direction.SOUTH));
         }
-        // ventanas grandes en la fachada
-        for (int wx : new int[]{-4, -3, 3, 4}) {
+
+        // puertas dobles abiertas en el frente (z = bz-7)
+        for (int dx : new int[]{-1, 0}) {
+            buildSet(sl, new BlockPos(bx + dx, by + 1, bz - 7), doorLower);
+            buildSet(sl, new BlockPos(bx + dx, by + 2, bz - 7), doorUpper);
+        }
+        // columnas de ORO flanqueando la entrada
+        for (int dy = 1; dy <= 2; dy++) {
+            buildSet(sl, new BlockPos(bx - 3, by + dy, bz - 7), gold);
+            buildSet(sl, new BlockPos(bx + 3, by + dy, bz - 7), gold);
+        }
+        // ventanales grandes en la fachada (2x2 en cada planta)
+        for (int wx : new int[]{-6, -5, 5, 6}) {
             for (int wy : new int[]{2, 3, 5, 6}) {
                 buildSet(sl, new BlockPos(bx + wx, by + wy, bz - 7), glass);
             }
         }
-        // ventanas laterales y traseras
-        for (int wy : new int[]{2, 5}) {
-            for (int wz : new int[]{-4, -3, 3, 4}) {
+        // ventanas laterales (2x2 en cada planta)
+        for (int wy : new int[]{2, 3, 5, 6}) {
+            for (int wz : new int[]{-5, -4, 4, 5}) {
                 buildSet(sl, new BlockPos(bx + 7, by + wy, bz + wz), glass);
                 buildSet(sl, new BlockPos(bx - 7, by + wy, bz + wz), glass);
-                buildSet(sl, new BlockPos(bx + wz, by + wy, bz + 7), glass);
+            }
+        }
+        // ventana trasera central (2x2 en cada planta)
+        for (int wy : new int[]{2, 3, 5, 6}) {
+            for (int wx : new int[]{-1, 0}) {
+                buildSet(sl, new BlockPos(bx + wx, by + wy, bz + 7), glass);
             }
         }
 
-        // tejado de cobre a dos aguas + cumbrera
-        for (int dx = -6; dx <= 6; dx++) {
+        // techo plano de cuarzo (by+7) con esquinas de ORO
+        for (int dx = -7; dx <= 7; dx++) {
             for (int dz = -7; dz <= 7; dz++) {
-                if (Math.abs(dx) == 6) {
-                    buildSet(sl, new BlockPos(bx + dx, by + 7, bz + dz),
-                            dx < 0 ? stairDownN : stairDown);
-                } else {
-                    buildSet(sl, new BlockPos(bx + dx, by + 7, bz + dz), copper);
+                boolean corner = Math.abs(dx) == 7 && Math.abs(dz) == 7;
+                buildSet(sl, new BlockPos(bx + dx, by + 7, bz + dz), corner ? gold : quartz);
+            }
+        }
+        // corona escalonada de cuarzo (piramide) con centro de ORO
+        for (int dx = -5; dx <= 5; dx++) {
+            for (int dz = -5; dz <= 5; dz++) {
+                if (Math.abs(dx) == 5 || Math.abs(dz) == 5) {
+                    buildSet(sl, new BlockPos(bx + dx, by + 8, bz + dz), quartzBricks);
                 }
             }
         }
-        for (int dz = -6; dz <= 6; dz++) {
-            buildSet(sl, new BlockPos(bx, by + 8, bz + dz), copper);
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
+                if (Math.abs(dx) == 3 || Math.abs(dz) == 3) {
+                    buildSet(sl, new BlockPos(bx + dx, by + 9, bz + dz), quartz);
+                }
+            }
         }
-        buildSet(sl, new BlockPos(bx, by + 9, bz), lantern);
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                buildSet(sl, new BlockPos(bx + dx, by + 10, bz + dz), quartz);
+            }
+        }
+        buildSet(sl, new BlockPos(bx, by + 11, bz), gold);
 
-        // faroles en la entrada
-        buildSet(sl, new BlockPos(bx - 2, by + 1, bz - 6), lantern);
-        buildSet(sl, new BlockPos(bx + 2, by + 1, bz - 6), lantern);
+        // torres de cuarzo en las 4 esquinas con remate de ORO
+        for (int tx : new int[]{-7, 7}) {
+            for (int tz : new int[]{-7, 7}) {
+                for (int dy = 7; dy <= 9; dy++) {
+                    buildSet(sl, new BlockPos(bx + tx, by + dy, bz + tz), pillar);
+                }
+                buildSet(sl, new BlockPos(bx + tx, by + 10, bz + tz), gold);
+            }
+        }
 
-        // interior: biblioteca, cama de lujo, alfombra, cofre con botin
+        // FUENTE delante de la entrada: primero el anillo de ORO (contencion)
+        // y DESPUES el agua — si el agua se coloca antes que su anillo,
+        // fluye al instante y el estanque se queda vacio
         for (int dx = -2; dx <= 2; dx++) {
-            buildSet(sl, new BlockPos(bx + dx, by + 1, bz - 5), Blocks.RED_CARPET.defaultBlockState());
+            for (int dz = -8; dz <= -10; dz++) {
+                boolean ring = Math.abs(dx) == 2 || dz == -8 || dz == -10;
+                if (ring) {
+                    buildSet(sl, new BlockPos(bx + dx, by, bz + dz), gold);
+                }
+            }
+        }
+        for (int dx = -1; dx <= 1; dx++) {
+            buildSet(sl, new BlockPos(bx + dx, by, bz - 9), water);
+        }
+        // chorro central de la fuente
+        buildSet(sl, new BlockPos(bx, by + 1, bz - 9), pillar);
+        buildSet(sl, new BlockPos(bx, by + 2, bz - 9), lantern);
+
+        // interior planta baja: alfombra roja de la entrada al centro
+        for (int dx = -1; dx <= 0; dx++) {
+            for (int dz = -6; dz <= -1; dz++) {
+                buildSet(sl, new BlockPos(bx + dx, by + 1, bz + dz), carpet);
+            }
+        }
+        // lampara colgante central (del suelo intermedio)
+        buildSet(sl, new BlockPos(bx, by + 3, bz), lantern);
+        // librerias contra las paredes laterales
+        for (int dy = 1; dy <= 2; dy++) {
+            buildSet(sl, new BlockPos(bx - 6, by + dy, bz - 5), Blocks.BOOKSHELF.defaultBlockState());
+            buildSet(sl, new BlockPos(bx - 6, by + dy, bz + 5), Blocks.BOOKSHELF.defaultBlockState());
+            buildSet(sl, new BlockPos(bx + 6, by + dy, bz - 5), Blocks.BOOKSHELF.defaultBlockState());
+            buildSet(sl, new BlockPos(bx + 6, by + dy, bz + 5), Blocks.BOOKSHELF.defaultBlockState());
         }
         buildSet(sl, new BlockPos(bx - 5, by + 1, bz - 4), Blocks.CHEST.defaultBlockState());
         buildSet(sl, new BlockPos(bx + 5, by + 1, bz - 4), Blocks.CRAFTING_TABLE.defaultBlockState());
-        for (int dx : new int[]{-6, 6}) {
-            for (int dy = 1; dy <= 3; dy++) {
-                buildSet(sl, new BlockPos(bx + dx, by + dy, bz + 5), Blocks.BOOKSHELF.defaultBlockState());
-            }
-        }
-        // cama de lujo en la planta alta
+        buildSet(sl, new BlockPos(bx + 5, by + 1, bz + 4), Blocks.FURNACE.defaultBlockState());
+
+        // planta alta: cama de lujo + librerias + lampara
         buildSet(sl, new BlockPos(bx - 1, by + 5, bz - 5),
                 Blocks.RED_BED.defaultBlockState()
                         .setValue(net.minecraft.world.level.block.BedBlock.FACING,
@@ -1520,8 +1592,11 @@ public class TntsPrimedTnt extends PrimedTnt {
                                 net.minecraft.core.Direction.SOUTH)
                         .setValue(net.minecraft.world.level.block.BedBlock.PART,
                                 net.minecraft.world.level.block.state.properties.BedPart.FOOT));
-        // farol central de la planta alta
-        buildSet(sl, new BlockPos(bx, by + 6, bz), Blocks.LANTERN.defaultBlockState());
+        for (int dy = 5; dy <= 6; dy++) {
+            buildSet(sl, new BlockPos(bx - 6, by + dy, bz + 4), Blocks.BOOKSHELF.defaultBlockState());
+            buildSet(sl, new BlockPos(bx + 6, by + dy, bz + 4), Blocks.BOOKSHELF.defaultBlockState());
+        }
+        buildSet(sl, new BlockPos(bx, by + 6, bz), lantern);
 
         // destello de construccion + musica de riqueza
         for (int i = 0; i < 60; i++) {
@@ -1533,7 +1608,7 @@ public class TntsPrimedTnt extends PrimedTnt {
         }
         for (int i = 0; i < 24; i++) {
             sl.sendParticles(new DustParticleOptions(
-                            new org.joml.Vector3f(0.4F, 0.9F, 1.0F), 1.2F),
+                            new org.joml.Vector3f(0.95F, 0.9F, 0.7F), 1.2F),
                     bx + (sl.random.nextDouble() - 0.5) * 16,
                     by + 1 + sl.random.nextDouble() * 9,
                     bz + (sl.random.nextDouble() - 0.5) * 16,

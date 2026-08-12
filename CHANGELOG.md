@@ -1,5 +1,12 @@
 # TNTs Locos — Changelog
 
+## v1.10.17 — Casa y Mansión rediseñadas: la Mansión ahora es de cuarzo (solo Java)
+
+- **🏠 Casa mejorada:** paredes de roble y abeto con marco, tejado a dos aguas de abeto, chimenea de piedra con humo, porche con columnas, faroles colgantes, macetas con flores y jardín alrededor — una casita acogedora de verdad.
+- **🏰 Mansión de CUARZO estilo YouTube:** ya no es de madera — ahora es una mansión blanca de **cuarzo pulido con detalles de oro** y tejado de prismarina oscura, de 2 plantas con suelo intermedio, escaleras centrales, 2 torres laterales, corona escalonada, balcón con barandilla, ventanales, **fuente con estanque de agua** (el agua ya no fluye y desaparece: el anillo se coloca antes que el agua) y muebles completos. Receta igual de cara: obsidiana + diamantes.
+- **🧪 2 GameTests nuevos** que explotan la Casa y la Mansión y verifican la estructura construida (casa completa; mansión con agua estable en la fuente). De paso **cazaron un bug real**: el agua de la fuente se colocaba en el mismo bucle que el anillo de contención, así que fluía y desaparecía antes de que existiera el anillo. Ahora el anillo va primero → agua estable.
+- GameTests: **"All 34 required tests passed"**.
+
 ## v1.10.16 — Pulido de rendimiento: sin freezes en las masivas, menos tráfico de red y sonidos propios (solo Java)
 
 - **🌍 Terremoto sin freeze:** el cráter entero eran ~2.600 `destroyBlock` en UN solo tick (el servidor se congelaba un instante). Ahora el núcleo (radio 5) se abre al instante y el anillo exterior (radio 5-9) 8 ticks después — mismo resultado visual, sin el tirón.

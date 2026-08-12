@@ -816,4 +816,52 @@ public class TntsGameTest {
         }
         helper.succeed();
     }
+
+    /** TNT Casa: al explotar construye una casita de madera utilizable. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void casa_tnt_builds_house(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        // entidad de la TNT Casa con mecha corta (camino completo: entidad ->
+        // explosion -> construccion). Ojo: getBlockState(pos) del helper trata
+        // el pos como RELATIVO, asi que se usa el nivel directamente.
+        var tnt = new com.tnts.entity.TntsPrimedTnt(
+                helper.getLevel(), ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5,
+                "tnts:casa_tnt", 5, null);
+        helper.getLevel().addFreshEntity(tnt);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(helper.getLevel().getBlockState(ap.offset(0, 1, -4)).getBlock()
+                            == net.minecraft.world.level.block.Blocks.OAK_DOOR,
+                    "La TNT Casa deberia construir una puerta de roble");
+            helper.assertTrue(helper.getLevel().getBlockState(ap).getBlock()
+                            == net.minecraft.world.level.block.Blocks.OAK_PLANKS,
+                    "La TNT Casa deberia construir el piso de tablones");
+            helper.succeed();
+        });
+    }
+
+    /** TNT Mansión: al explotar construye la mansion de cuarzo con fuente. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void mansion_tnt_builds_mansion(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        // entidad con mecha corta (camino completo). getBlockState(pos) del
+        // helper trata el pos como RELATIVO, asi que se usa el nivel directo.
+        var tnt = new com.tnts.entity.TntsPrimedTnt(
+                helper.getLevel(), ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5,
+                "tnts:mansion_tnt", 5, null);
+        helper.getLevel().addFreshEntity(tnt);
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(helper.getLevel().getBlockState(ap.offset(0, 1, -7)).getBlock()
+                            == net.minecraft.world.level.block.Blocks.DARK_OAK_DOOR,
+                    "La TNT Mansión deberia construir una puerta de roble oscuro");
+            helper.assertTrue(helper.getLevel().getBlockState(ap).getBlock()
+                            == net.minecraft.world.level.block.Blocks.SMOOTH_QUARTZ,
+                    "La TNT Mansión deberia construir el piso de cuarzo liso");
+            // fuente: el agua central es estable y se auto-repara (los tests
+            // paralelos pueden romper el anillo de oro, pero el agua re-fluye)
+            helper.assertTrue(helper.getLevel().getBlockState(ap.offset(0, 0, -9)).getBlock()
+                            == net.minecraft.world.level.block.Blocks.WATER,
+                    "La TNT Mansión deberia construir la fuente con agua");
+            helper.succeed();
+        });
+    }
 }
