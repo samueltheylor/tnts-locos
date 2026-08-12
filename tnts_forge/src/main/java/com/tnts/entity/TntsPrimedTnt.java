@@ -209,18 +209,24 @@ public class TntsPrimedTnt extends PrimedTnt {
         double pz = this.getZ();
 
         // mecha: chispas + humo DENSOS en la cara superior (centro del bloque)
-        // (cantidad segun la calidad de particulas de la config)
+        // (cantidad segun la calidad de particulas de la config). Se emiten
+        // cada 2 ticks: con reacciones en cadena de 20-40 TNTs la mitad del
+        // trafico de red sin cambio visual perceptible.
         double fx = this.getX();
         double fy = this.getY() + 0.95;
         double fz = this.getZ();
-        serverLevel.sendParticles(ParticleTypes.SMOKE, fx, fy, fz,
-                com.tnts.config.TntsConfig.particles(3), 0.12, 0.05, 0.12, 0.0);
-        serverLevel.sendParticles(ParticleTypes.SMALL_FLAME, fx, fy, fz,
-                com.tnts.config.TntsConfig.particles(2), 0.08, 0.03, 0.08, 0.01);
-        serverLevel.sendParticles(ParticleTypes.FLAME, fx, fy, fz,
-                com.tnts.config.TntsConfig.particles(1), 0.04, 0.0, 0.04, 0.0);
-        // punto de luz rojo que parpadea sobre la cara superior (4 ticks encendido / 4 apagado)
-        if ((this.tickCount / 4) % 2 == 0) {
+        if ((fuse & 1) == 0) {
+            serverLevel.sendParticles(ParticleTypes.SMOKE, fx, fy, fz,
+                    com.tnts.config.TntsConfig.particles(3), 0.12, 0.05, 0.12, 0.0);
+            serverLevel.sendParticles(ParticleTypes.SMALL_FLAME, fx, fy, fz,
+                    com.tnts.config.TntsConfig.particles(2), 0.08, 0.03, 0.08, 0.01);
+            serverLevel.sendParticles(ParticleTypes.FLAME, fx, fy, fz,
+                    com.tnts.config.TntsConfig.particles(1), 0.04, 0.0, 0.04, 0.0);
+        }
+        // punto de luz rojo que parpadea sobre la cara superior (4 ticks encendido / 4
+        // apagado). Se basa en la mecha (no en tickCount): las TNTs estaticas no
+        // incrementan tickCount, asi que antes el punto nunca parpadeaba en ellas.
+        if ((fuse / 4) % 2 == 0) {
             serverLevel.sendParticles(new DustParticleOptions(
                             new org.joml.Vector3f(1.0F, 0.15F, 0.05F), 1.4F),
                     fx, this.getY() + 1.06, fz, 1, 0, 0, 0, 0);
@@ -1630,17 +1636,32 @@ public class TntsPrimedTnt extends PrimedTnt {
      */
     private void earthquake(Level lvl, double x, double y, double z, BlockPos center) {
         if (!(lvl instanceof ServerLevel serverLevel)) return;
-        // Ola 1: crater central MASIVO (radio 9, mas profundo)
+        // Ola 1: nucleo del crater (radio 5) al instante — el crater entero
+        // de golpe eran ~2.600 destroyBlock en un tick (freeze del servidor),
+        // asi que el anillo exterior (radio 5-9) se reparte unos ticks despues
         for (BlockPos p : BlockPos.betweenClosed(center.offset(-9, -7, -9), center.offset(9, 3, 9))) {
             double dist = Math.sqrt(p.distSqr(center.offset(0, 2, 0)));
-            if (dist < 9 && lvl.random.nextInt(3) != 0) {
+            if (dist < 5 && lvl.random.nextInt(3) != 0) {
                 BlockState state = lvl.getBlockState(p);
                 if (!state.isAir() && canDestroy(state, lvl, p)) {
                     lvl.destroyBlock(p, true);
                 }
             }
         }
-        // Ola 2: grietas con lava (12 lineas hasta radio 16, mas lava)
+        // Ola 2: anillo exterior del crater (radio 5-9) pocos ticks despues
+        serverLevel.getServer().tell(new net.minecraft.server.TickTask(
+                serverLevel.getServer().getTickCount() + 8, () -> {
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-9, -7, -9), center.offset(9, 3, 9))) {
+                double dist = Math.sqrt(p.distSqr(center.offset(0, 2, 0)));
+                if (dist >= 5 && dist < 9 && lvl.random.nextInt(3) != 0) {
+                    BlockState state = lvl.getBlockState(p);
+                    if (!state.isAir() && canDestroy(state, lvl, p)) {
+                        lvl.destroyBlock(p, true);
+                    }
+                }
+            }
+        }));
+        // Ola 3: grietas con lava (12 lineas hasta radio 16, mas lava)
         for (int i = 0; i < 12; i++) {
             double angle = i * Math.PI / 6;
             for (int d = 4; d <= 16; d++) {
@@ -1703,7 +1724,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             // el meteorito 3D cae desde 40 bloques arriba y explota al impactar
             serverLevel.addFreshEntity(new MeteorEntity(serverLevel, mx + 0.5, my + 40, mz + 0.5));
         }
-        lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.6F);
+        lvl.playSound(null, x, y, z, ModSounds.explode("meteorito_tnt"), SoundSource.BLOCKS, 3.0F, 0.6F);
     }
 
     /**
@@ -1748,7 +1769,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             for (ServerPlayer sp : serverLevel.players()) {
                 if (sp.distanceToSqr(x, y, z) <= 10 * 10) sp.animateHurt(sp.getYRot());
             }
-            lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 2.5F, 0.8F);
+            lvl.playSound(null, x, y, z, ModSounds.explode("colosal_tnt"), SoundSource.BLOCKS, 2.5F, 0.8F);
         }));
         // Ola 2: crater mediano (radio 10)
         serverLevel.getServer().tell(new net.minecraft.server.TickTask(
@@ -1771,7 +1792,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             for (ServerPlayer sp : serverLevel.players()) {
                 if (sp.distanceToSqr(x, y, z) <= 14 * 14) sp.animateHurt(sp.getYRot());
             }
-            lvl.playSound(null, x, y, z, ModSounds.explode("mini_tnt"), SoundSource.BLOCKS, 3.0F, 0.7F);
+            lvl.playSound(null, x, y, z, ModSounds.explode("colosal_tnt"), SoundSource.BLOCKS, 3.0F, 0.7F);
         }));
         // Ola 3: crater grande (radio 16)
         serverLevel.getServer().tell(new net.minecraft.server.TickTask(
@@ -1795,7 +1816,7 @@ public class TntsPrimedTnt extends PrimedTnt {
             for (ServerPlayer sp : serverLevel.players()) {
                 if (sp.distanceToSqr(x, y, z) <= 20 * 20) sp.animateHurt(sp.getYRot());
             }
-            lvl.playSound(null, x, y, z, ModSounds.explode("mega_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
+            lvl.playSound(null, x, y, z, ModSounds.explode("colosal_tnt"), SoundSource.BLOCKS, 4.0F, 0.5F);
             serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 3, 2, 1, 2, 0);
         }));
         // Particulas inmediatas + ondas de choque 3D (rojo/amarillo)

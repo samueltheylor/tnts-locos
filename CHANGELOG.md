@@ -1,5 +1,16 @@
 # TNTs Locos — Changelog
 
+## v1.10.16 — Pulido de rendimiento: sin freezes en las masivas, menos tráfico de red y sonidos propios (solo Java)
+
+- **🌍 Terremoto sin freeze:** el cráter entero eran ~2.600 `destroyBlock` en UN solo tick (el servidor se congelaba un instante). Ahora el núcleo (radio 5) se abre al instante y el anillo exterior (radio 5-9) 8 ticks después — mismo resultado visual, sin el tirón.
+- **🕳️ Colapso del Agujero Negro sin freeze:** el cráter final de radio 11 se reparte en 2 ticks (núcleo radio 6 + anillo 6-11) y de paso se eliminó una llamada duplicada a `getDestroySpeed` por bloque.
+- **🧨 Mitad de tráfico de red en las mechas:** cada TNT encendida mandaba 4 paquetes de partículas POR TICK — con una reacción en cadena de 20-40 TNTs eran miles de paquetes por segundo. Ahora el humo y las llamas se emiten cada 2 ticks (imperceptible visualmente).
+- **🐛 Fix del punto rojo de la mecha:** parpadeaba solo en las TNTs lanzadas (que incrementan `tickCount`) pero **no en las TNTs estáticas** (que se quedan clavadas, el comportamiento normal del mod) — su tickCount nunca avanzaba. Ahora el parpadeo se basa en la mecha restante: 4 ticks encendido / 4 apagado en TODAS las TNTs.
+- **🔊 Sonidos propios en las oleadas:** la TNT Colosal sonaba con el petardo de la Mini en sus 3 oleadas, y el Meteorito al lanzarse también. Ahora usan sus propios sonidos (`colosal_tnt`, `meteorito_tnt` — que ya existían).
+- **⚙️ Config más clara:** la lista de efectos válidos en `config/tnts-common.toml` ahora incluye los 13 efectos nuevos que faltaban (EARTHQUAKE, METEOR, STORM, COLOSSAL, SUPERNOVA, TOXIC, FIREWORKS, GRAVITY, ENDER, BUBBLE, SOLAR, HOUSE, MANSION).
+- **⚡ `particleQuality` cacheado:** se leía de la config 4+ veces por tick por TNT (lookup con locks de Forge). Ahora se cachea y se invalida automáticamente al recargar la config.
+- GameTests: **"All 32 required tests passed"**.
+
 ## v1.10.15 — Pulido: rendimiento, doble salto fiable, efectos solo para jugadores y guardas anti-crash (solo Java)
 
 - **⚡ Rendimiento: `onLivingTick` ya no recorre todos los mobs del servidor.** El handler que aplica corona/casco/botas/set bonus corría para CADA entidad (vacas, zombies, granjas...) en cada tick, haciendo hasta 4 checks de item + 2 conteos de piezas por entidad. Ahora solo procesa **jugadores** (early-return para el resto) y `countPieces` se calcula **una sola vez** por tick.

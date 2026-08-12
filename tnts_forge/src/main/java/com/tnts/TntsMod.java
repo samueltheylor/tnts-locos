@@ -22,6 +22,12 @@ public class TntsMod {
         // Config (config/tnts-common.toml)
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, TntsConfig.SPEC);
 
+        // Invalida la cache de calidad de particulas al cargar/recargar la config
+        bus.addListener((net.minecraftforge.fml.event.config.ModConfigEvent.Loading e) ->
+                TntsConfig.invalidateCache());
+        bus.addListener((net.minecraftforge.fml.event.config.ModConfigEvent.Reloading e) ->
+                TntsConfig.invalidateCache());
+
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
         ModCreativeTabs.TABS.register(bus);

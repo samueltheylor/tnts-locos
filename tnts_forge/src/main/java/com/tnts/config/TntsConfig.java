@@ -26,6 +26,27 @@ public class TntsConfig {
     private static ForgeConfigSpec.IntValue particleQuality;
 
     /**
+     * Valor cacheado de particleQuality: se lee MUCHO en hot paths (cada tick
+     * de cada TNT encendida, cada explosion), y ForgeConfigSpec.get() hace un
+     * lookup con locks. -1 = sin cachear. Se invalida al recargar la config.
+     */
+    private static volatile int cachedQuality = -1;
+
+    /** Invalida la cache de calidad (se llama al cargar/recargar la config). */
+    public static void invalidateCache() {
+        cachedQuality = -1;
+    }
+
+    private static int quality() {
+        int q = cachedQuality;
+        if (q < 0) {
+            q = particleQuality != null ? particleQuality.get() : 1;
+            cachedQuality = q;
+        }
+        return q;
+    }
+
+    /**
      * Preset activo elegido desde la pantalla de config (se aplica al momento
      * sobre todos los valores). 1.0 = equilibrado (los valores del toml).
      * En singleplayer se comparte entre cliente y servidor integrado.
@@ -74,7 +95,8 @@ public class TntsConfig {
                             "FREEZES, SNOW, LAVA, LAUNCH, NUCLEAR, LIGHTNING, GOLD, TRAP, " +
                             "OBSIDIAN, CRYO, XP, WATER, SAND, DIAMOND, EMERALD, BLACKHOLE, " +
                             "WIND, INFERNO, FUNGI, HONEY, HEAL, TELEPORT, CONFETTI, " +
-                            "TOXIC, FIREWORKS, GRAVITY")
+                            "EARTHQUAKE, METEOR, STORM, COLOSSAL, SUPERNOVA, TOXIC, " +
+                            "FIREWORKS, GRAVITY, ENDER, BUBBLE, SOLAR, HOUSE, MANSION")
                     .defineList("effects",
                             d.effects().stream().map(Enum::name).toList(),
                             obj -> obj instanceof String);
@@ -129,7 +151,7 @@ public class TntsConfig {
 
     /** Multiplicador de particulas segun la calidad elegida en config. */
     public static float particleMul() {
-        int q = particleQuality != null ? particleQuality.get() : 1;
+        int q = quality();
         return q == 0 ? 0.35f : (q == 2 ? 1.8f : 1.0f);
     }
 
@@ -140,6 +162,6 @@ public class TntsConfig {
 
     /** Calidad maxima (particleQuality = 2): espectaculo extra en las masivas. */
     public static boolean maxQuality() {
-        return particleQuality != null && particleQuality.get() == 2;
+        return quality() == 2;
     }
 }

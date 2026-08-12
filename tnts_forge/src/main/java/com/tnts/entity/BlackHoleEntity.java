@@ -297,17 +297,37 @@ public class BlackHoleEntity extends Entity {
         // BOOM grande
         serverLevel.explode(this, x, y + 1, z, 10.0f, true, Level.ExplosionInteraction.BLOCK);
 
-        // crater decente garantizado (radio 11) + lava + fuego
+        // crater decente garantizado (radio 11) + lava + fuego.
+        // El crater entero de golpe eran ~1.000 destroyBlock en un tick
+        // (freeze del servidor): el nucleo (radio 6) al instante y el anillo
+        // exterior (radio 6-11) unos ticks despues.
         for (BlockPos p : BlockPos.betweenClosed(center.offset(-11, -6, -11), center.offset(11, 3, 11))) {
             double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
-            if (dist < 11 && serverLevel.random.nextInt(2) == 0) {
+            if (dist < 6 && serverLevel.random.nextInt(2) == 0) {
                 BlockState state = serverLevel.getBlockState(p);
-                if (!state.isAir() && state.getDestroySpeed(serverLevel, p) >= 0.0f
-                        && state.getDestroySpeed(serverLevel, p) < 60.0f) {
-                    serverLevel.destroyBlock(p, true);
+                if (!state.isAir()) {
+                    float hardness = state.getDestroySpeed(serverLevel, p);
+                    if (hardness >= 0.0f && hardness < 60.0f) {
+                        serverLevel.destroyBlock(p, true);
+                    }
                 }
             }
         }
+        serverLevel.getServer().tell(new net.minecraft.server.TickTask(
+                serverLevel.getServer().getTickCount() + 8, () -> {
+            for (BlockPos p : BlockPos.betweenClosed(center.offset(-11, -6, -11), center.offset(11, 3, 11))) {
+                double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
+                if (dist >= 6 && dist < 11 && serverLevel.random.nextInt(2) == 0) {
+                    BlockState state = serverLevel.getBlockState(p);
+                    if (!state.isAir()) {
+                        float hardness = state.getDestroySpeed(serverLevel, p);
+                        if (hardness >= 0.0f && hardness < 60.0f) {
+                            serverLevel.destroyBlock(p, true);
+                        }
+                    }
+                }
+            }
+        }));
         for (BlockPos p : BlockPos.betweenClosed(center.offset(-8, -2, -8), center.offset(8, -1, 8))) {
             double dist = Math.sqrt(p.distSqr(center.offset(0, 0, 0)));
             if (dist < 8 && serverLevel.isEmptyBlock(p)
