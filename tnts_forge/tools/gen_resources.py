@@ -28,7 +28,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
          "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt",
          "ender_tnt", "bubble_tnt", "solar_tnt",
-         "casa_tnt", "mansion_tnt"]
+         "casa_tnt", "mansion_tnt",
+         "luck_tnt", "portal_tnt"]
 
 # Recetas: nombre -> (ingredientes, cantidad). Cada ingrediente ("item", id) o ("tag", id).
 TNT_RECIPES = {
@@ -72,6 +73,8 @@ TNT_RECIPES = {
     "solar_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:blaze_powder"), ("item", "minecraft:glowstone")], 1),
     "casa_tnt":      ([("item", "minecraft:tnt"), ("item", "minecraft:oak_log"), ("item", "minecraft:oak_planks"), ("item", "minecraft:glass")], 1),
     "mansion_tnt":   ([("item", "minecraft:tnt"), ("item", "minecraft:obsidian"), ("item", "minecraft:diamond"), ("item", "minecraft:gold_block"), ("item", "minecraft:bookshelf")], 1),
+    "luck_tnt":      ([("item", "minecraft:tnt"), ("item", "minecraft:spider_eye"), ("item", "minecraft:golden_apple")], 1),  # suerte
+    "portal_tnt":    ([("item", "minecraft:tnt"), ("item", "minecraft:obsidian"), ("item", "minecraft:flint_and_steel")], 1),  # portal
     "tnt_manual":    ([("item", "minecraft:book"), ("item", "minecraft:tnt")], 1),
     "grenade":       ([("item", "minecraft:tnt"), ("item", "minecraft:string")], 2),
     "detonator":     ([("tag", "forge:ingots/iron"), ("tag", "forge:dusts/redstone"), ("item", "minecraft:tnt")], 1),
@@ -119,6 +122,8 @@ PALETTES = {
     "solar_tnt":     ("#9a3412", "#fef08a", "#450a0a", "#fbbf24", "#7c2d12"),  # solar/amarillo fuego
     "casa_tnt":      ("#7c4a03", "#fef3c7", "#451a03", "#d97706", "#451a03"),  # casa/madera acogedora
     "mansion_tnt":   ("#312e81", "#e0f2fe", "#1e1b4b", "#67e8f9", "#1e1b4b"),  # mansion/lujo azul noche
+    "luck_tnt":      ("#be185d", "#fdf4ff", "#500724", "#f0abfc", "#500724"),  # suerte/rosa magico
+    "portal_tnt":    ("#4c1d95", "#ede9fe", "#1e1b4b", "#a855f7", "#1e1b4b"),  # portal/nether purpura
 }
 
 
@@ -1964,6 +1969,8 @@ LANG_ES = {
     "block.tnts.solar_tnt": "TNT Solar",
     "block.tnts.casa_tnt": "TNT Casa",
     "block.tnts.mansion_tnt": "TNT Mansión",
+    "block.tnts.luck_tnt": "TNT de la Suerte",
+    "block.tnts.portal_tnt": "TNT Portal",
     "block.tnts.tnt_table": "Mesa de TNTs",
     "block.tnts.tnt_altar": "Altar del Rey TNT",
     "item.tnts.tnt_manual": "Manual de TNTs",
@@ -2063,6 +2070,8 @@ LANG_EN = {
     "block.tnts.solar_tnt": "Solar TNT",
     "block.tnts.casa_tnt": "House TNT",
     "block.tnts.mansion_tnt": "Mansion TNT",
+    "block.tnts.luck_tnt": "Lucky TNT",
+    "block.tnts.portal_tnt": "Portal TNT",
     "block.tnts.tnt_table": "TNT Workbench",
     "block.tnts.tnt_altar": "TNT King Altar",
     "item.tnts.tnt_manual": "TNT Manual",
@@ -2163,6 +2172,8 @@ MANUAL_ES = {
     "solar_tnt": "Hace dia, despeja el tiempo e incendia una gran area.",
     "casa_tnt": "Genera una casa acogedora de madera, lista para vivir.",
     "mansion_tnt": "Genera una mansion de lujo con dos plantas, torres y decoracion.",
+    "luck_tnt": "Sorpresa: explota como OTRA TNT del mod elegida al azar.",
+    "portal_tnt": "Construye un portal al Nether completo y encendido.",
 }
 
 MANUAL_EN = {
@@ -2206,6 +2217,8 @@ MANUAL_EN = {
     "solar_tnt": "Makes it day, clears the weather and ignites a huge area.",
     "casa_tnt": "Builds a cozy wooden house, ready to live in.",
     "mansion_tnt": "Builds a luxury mansion with two floors, towers and decor.",
+    "luck_tnt": "Surprise: explodes as ANOTHER random TNT from the mod.",
+    "portal_tnt": "Builds a complete, lit Nether portal.",
 }
 
 # ---- Português (pt_br) ----
@@ -2251,6 +2264,8 @@ LANG_PT = {
     "block.tnts.solar_tnt": "TNT Solar",
     "block.tnts.casa_tnt": "TNT Casa",
     "block.tnts.mansion_tnt": "TNT Mansão",
+    "block.tnts.luck_tnt": "TNT da Sorte",
+    "block.tnts.portal_tnt": "TNT Portal",
     "block.tnts.tnt_table": "Mesa de TNTs",
     "block.tnts.tnt_altar": "Altar do Rei TNT",
     "item.tnts.tnt_manual": "Manual de TNTs",
@@ -2349,6 +2364,8 @@ MANUAL_PT = {
     "solar_tnt": "Faz dia, limpa o tempo e incendeia uma área enorme.",
     "casa_tnt": "Gera uma casa aconchegante de madeira, pronta para morar.",
     "mansion_tnt": "Gera uma mansão de luxo com dois andares, torres e decoração.",
+    "luck_tnt": "Surpresa: explode como OUTRA TNT aleatória do mod.",
+    "portal_tnt": "Constrói um portal para o Nether completo e aceso.",
 }
 
 # ---- Deutsch (de_de) ----
@@ -2394,6 +2411,8 @@ LANG_DE = {
     "block.tnts.solar_tnt": "Solar-TNT",
     "block.tnts.casa_tnt": "Haus-TNT",
     "block.tnts.mansion_tnt": "Herrenhaus-TNT",
+    "block.tnts.luck_tnt": "Glücks-TNT",
+    "block.tnts.portal_tnt": "Portal-TNT",
     "block.tnts.tnt_table": "TNT-Werkbank",
     "block.tnts.tnt_altar": "TNT-Königs-Altar",
     "item.tnts.tnt_manual": "TNT-Handbuch",
@@ -2492,6 +2511,8 @@ MANUAL_DE = {
     "solar_tnt": "Macht Tag, klärt das Wetter und entzündet eine riesige Fläche.",
     "casa_tnt": "Erzeugt ein gemütliches Holzhaus, bereit zum Wohnen.",
     "mansion_tnt": "Erzeugt eine Luxusvilla mit zwei Stockwerken, Türmen und Deko.",
+    "luck_tnt": "Überraschung: explodiert als zufällige ANDERE TNT des Mods.",
+    "portal_tnt": "Baut ein komplettes, angezündetes Netherportal.",
 }
 
 # ---- Français (fr_fr) ----
@@ -2537,6 +2558,8 @@ LANG_FR = {
     "block.tnts.solar_tnt": "TNT Solaire",
     "block.tnts.casa_tnt": "TNT Maison",
     "block.tnts.mansion_tnt": "TNT Manoir",
+    "block.tnts.luck_tnt": "TNT Chance",
+    "block.tnts.portal_tnt": "TNT Portail",
     "block.tnts.tnt_table": "Table de TNTs",
     "block.tnts.tnt_altar": "Autel du Roi TNT",
     "item.tnts.tnt_manual": "Manuel de TNTs",
@@ -2635,6 +2658,8 @@ MANUAL_FR = {
     "solar_tnt": "Fait jour, dégage le temps et enflamme une grande zone.",
     "casa_tnt": "Génère une maison en bois chaleureuse, prête à habiter.",
     "mansion_tnt": "Génère un manoir de luxe à deux étages, avec tours et déco.",
+    "luck_tnt": "Surprise : explose comme une AUTRE TNT aléatoire du mod.",
+    "portal_tnt": "Construit un portail du Nether complet et allumé.",
 }
 
 

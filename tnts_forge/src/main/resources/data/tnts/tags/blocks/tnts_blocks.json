@@ -40,6 +40,8 @@
     "tnts:bubble_tnt",
     "tnts:solar_tnt",
     "tnts:casa_tnt",
-    "tnts:mansion_tnt"
+    "tnts:mansion_tnt",
+    "tnts:luck_tnt",
+    "tnts:portal_tnt"
   ]
 }

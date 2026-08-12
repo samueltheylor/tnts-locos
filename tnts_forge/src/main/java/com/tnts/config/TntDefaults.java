@@ -57,6 +57,9 @@ public class TntDefaults {
         // === TNTs NUEVAS (1.10.12) ===
         add("casa_tnt",       new TntProperties(2.0f,  false, false, 40, of(TntEffect.HOUSE)));     // construye una casa de madera
         add("mansion_tnt",    new TntProperties(2.0f,  false, false, 50, of(TntEffect.MANSION)));   // construye una mansion de lujo
+        // === TNTs NUEVAS (1.10.21) ===
+        add("luck_tnt",       new TntProperties(4.0f,  false, true,  40, of(TntEffect.LUCKY)));     // elige otra TNT al azar
+        add("portal_tnt",     new TntProperties(2.0f,  false, false, 50, of(TntEffect.PORTAL)));    // construye un portal al Nether
     }
 
     private static EnumSet<TntEffect> none() {

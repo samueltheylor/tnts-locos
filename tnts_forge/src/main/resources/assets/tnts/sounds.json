@@ -443,5 +443,25 @@
     "sounds": [
       "tnts:block/tnt/explode_mansion_tnt"
     ]
+  },
+  "block.tnt.fuse.luck_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_luck_tnt"
+    ]
+  },
+  "block.tnt.explode.luck_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_luck_tnt"
+    ]
+  },
+  "block.tnt.fuse.portal_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_portal_tnt"
+    ]
+  },
+  "block.tnt.explode.portal_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_portal_tnt"
+    ]
   }
 }

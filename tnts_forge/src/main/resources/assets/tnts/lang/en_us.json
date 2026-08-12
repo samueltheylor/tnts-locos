@@ -40,6 +40,8 @@
   "block.tnts.solar_tnt": "Solar TNT",
   "block.tnts.casa_tnt": "House TNT",
   "block.tnts.mansion_tnt": "Mansion TNT",
+  "block.tnts.luck_tnt": "Lucky TNT",
+  "block.tnts.portal_tnt": "Portal TNT",
   "block.tnts.tnt_table": "TNT Workbench",
   "block.tnts.tnt_altar": "TNT King Altar",
   "item.tnts.tnt_manual": "TNT Manual",
@@ -50,10 +52,6 @@
   "item.tnts.tnt_shield": "TNT Shield",
   "item.tnts.tnt_king_spawn_egg": "TNT King Spawn Egg",
   "entity.tnts.tnt_king": "TNT King",
-  "item.tnts.tnt_golem_spawn_egg": "TNT Golem Spawn Egg",
-  "entity.tnts.tnt_golem": "TNT Golem",
-  "item.tnts.tnt_rocket": "TNT Rocket",
-  "entity.tnts.tnt_rocket": "TNT Rocket",
   "entity.minecraft.villager.tnt_expert": "TNT Expert",
   "tnts.manual.hint": "All the mod's TNTs: effect and radius (config)",
   "tnts.manual.power": "Radius: %s",
@@ -218,5 +216,11 @@
   "tnts.manual.casa_tnt": "Builds a cozy wooden house, ready to live in.",
   "advancements.tnts.craft.mansion_tnt.title": "Craft the Mansion TNT",
   "advancements.tnts.craft.mansion_tnt.description": "Craft a Mansion TNT",
-  "tnts.manual.mansion_tnt": "Builds a luxury mansion with two floors, towers and decor."
+  "tnts.manual.mansion_tnt": "Builds a luxury mansion with two floors, towers and decor.",
+  "advancements.tnts.craft.luck_tnt.title": "Craft the Lucky TNT",
+  "advancements.tnts.craft.luck_tnt.description": "Craft a Lucky TNT",
+  "tnts.manual.luck_tnt": "Surprise: explodes as ANOTHER random TNT from the mod.",
+  "advancements.tnts.craft.portal_tnt.title": "Craft the Portal TNT",
+  "advancements.tnts.craft.portal_tnt.description": "Craft a Portal TNT",
+  "tnts.manual.portal_tnt": "Builds a complete, lit Nether portal."
 }

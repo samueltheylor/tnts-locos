@@ -40,6 +40,8 @@
   "block.tnts.solar_tnt": "TNT Solaire",
   "block.tnts.casa_tnt": "TNT Maison",
   "block.tnts.mansion_tnt": "TNT Manoir",
+  "block.tnts.luck_tnt": "TNT Chance",
+  "block.tnts.portal_tnt": "TNT Portail",
   "block.tnts.tnt_table": "Table de TNTs",
   "block.tnts.tnt_altar": "Autel du Roi TNT",
   "item.tnts.tnt_manual": "Manuel de TNTs",
@@ -50,10 +52,6 @@
   "item.tnts.tnt_shield": "Bouclier TNT",
   "item.tnts.tnt_king_spawn_egg": "Invoquer le Roi TNT",
   "entity.tnts.tnt_king": "Roi TNT",
-  "item.tnts.tnt_golem_spawn_egg": "Invoquer le Golem TNT",
-  "entity.tnts.tnt_golem": "Golem TNT",
-  "item.tnts.tnt_rocket": "Fus\u00e9e TNT",
-  "entity.tnts.tnt_rocket": "Fus\u00e9e TNT",
   "entity.minecraft.villager.tnt_expert": "Expert en TNTs",
   "tnts.manual.hint": "Toutes les TNTs du mod : effet et rayon (config)",
   "tnts.manual.power": "Rayon : %s",
@@ -218,5 +216,11 @@
   "tnts.manual.casa_tnt": "G\u00e9n\u00e8re une maison en bois chaleureuse, pr\u00eate \u00e0 habiter.",
   "advancements.tnts.craft.mansion_tnt.title": "Fabriquez la TNT Manoir",
   "advancements.tnts.craft.mansion_tnt.description": "Obtenez une TNT Manoir en la fabriquant",
-  "tnts.manual.mansion_tnt": "G\u00e9n\u00e8re un manoir de luxe \u00e0 deux \u00e9tages, avec tours et d\u00e9co."
+  "tnts.manual.mansion_tnt": "G\u00e9n\u00e8re un manoir de luxe \u00e0 deux \u00e9tages, avec tours et d\u00e9co.",
+  "advancements.tnts.craft.luck_tnt.title": "Fabriquez la TNT Chance",
+  "advancements.tnts.craft.luck_tnt.description": "Obtenez une TNT Chance en la fabriquant",
+  "tnts.manual.luck_tnt": "Surprise : explose comme une AUTRE TNT al\u00e9atoire du mod.",
+  "advancements.tnts.craft.portal_tnt.title": "Fabriquez la TNT Portail",
+  "advancements.tnts.craft.portal_tnt.description": "Obtenez une TNT Portail en la fabriquant",
+  "tnts.manual.portal_tnt": "Construit un portail du Nether complet et allum\u00e9."
 }

@@ -1,5 +1,13 @@
 # TNTs Locos — Changelog
 
+## v1.10.21 — ⌨️ Comando /tnts + 🎲 TNT de la Suerte + ⛩️ TNT Portal (solo Java)
+
+- **⌨️ Comando `/tnts`:** darte cualquier TNT o item del mod al instante. `/tnts give <nombre> [cantidad]` (acepta `mega_tnt` o `tnts:mega_tnt`, si el inventario está lleno lo deja caer) y `/tnts list` para ver todos los items. Requiere permiso de operador. Se acabó ir a craftear para probar: `tnts give colosal_tnt 5` y a volar.
+- **🎲 TNT de la Suerte (nº41):** al explotar elige OTRA TNT del mod al azar (excluyendo la propia Suerte) y dispara su efecto COMPLETO — radio, fuego, drops y espectáculo incluidos. Cada vez es una sorpresa: puede tocar Mini (discreta) o Colosal (desastre total). Receta: TNT + ojo de araña + manzana dorada.
+- **⛩️ TNT Portal (nº42):** al explotar construye un **portal al Nether completo y encendido** — marco de obsidiana 4x5 + interior de portal, con el suelo nivelado debajo, partículas de portal y sonido. Receta: TNT + obsidiana + mechero.
+- **42 TNTs totales.** Las dos nuevas con textura/animación estilo vanilla, lang en los 5 idiomas, entrada en el Manual de TNTs, receta y advancement de crafteo. La config se regenera sola con sus valores.
+- GameTests: 39 (nuevos `luck_tnt_triggers_random` y `portal_tnt_builds_nether_portal` — este último cazó un bug real: el bloque de portal se destruía solo si el marco no estaba completo al colocarlo; ahora se pone primero toda la obsidiana) → **"All 39 required tests passed"**.
+
 ## v1.10.20 — 🛩️ El Cohete ahora es un AVIÓN con lanzador de TNTs + Golem rediseñado (solo Java)
 
 - **✈️ AVIÓN de TNT (el Cohete rediseñado):** ya no es un cubo con propulsor — ahora es un **avión de verdad** hecho de bloques de TNT: fuselaje largo con franja blanca y remaches, **alas de hierro**, cola con timón vertical y plano horizontal, **hélice que gira** en la nariz y llama del propulsor trasera que crece al volar. Se monta encima del fuselaje (asiento en y+1.05), despega al agacharte y vuela girando con la mirada (el modelo se rota con el yaw del piloto).

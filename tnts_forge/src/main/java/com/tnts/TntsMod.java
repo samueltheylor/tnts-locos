@@ -52,6 +52,10 @@ public class TntsMod {
         // Eventos (peto de TNT reactivo)
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(TntsEvents.class);
 
+        // Comando /tnts (give + list)
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                com.tnts.command.TntsCommands::register);
+
         // Registro solo cliente (config screen + renderers)
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientSetup::registerClient);
     }

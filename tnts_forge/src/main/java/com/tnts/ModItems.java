@@ -62,6 +62,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> CASA_TNT = blockItem("casa_tnt", ModBlocks.CASA_TNT);
     public static final RegistryObject<Item> MANSION_TNT = blockItem("mansion_tnt", ModBlocks.MANSION_TNT);
+    public static final RegistryObject<Item> LUCK_TNT = blockItem("luck_tnt", ModBlocks.LUCK_TNT);
+    public static final RegistryObject<Item> PORTAL_TNT = blockItem("portal_tnt", ModBlocks.PORTAL_TNT);
 
     public static final RegistryObject<Item> TNT_TABLE = blockItem("tnt_table", ModBlocks.TNT_TABLE);
     public static final RegistryObject<Item> TNT_ALTAR = blockItem("tnt_altar", ModBlocks.TNT_ALTAR);

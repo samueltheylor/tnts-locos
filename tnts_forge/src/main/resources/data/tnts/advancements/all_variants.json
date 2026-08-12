@@ -255,6 +255,18 @@
       "conditions": {
         "block": "tnts:mansion_tnt"
       }
+    },
+    "explode_luck_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:luck_tnt"
+      }
+    },
+    "explode_portal_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:portal_tnt"
+      }
     }
   }
 }

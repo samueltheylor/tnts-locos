@@ -955,4 +955,45 @@ public class TntsGameTest {
             helper.succeed();
         });
     }
+
+    /** TNT de la SUERTE: al explotar dispara OTRA TNT del mod al azar. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void luck_tnt_triggers_random(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        // entidad con mecha corta (camino completo: entidad -> explosion -> efecto)
+        var tnt = new com.tnts.entity.TntsPrimedTnt(
+                helper.getLevel(), ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5,
+                "tnts:luck_tnt", 5, null);
+        helper.getLevel().addFreshEntity(tnt);
+        helper.runAfterDelay(40, () -> {
+            AABB area = new AABB(ap).inflate(20);
+            // la TNT fantasma (mecha 2) ya explotó y disparó el efecto 3D
+            // genérico que TODA TNT del mod lanza al explotar (TntBlastEntity)
+            var blasts = helper.getLevel().getEntitiesOfClass(
+                    com.tnts.entity.TntBlastEntity.class, area);
+            helper.assertTrue(!blasts.isEmpty(),
+                    "La TNT de la Suerte deberia haber disparado el efecto de otra TNT");
+            helper.succeed();
+        });
+    }
+
+    /** TNT PORTAL: al explotar construye un portal al Nether completo. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void portal_tnt_builds_nether_portal(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        var tnt = new com.tnts.entity.TntsPrimedTnt(
+                helper.getLevel(), ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5,
+                "tnts:portal_tnt", 5, null);
+        helper.getLevel().addFreshEntity(tnt);
+        helper.runAfterDelay(30, () -> {
+            // marco de obsidiana (una esquina) + interior de portal (centro)
+            helper.assertTrue(helper.getLevel().getBlockState(ap.offset(-1, 0, 0)).getBlock()
+                            == net.minecraft.world.level.block.Blocks.OBSIDIAN,
+                    "El portal deberia tener el marco de obsidiana");
+            helper.assertTrue(helper.getLevel().getBlockState(ap.offset(0, 1, 0)).getBlock()
+                            == net.minecraft.world.level.block.Blocks.NETHER_PORTAL,
+                    "El portal deberia tener el interior de portal encendido");
+            helper.succeed();
+        });
+    }
 }

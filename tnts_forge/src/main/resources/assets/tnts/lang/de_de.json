@@ -40,6 +40,8 @@
   "block.tnts.solar_tnt": "Solar-TNT",
   "block.tnts.casa_tnt": "Haus-TNT",
   "block.tnts.mansion_tnt": "Herrenhaus-TNT",
+  "block.tnts.luck_tnt": "Gl\u00fccks-TNT",
+  "block.tnts.portal_tnt": "Portal-TNT",
   "block.tnts.tnt_table": "TNT-Werkbank",
   "block.tnts.tnt_altar": "TNT-K\u00f6nigs-Altar",
   "item.tnts.tnt_manual": "TNT-Handbuch",
@@ -50,10 +52,6 @@
   "item.tnts.tnt_shield": "TNT-Schild",
   "item.tnts.tnt_king_spawn_egg": "TNT-K\u00f6nig spawnen",
   "entity.tnts.tnt_king": "TNT-K\u00f6nig",
-  "item.tnts.tnt_golem_spawn_egg": "TNT-Golem spawnen",
-  "entity.tnts.tnt_golem": "TNT-Golem",
-  "item.tnts.tnt_rocket": "TNT-Rakete",
-  "entity.tnts.tnt_rocket": "TNT-Rakete",
   "entity.minecraft.villager.tnt_expert": "TNT-Experte",
   "tnts.manual.hint": "Alle TNTs des Mods: Effekt und Radius (Config)",
   "tnts.manual.power": "Radius: %s",
@@ -218,5 +216,11 @@
   "tnts.manual.casa_tnt": "Erzeugt ein gem\u00fctliches Holzhaus, bereit zum Wohnen.",
   "advancements.tnts.craft.mansion_tnt.title": "Stelle die Herrenhaus-TNT her",
   "advancements.tnts.craft.mansion_tnt.description": "Stelle eine Herrenhaus-TNT her",
-  "tnts.manual.mansion_tnt": "Erzeugt eine Luxusvilla mit zwei Stockwerken, T\u00fcrmen und Deko."
+  "tnts.manual.mansion_tnt": "Erzeugt eine Luxusvilla mit zwei Stockwerken, T\u00fcrmen und Deko.",
+  "advancements.tnts.craft.luck_tnt.title": "Stelle die Gl\u00fccks-TNT her",
+  "advancements.tnts.craft.luck_tnt.description": "Stelle eine Gl\u00fccks-TNT her",
+  "tnts.manual.luck_tnt": "\u00dcberraschung: explodiert als zuf\u00e4llige ANDERE TNT des Mods.",
+  "advancements.tnts.craft.portal_tnt.title": "Stelle die Portal-TNT her",
+  "advancements.tnts.craft.portal_tnt.description": "Stelle eine Portal-TNT her",
+  "tnts.manual.portal_tnt": "Baut ein komplettes, angez\u00fcndetes Netherportal."
 }

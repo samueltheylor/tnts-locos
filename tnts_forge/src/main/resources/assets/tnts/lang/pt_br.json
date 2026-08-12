@@ -40,6 +40,8 @@
   "block.tnts.solar_tnt": "TNT Solar",
   "block.tnts.casa_tnt": "TNT Casa",
   "block.tnts.mansion_tnt": "TNT Mans\u00e3o",
+  "block.tnts.luck_tnt": "TNT da Sorte",
+  "block.tnts.portal_tnt": "TNT Portal",
   "block.tnts.tnt_table": "Mesa de TNTs",
   "block.tnts.tnt_altar": "Altar do Rei TNT",
   "item.tnts.tnt_manual": "Manual de TNTs",
@@ -50,10 +52,6 @@
   "item.tnts.tnt_shield": "Escudo de TNT",
   "item.tnts.tnt_king_spawn_egg": "Gerar Rei TNT",
   "entity.tnts.tnt_king": "Rei TNT",
-  "item.tnts.tnt_golem_spawn_egg": "Gerar Golem de TNT",
-  "entity.tnts.tnt_golem": "Golem de TNT",
-  "item.tnts.tnt_rocket": "Foguete TNT",
-  "entity.tnts.tnt_rocket": "Foguete TNT",
   "entity.minecraft.villager.tnt_expert": "Especialista em TNTs",
   "tnts.manual.hint": "Todas as TNTs do mod: efeito e raio (config)",
   "tnts.manual.power": "Raio: %s",
@@ -218,5 +216,11 @@
   "tnts.manual.casa_tnt": "Gera uma casa aconchegante de madeira, pronta para morar.",
   "advancements.tnts.craft.mansion_tnt.title": "Crafte a TNT Mans\u00e3o",
   "advancements.tnts.craft.mansion_tnt.description": "Consiga uma TNT Mans\u00e3o crafteando-a",
-  "tnts.manual.mansion_tnt": "Gera uma mans\u00e3o de luxo com dois andares, torres e decora\u00e7\u00e3o."
+  "tnts.manual.mansion_tnt": "Gera uma mans\u00e3o de luxo com dois andares, torres e decora\u00e7\u00e3o.",
+  "advancements.tnts.craft.luck_tnt.title": "Crafte a TNT da Sorte",
+  "advancements.tnts.craft.luck_tnt.description": "Consiga uma TNT da Sorte crafteando-a",
+  "tnts.manual.luck_tnt": "Surpresa: explode como OUTRA TNT aleat\u00f3ria do mod.",
+  "advancements.tnts.craft.portal_tnt.title": "Crafte a TNT Portal",
+  "advancements.tnts.craft.portal_tnt.description": "Consiga uma TNT Portal crafteando-a",
+  "tnts.manual.portal_tnt": "Constr\u00f3i um portal para o Nether completo e aceso."
 }

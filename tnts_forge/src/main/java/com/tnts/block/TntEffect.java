@@ -73,5 +73,9 @@ public enum TntEffect {
     /** Casa: genera una casa acogedora de madera en el punto de explosion (TNT Casa). */
     HOUSE,
     /** Mansion: genera una mansion de lujo de dos plantas con torres y decoracion (TNT Mansion). */
-    MANSION
+    MANSION,
+    /** Suerte: elige OTRA TNT del mod al azar y hace SU efecto completo (TNT de la Suerte). */
+    LUCKY,
+    /** Portal: construye un portal al Nether completo y encendido (TNT Portal). */
+    PORTAL
 }

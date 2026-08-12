@@ -40,6 +40,8 @@
   "block.tnts.solar_tnt": "TNT Solar",
   "block.tnts.casa_tnt": "TNT Casa",
   "block.tnts.mansion_tnt": "TNT Mansi\u00f3n",
+  "block.tnts.luck_tnt": "TNT de la Suerte",
+  "block.tnts.portal_tnt": "TNT Portal",
   "block.tnts.tnt_table": "Mesa de TNTs",
   "block.tnts.tnt_altar": "Altar del Rey TNT",
   "item.tnts.tnt_manual": "Manual de TNTs",
@@ -50,10 +52,6 @@
   "item.tnts.tnt_shield": "Escudo de TNT",
   "item.tnts.tnt_king_spawn_egg": "Generar Rey TNT",
   "entity.tnts.tnt_king": "Rey TNT",
-  "item.tnts.tnt_golem_spawn_egg": "Generar Golem de TNT",
-  "entity.tnts.tnt_golem": "Golem de TNT",
-  "item.tnts.tnt_rocket": "TNT Cohete",
-  "entity.tnts.tnt_rocket": "TNT Cohete",
   "entity.minecraft.villager.tnt_expert": "Experto en TNTs",
   "tnts.manual.hint": "Todas las TNTs del mod: efecto y radio (config)",
   "tnts.manual.power": "Radio: %s",
@@ -218,5 +216,11 @@
   "tnts.manual.casa_tnt": "Genera una casa acogedora de madera, lista para vivir.",
   "advancements.tnts.craft.mansion_tnt.title": "Craftea la TNT Mansi\u00f3n",
   "advancements.tnts.craft.mansion_tnt.description": "Consigue una TNT Mansi\u00f3n crafte\u00e1ndola",
-  "tnts.manual.mansion_tnt": "Genera una mansion de lujo con dos plantas, torres y decoracion."
+  "tnts.manual.mansion_tnt": "Genera una mansion de lujo con dos plantas, torres y decoracion.",
+  "advancements.tnts.craft.luck_tnt.title": "Craftea la TNT de la Suerte",
+  "advancements.tnts.craft.luck_tnt.description": "Consigue una TNT de la Suerte crafte\u00e1ndola",
+  "tnts.manual.luck_tnt": "Sorpresa: explota como OTRA TNT del mod elegida al azar.",
+  "advancements.tnts.craft.portal_tnt.title": "Craftea la TNT Portal",
+  "advancements.tnts.craft.portal_tnt.description": "Consigue una TNT Portal crafte\u00e1ndola",
+  "tnts.manual.portal_tnt": "Construye un portal al Nether completo y encendido."
 }

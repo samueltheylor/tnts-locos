@@ -354,6 +354,9 @@ public class TntsPrimedTnt extends PrimedTnt {
         // === NUEVAS 1.10.12 ===
         if (p.has(TntEffect.HOUSE)) buildHouse(lvl, x, y, z);
         if (p.has(TntEffect.MANSION)) buildMansion(lvl, x, y, z);
+        // === NUEVAS 1.10.21 ===
+        if (p.has(TntEffect.LUCKY)) luckyBlast(sl, x, y, z);
+        if (p.has(TntEffect.PORTAL)) buildNetherPortal(sl, center);
 
         // REACCION EN CADENA: enciende TNTs del mod cercanas
         chainReaction(lvl, x, y, z, center);
@@ -2020,6 +2023,87 @@ public class TntsPrimedTnt extends PrimedTnt {
         for (ServerPlayer sp : sl.getEntitiesOfClass(ServerPlayer.class, camBox)) {
             sp.animateHurt(sp.getYRot());
         }
+    }
+
+    /**
+     * TNT de la SUERTE: elige OTRA TNT del mod al azar (excluyendo la propia
+     * Suerte para no recursar) y dispara su explosion completa: se crea una
+     * TNT fantasma con esa variante y mecha corta, que explota con TODOS sus
+     * efectos, sonido y radio propios.
+     */
+    private void luckyBlast(ServerLevel sl, double x, double y, double z) {
+        java.util.List<String> pool = new java.util.ArrayList<>(
+                com.tnts.config.TntDefaults.DEFAULTS.keySet());
+        pool.remove("luck_tnt");
+        if (pool.isEmpty()) return;
+        String pick = pool.get(sl.random.nextInt(pool.size()));
+        // polvareda de colores + chispas antes de decidir
+        for (int i = 0; i < 30; i++) {
+            sl.sendParticles(ParticleTypes.END_ROD,
+                    x + (sl.random.nextDouble() - 0.5) * 2,
+                    y + sl.random.nextDouble() * 2,
+                    z + (sl.random.nextDouble() - 0.5) * 2,
+                    1, 0, 0, 0, 0.1);
+        }
+        LivingEntity owner = this.getOwner();
+        TntsPrimedTnt ghost = new TntsPrimedTnt(sl, x, y, z, "tnts:" + pick, 2, owner);
+        ghost.setStationary(true);
+        sl.addFreshEntity(ghost);
+    }
+
+    /**
+     * TNT PORTAL: construye un portal al Nether COMPLETO y encendido en el
+     * punto de explosion (marco de obsidiana 4x5 + interior de portal), con
+     * el suelo nivelado debajo y particulas de portal.
+     */
+    private void buildNetherPortal(ServerLevel sl, BlockPos center) {
+        int bx = center.getX();
+        int by = center.getY();
+        int bz = center.getZ();
+
+        // nivelar el suelo debajo del portal (6x6)
+        for (int dx = -1; dx <= 2; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                for (int dy = by - 3; dy < by; dy++) {
+                    BlockPos p = new BlockPos(bx + dx, dy, bz + dz);
+                    if (!sl.getBlockState(p).isSolid()
+                            || sl.getBlockState(p).getBlock() == Blocks.BEDROCK) {
+                        buildSet(sl, p, Blocks.DIRT.defaultBlockState());
+                    }
+                }
+            }
+        }
+        // marco de obsidiana 4x5 (ancho en X, alto en Y, grosor en Z).
+        // PRIMERO todo el marco y DESPUES el interior: el bloque de portal se
+        // valida al colocarse y si el marco no esta completo se destruye solo.
+        for (int dx = -1; dx <= 2; dx++) {
+            for (int dy = 0; dy <= 4; dy++) {
+                boolean frame = dx == -1 || dx == 2 || dy == 0 || dy == 4;
+                if (frame) {
+                    buildSet(sl, new BlockPos(bx + dx, by + dy, bz),
+                            Blocks.OBSIDIAN.defaultBlockState());
+                }
+            }
+        }
+        // interior: portal del Nether ENCENDIDO (eje X = a lo largo)
+        for (int dx = 0; dx <= 1; dx++) {
+            for (int dy = 1; dy <= 3; dy++) {
+                buildSet(sl, new BlockPos(bx + dx, by + dy, bz),
+                        Blocks.NETHER_PORTAL.defaultBlockState()
+                                .setValue(net.minecraft.world.level.block.NetherPortalBlock.AXIS,
+                                        net.minecraft.core.Direction.Axis.X));
+            }
+        }
+        // particulas de portal + sonido
+        for (int i = 0; i < 20; i++) {
+            sl.sendParticles(ParticleTypes.PORTAL,
+                    bx + 0.5 + (sl.random.nextDouble() - 0.5), by + 1 + sl.random.nextDouble() * 2.5,
+                    bz + 0.5 + (sl.random.nextDouble() - 0.5),
+                    2, 0.2, 0.5, 0.2, 0.05);
+        }
+        sl.playSound(null, new BlockPos(bx, by, bz),
+                net.minecraft.sounds.SoundEvents.PORTAL_TRIGGER,
+                SoundSource.BLOCKS, 1.2F, 0.7F);
     }
 
     @Override
