@@ -56,6 +56,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> ENDER_TNT = register("ender_tnt", MapColor.COLOR_PURPLE);
     public static final RegistryObject<Block> BUBBLE_TNT = register("bubble_tnt", MapColor.COLOR_LIGHT_BLUE);
     public static final RegistryObject<Block> SOLAR_TNT = register("solar_tnt", MapColor.COLOR_ORANGE);
+    // === NUEVAS 1.10.12 ===
+    public static final RegistryObject<Block> CASA_TNT = register("casa_tnt", MapColor.WOOD);
+    public static final RegistryObject<Block> MANSION_TNT = register("mansion_tnt", MapColor.COLOR_BLUE);
     /** Mesa de TNTs: la estacion de trabajo del aldeano experto. */
     public static final RegistryObject<Block> TNT_TABLE = BLOCKS.register("tnt_table",
             () -> new com.tnts.block.TntTableBlock(MapColor.COLOR_BROWN));
@@ -81,6 +84,7 @@ public class ModBlocks {
                 COLOSAL_TNT.get(), SUPERNOVA_TNT.get(),
                 TOXICA_TNT.get(), FUEGOS_TNT.get(), GRAVITATORIA_TNT.get(),
                 ENDER_TNT.get(), BUBBLE_TNT.get(), SOLAR_TNT.get(),
+                CASA_TNT.get(), MANSION_TNT.get(),
                 TNT_TABLE.get(), TNT_ALTAR.get());
     }
 

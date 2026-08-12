@@ -38,6 +38,8 @@
     "tnts:gravitatoria_tnt",
     "tnts:ender_tnt",
     "tnts:bubble_tnt",
-    "tnts:solar_tnt"
+    "tnts:solar_tnt",
+    "tnts:casa_tnt",
+    "tnts:mansion_tnt"
   ]
 }

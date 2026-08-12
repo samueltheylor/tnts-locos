@@ -38,6 +38,8 @@
   "block.tnts.ender_tnt": "TNT del End",
   "block.tnts.bubble_tnt": "TNT Burbuja",
   "block.tnts.solar_tnt": "TNT Solar",
+  "block.tnts.casa_tnt": "TNT Casa",
+  "block.tnts.mansion_tnt": "TNT Mansi\u00f3n",
   "block.tnts.tnt_table": "Mesa de TNTs",
   "block.tnts.tnt_altar": "Altar del Rey TNT",
   "item.tnts.tnt_manual": "Manual de TNTs",
@@ -206,5 +208,11 @@
   "tnts.manual.bubble_tnt": "Succiona hacia el crater como un remolino y derrite el hielo.",
   "advancements.tnts.craft.solar_tnt.title": "Craftea la TNT Solar",
   "advancements.tnts.craft.solar_tnt.description": "Consigue una TNT Solar crafte\u00e1ndola",
-  "tnts.manual.solar_tnt": "Hace dia, despeja el tiempo e incendia una gran area."
+  "tnts.manual.solar_tnt": "Hace dia, despeja el tiempo e incendia una gran area.",
+  "advancements.tnts.craft.casa_tnt.title": "Craftea la TNT Casa",
+  "advancements.tnts.craft.casa_tnt.description": "Consigue una TNT Casa crafte\u00e1ndola",
+  "tnts.manual.casa_tnt": "Genera una casa acogedora de madera, lista para vivir.",
+  "advancements.tnts.craft.mansion_tnt.title": "Craftea la TNT Mansi\u00f3n",
+  "advancements.tnts.craft.mansion_tnt.description": "Consigue una TNT Mansi\u00f3n crafte\u00e1ndola",
+  "tnts.manual.mansion_tnt": "Genera una mansion de lujo con dos plantas, torres y decoracion."
 }

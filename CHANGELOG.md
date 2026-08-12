@@ -1,5 +1,13 @@
 # TNTs Locos — Changelog
 
+## v1.10.12 — TNT Casa y TNT Mansión: ¡construyen estructuras al explotar! (solo Java)
+
+- **🏠 TNT Casa:** al explotar construye una **casa acogedora de madera** (4x4 interior, paredes de roble y abeto, tejado a dos aguas, ventanas, puerta, chimenea de piedra y antorcha) en el punto de explosión. Receta barata: TNT + 4 tablones de roble + puerta.
+- **🏰 TNT Mansión:** al explotar construye una **mansión de lujo de 2 plantas** (9x7, torre central con tejado cónico, balcón, escaleras de mármol, ventanales, chimeneas gemelas, faroles y muebles: camas, mesas, sillas, librerías y cofres). Receta cara y exclusiva: TNT + 4 obsidiana + 2 diamantes + 4 tablones de abeto.
+- **🧱 Estructuras generadas en código** (sin nuevas entidades ni carga extra): se construyen bloque a bloque en el servidor con las mismas garantías de rendimiento que las demás TNTs.
+- Las dos incluyen lang en los 5 idiomas, entrada en el Manual de TNTs, modelo/textura estilo vanilla y receta.
+- GameTests: **"All 31 required tests passed"**.
+
 ## v1.10.11 — Pantalón de TNT, armadura completa, corona 3D en el jugador, fixes de capas y más advancements (solo Java)
 
 - **👖 Pantalón de TNT:** la armadura de TNT por fin está COMPLETA (casco + peto + pantalón + botas). Receta: 7 TNT en forma de pantalón.

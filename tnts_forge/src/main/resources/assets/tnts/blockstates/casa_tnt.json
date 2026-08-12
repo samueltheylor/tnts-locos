@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/casa_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/casa_tnt_lit"
+    }
+  }
+}

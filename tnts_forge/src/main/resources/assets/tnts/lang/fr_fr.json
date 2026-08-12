@@ -38,6 +38,8 @@
   "block.tnts.ender_tnt": "TNT de l'End",
   "block.tnts.bubble_tnt": "TNT Bulle",
   "block.tnts.solar_tnt": "TNT Solaire",
+  "block.tnts.casa_tnt": "TNT Maison",
+  "block.tnts.mansion_tnt": "TNT Manoir",
   "block.tnts.tnt_table": "Table de TNTs",
   "block.tnts.tnt_altar": "Autel du Roi TNT",
   "item.tnts.tnt_manual": "Manuel de TNTs",
@@ -206,5 +208,11 @@
   "tnts.manual.bubble_tnt": "Aspire vers le crat\u00e8re comme un tourbillon et fait fondre la glace.",
   "advancements.tnts.craft.solar_tnt.title": "Fabriquez la TNT Solaire",
   "advancements.tnts.craft.solar_tnt.description": "Obtenez une TNT Solaire en la fabriquant",
-  "tnts.manual.solar_tnt": "Fait jour, d\u00e9gage le temps et enflamme une grande zone."
+  "tnts.manual.solar_tnt": "Fait jour, d\u00e9gage le temps et enflamme une grande zone.",
+  "advancements.tnts.craft.casa_tnt.title": "Fabriquez la TNT Maison",
+  "advancements.tnts.craft.casa_tnt.description": "Obtenez une TNT Maison en la fabriquant",
+  "tnts.manual.casa_tnt": "G\u00e9n\u00e8re une maison en bois chaleureuse, pr\u00eate \u00e0 habiter.",
+  "advancements.tnts.craft.mansion_tnt.title": "Fabriquez la TNT Manoir",
+  "advancements.tnts.craft.mansion_tnt.description": "Obtenez une TNT Manoir en la fabriquant",
+  "tnts.manual.mansion_tnt": "G\u00e9n\u00e8re un manoir de luxe \u00e0 deux \u00e9tages, avec tours et d\u00e9co."
 }

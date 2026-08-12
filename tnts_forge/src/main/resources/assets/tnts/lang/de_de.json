@@ -38,6 +38,8 @@
   "block.tnts.ender_tnt": "End-TNT",
   "block.tnts.bubble_tnt": "Blasen-TNT",
   "block.tnts.solar_tnt": "Solar-TNT",
+  "block.tnts.casa_tnt": "Haus-TNT",
+  "block.tnts.mansion_tnt": "Herrenhaus-TNT",
   "block.tnts.tnt_table": "TNT-Werkbank",
   "block.tnts.tnt_altar": "TNT-K\u00f6nigs-Altar",
   "item.tnts.tnt_manual": "TNT-Handbuch",
@@ -206,5 +208,11 @@
   "tnts.manual.bubble_tnt": "Saugt wie ein Strudel in den Krater und schmilzt Eis.",
   "advancements.tnts.craft.solar_tnt.title": "Stelle die Solar-TNT her",
   "advancements.tnts.craft.solar_tnt.description": "Stelle eine Solar-TNT her",
-  "tnts.manual.solar_tnt": "Macht Tag, kl\u00e4rt das Wetter und entz\u00fcndet eine riesige Fl\u00e4che."
+  "tnts.manual.solar_tnt": "Macht Tag, kl\u00e4rt das Wetter und entz\u00fcndet eine riesige Fl\u00e4che.",
+  "advancements.tnts.craft.casa_tnt.title": "Stelle die Haus-TNT her",
+  "advancements.tnts.craft.casa_tnt.description": "Stelle eine Haus-TNT her",
+  "tnts.manual.casa_tnt": "Erzeugt ein gem\u00fctliches Holzhaus, bereit zum Wohnen.",
+  "advancements.tnts.craft.mansion_tnt.title": "Stelle die Herrenhaus-TNT her",
+  "advancements.tnts.craft.mansion_tnt.description": "Stelle eine Herrenhaus-TNT her",
+  "tnts.manual.mansion_tnt": "Erzeugt eine Luxusvilla mit zwei Stockwerken, T\u00fcrmen und Deko."
 }

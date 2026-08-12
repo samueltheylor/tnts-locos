@@ -27,7 +27,8 @@ NAMES = ["mega_tnt", "mini_tnt", "lava_tnt", "rapida_tnt", "hielo_tnt",
          "hongo_tnt", "miel_tnt", "heal_tnt", "teleport_tnt", "confeti_tnt", "mina_tnt",
          "terremoto_tnt", "meteorito_tnt", "tormenta_tnt", "colosal_tnt", "supernova_tnt",
          "toxica_tnt", "fuegos_tnt", "gravitatoria_tnt",
-         "ender_tnt", "bubble_tnt", "solar_tnt"]
+         "ender_tnt", "bubble_tnt", "solar_tnt",
+         "casa_tnt", "mansion_tnt"]
 
 # Recetas: nombre -> (ingredientes, cantidad). Cada ingrediente ("item", id) o ("tag", id).
 TNT_RECIPES = {
@@ -69,6 +70,8 @@ TNT_RECIPES = {
     "ender_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:chorus_fruit"), ("item", "minecraft:end_stone")], 1),
     "bubble_tnt":    ([("item", "minecraft:tnt"), ("item", "minecraft:pufferfish"), ("item", "minecraft:kelp")], 1),
     "solar_tnt":     ([("item", "minecraft:tnt"), ("item", "minecraft:blaze_powder"), ("item", "minecraft:glowstone")], 1),
+    "casa_tnt":      ([("item", "minecraft:tnt"), ("item", "minecraft:oak_log"), ("item", "minecraft:oak_planks"), ("item", "minecraft:glass")], 1),
+    "mansion_tnt":   ([("item", "minecraft:tnt"), ("item", "minecraft:obsidian"), ("item", "minecraft:diamond"), ("item", "minecraft:gold_block"), ("item", "minecraft:bookshelf")], 1),
     "tnt_manual":    ([("item", "minecraft:book"), ("item", "minecraft:tnt")], 1),
     "grenade":       ([("item", "minecraft:tnt"), ("item", "minecraft:string")], 2),
     "detonator":     ([("tag", "forge:ingots/iron"), ("tag", "forge:dusts/redstone"), ("item", "minecraft:tnt")], 1),
@@ -114,7 +117,12 @@ PALETTES = {
     "ender_tnt":     ("#4c1d95", "#f5f3ff", "#2e1065", "#d8b4fe", "#2e1065"),  # end/purpura oscuro
     "bubble_tnt":    ("#0369a1", "#bae6fd", "#082f49", "#7dd3fc", "#082f49"),  # burbuja/agua clara
     "solar_tnt":     ("#9a3412", "#fef08a", "#450a0a", "#fbbf24", "#7c2d12"),  # solar/amarillo fuego
+    "casa_tnt":      ("#7c4a03", "#fef3c7", "#451a03", "#d97706", "#451a03"),  # casa/madera acogedora
+    "mansion_tnt":   ("#312e81", "#e0f2fe", "#1e1b4b", "#67e8f9", "#1e1b4b"),  # mansion/lujo azul noche
 }
+
+
+# ---------- utilidades PNG ----------
 
 
 # ---------- utilidades PNG ----------
@@ -1954,6 +1962,8 @@ LANG_ES = {
     "block.tnts.ender_tnt": "TNT del End",
     "block.tnts.bubble_tnt": "TNT Burbuja",
     "block.tnts.solar_tnt": "TNT Solar",
+    "block.tnts.casa_tnt": "TNT Casa",
+    "block.tnts.mansion_tnt": "TNT Mansión",
     "block.tnts.tnt_table": "Mesa de TNTs",
     "block.tnts.tnt_altar": "Altar del Rey TNT",
     "item.tnts.tnt_manual": "Manual de TNTs",
@@ -2051,6 +2061,8 @@ LANG_EN = {
     "block.tnts.ender_tnt": "End TNT",
     "block.tnts.bubble_tnt": "Bubble TNT",
     "block.tnts.solar_tnt": "Solar TNT",
+    "block.tnts.casa_tnt": "House TNT",
+    "block.tnts.mansion_tnt": "Mansion TNT",
     "block.tnts.tnt_table": "TNT Workbench",
     "block.tnts.tnt_altar": "TNT King Altar",
     "item.tnts.tnt_manual": "TNT Manual",
@@ -2149,6 +2161,8 @@ MANUAL_ES = {
     "ender_tnt": "Teletransporta a los seres vivos e invoca endermites.",
     "bubble_tnt": "Succiona hacia el crater como un remolino y derrite el hielo.",
     "solar_tnt": "Hace dia, despeja el tiempo e incendia una gran area.",
+    "casa_tnt": "Genera una casa acogedora de madera, lista para vivir.",
+    "mansion_tnt": "Genera una mansion de lujo con dos plantas, torres y decoracion.",
 }
 
 MANUAL_EN = {
@@ -2190,6 +2204,8 @@ MANUAL_EN = {
     "ender_tnt": "Teleports living beings and summons endermites.",
     "bubble_tnt": "Sucks toward the crater like a whirlpool and melts ice.",
     "solar_tnt": "Makes it day, clears the weather and ignites a huge area.",
+    "casa_tnt": "Builds a cozy wooden house, ready to live in.",
+    "mansion_tnt": "Builds a luxury mansion with two floors, towers and decor.",
 }
 
 # ---- Português (pt_br) ----
@@ -2233,6 +2249,8 @@ LANG_PT = {
     "block.tnts.ender_tnt": "TNT do Fim",
     "block.tnts.bubble_tnt": "TNT Bolha",
     "block.tnts.solar_tnt": "TNT Solar",
+    "block.tnts.casa_tnt": "TNT Casa",
+    "block.tnts.mansion_tnt": "TNT Mansão",
     "block.tnts.tnt_table": "Mesa de TNTs",
     "block.tnts.tnt_altar": "Altar do Rei TNT",
     "item.tnts.tnt_manual": "Manual de TNTs",
@@ -2329,6 +2347,8 @@ MANUAL_PT = {
     "ender_tnt": "Teletransporta seres vivos e invoca endermites.",
     "bubble_tnt": "Suga para a cratera como um redemoinho e derrete o gelo.",
     "solar_tnt": "Faz dia, limpa o tempo e incendeia uma área enorme.",
+    "casa_tnt": "Gera uma casa aconchegante de madeira, pronta para morar.",
+    "mansion_tnt": "Gera uma mansão de luxo com dois andares, torres e decoração.",
 }
 
 # ---- Deutsch (de_de) ----
@@ -2372,6 +2392,8 @@ LANG_DE = {
     "block.tnts.ender_tnt": "End-TNT",
     "block.tnts.bubble_tnt": "Blasen-TNT",
     "block.tnts.solar_tnt": "Solar-TNT",
+    "block.tnts.casa_tnt": "Haus-TNT",
+    "block.tnts.mansion_tnt": "Herrenhaus-TNT",
     "block.tnts.tnt_table": "TNT-Werkbank",
     "block.tnts.tnt_altar": "TNT-Königs-Altar",
     "item.tnts.tnt_manual": "TNT-Handbuch",
@@ -2468,6 +2490,8 @@ MANUAL_DE = {
     "ender_tnt": "Teleportiert Lebewesen und ruft Endermiten.",
     "bubble_tnt": "Saugt wie ein Strudel in den Krater und schmilzt Eis.",
     "solar_tnt": "Macht Tag, klärt das Wetter und entzündet eine riesige Fläche.",
+    "casa_tnt": "Erzeugt ein gemütliches Holzhaus, bereit zum Wohnen.",
+    "mansion_tnt": "Erzeugt eine Luxusvilla mit zwei Stockwerken, Türmen und Deko.",
 }
 
 # ---- Français (fr_fr) ----
@@ -2511,6 +2535,8 @@ LANG_FR = {
     "block.tnts.ender_tnt": "TNT de l'End",
     "block.tnts.bubble_tnt": "TNT Bulle",
     "block.tnts.solar_tnt": "TNT Solaire",
+    "block.tnts.casa_tnt": "TNT Maison",
+    "block.tnts.mansion_tnt": "TNT Manoir",
     "block.tnts.tnt_table": "Table de TNTs",
     "block.tnts.tnt_altar": "Autel du Roi TNT",
     "item.tnts.tnt_manual": "Manuel de TNTs",
@@ -2607,6 +2633,8 @@ MANUAL_FR = {
     "ender_tnt": "Téléporte les êtres vivants et invoque des endermites.",
     "bubble_tnt": "Aspire vers le cratère comme un tourbillon et fait fondre la glace.",
     "solar_tnt": "Fait jour, dégage le temps et enflamme une grande zone.",
+    "casa_tnt": "Génère une maison en bois chaleureuse, prête à habiter.",
+    "mansion_tnt": "Génère un manoir de luxe à deux étages, avec tours et déco.",
 }
 
 

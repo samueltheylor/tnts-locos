@@ -69,5 +69,9 @@ public enum TntEffect {
     /** Burbuja: succiona a los seres e items hacia el crater y derrite el hielo (TNT Burbuja). */
     BUBBLE,
     /** Solar: hace dia, despeja el tiempo e incendia un area enorme (TNT Solar). */
-    SOLAR
+    SOLAR,
+    /** Casa: genera una casa acogedora de madera en el punto de explosion (TNT Casa). */
+    HOUSE,
+    /** Mansion: genera una mansion de lujo de dos plantas con torres y decoracion (TNT Mansion). */
+    MANSION
 }

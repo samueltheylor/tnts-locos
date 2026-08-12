@@ -38,6 +38,8 @@
   "block.tnts.ender_tnt": "TNT do Fim",
   "block.tnts.bubble_tnt": "TNT Bolha",
   "block.tnts.solar_tnt": "TNT Solar",
+  "block.tnts.casa_tnt": "TNT Casa",
+  "block.tnts.mansion_tnt": "TNT Mans\u00e3o",
   "block.tnts.tnt_table": "Mesa de TNTs",
   "block.tnts.tnt_altar": "Altar do Rei TNT",
   "item.tnts.tnt_manual": "Manual de TNTs",
@@ -206,5 +208,11 @@
   "tnts.manual.bubble_tnt": "Suga para a cratera como um redemoinho e derrete o gelo.",
   "advancements.tnts.craft.solar_tnt.title": "Crafte a TNT Solar",
   "advancements.tnts.craft.solar_tnt.description": "Consiga uma TNT Solar crafteando-a",
-  "tnts.manual.solar_tnt": "Faz dia, limpa o tempo e incendeia uma \u00e1rea enorme."
+  "tnts.manual.solar_tnt": "Faz dia, limpa o tempo e incendeia uma \u00e1rea enorme.",
+  "advancements.tnts.craft.casa_tnt.title": "Crafte a TNT Casa",
+  "advancements.tnts.craft.casa_tnt.description": "Consiga uma TNT Casa crafteando-a",
+  "tnts.manual.casa_tnt": "Gera uma casa aconchegante de madeira, pronta para morar.",
+  "advancements.tnts.craft.mansion_tnt.title": "Crafte a TNT Mans\u00e3o",
+  "advancements.tnts.craft.mansion_tnt.description": "Consiga uma TNT Mans\u00e3o crafteando-a",
+  "tnts.manual.mansion_tnt": "Gera uma mans\u00e3o de luxo com dois andares, torres e decora\u00e7\u00e3o."
 }

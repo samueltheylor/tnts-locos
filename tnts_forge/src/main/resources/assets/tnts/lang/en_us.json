@@ -38,6 +38,8 @@
   "block.tnts.ender_tnt": "End TNT",
   "block.tnts.bubble_tnt": "Bubble TNT",
   "block.tnts.solar_tnt": "Solar TNT",
+  "block.tnts.casa_tnt": "House TNT",
+  "block.tnts.mansion_tnt": "Mansion TNT",
   "block.tnts.tnt_table": "TNT Workbench",
   "block.tnts.tnt_altar": "TNT King Altar",
   "item.tnts.tnt_manual": "TNT Manual",
@@ -206,5 +208,11 @@
   "tnts.manual.bubble_tnt": "Sucks toward the crater like a whirlpool and melts ice.",
   "advancements.tnts.craft.solar_tnt.title": "Craft the Solar TNT",
   "advancements.tnts.craft.solar_tnt.description": "Craft a Solar TNT",
-  "tnts.manual.solar_tnt": "Makes it day, clears the weather and ignites a huge area."
+  "tnts.manual.solar_tnt": "Makes it day, clears the weather and ignites a huge area.",
+  "advancements.tnts.craft.casa_tnt.title": "Craft the House TNT",
+  "advancements.tnts.craft.casa_tnt.description": "Craft a House TNT",
+  "tnts.manual.casa_tnt": "Builds a cozy wooden house, ready to live in.",
+  "advancements.tnts.craft.mansion_tnt.title": "Craft the Mansion TNT",
+  "advancements.tnts.craft.mansion_tnt.description": "Craft a Mansion TNT",
+  "tnts.manual.mansion_tnt": "Builds a luxury mansion with two floors, towers and decor."
 }

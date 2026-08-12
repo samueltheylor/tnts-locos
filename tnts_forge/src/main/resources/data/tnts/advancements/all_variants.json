@@ -243,6 +243,18 @@
       "conditions": {
         "block": "tnts:solar_tnt"
       }
+    },
+    "explode_casa_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:casa_tnt"
+      }
+    },
+    "explode_mansion_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mansion_tnt"
+      }
     }
   }
 }

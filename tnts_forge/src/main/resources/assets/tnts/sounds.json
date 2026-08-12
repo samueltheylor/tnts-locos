@@ -423,5 +423,25 @@
     "sounds": [
       "tnts:block/tnt/explode_solar_tnt"
     ]
+  },
+  "block.tnt.fuse.casa_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_casa_tnt"
+    ]
+  },
+  "block.tnt.explode.casa_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_casa_tnt"
+    ]
+  },
+  "block.tnt.fuse.mansion_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_mansion_tnt"
+    ]
+  },
+  "block.tnt.explode.mansion_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_mansion_tnt"
+    ]
   }
 }
