@@ -23,6 +23,23 @@ public class TntsEvents {
     /** Cooldown del doble salto de las Botas de TNT (en ticks). */
     private static final int BOOT_JUMP_COOLDOWN = 10;
 
+    /**
+     * AVIÓN DE TNT: lanzar TNTs en vuelo. Al hacer click derecho con un item
+     * mientras vas montado en el avion, se lanza una TNT del mod (la de la
+     * mano si es una TNT, o una Mini TNT gratis).
+     */
+    @SubscribeEvent
+    public static void onRocketRightClick(net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem event) {
+        net.minecraft.world.entity.player.Player player = event.getEntity();
+        if (player == null || player.level().isClientSide) return;
+        if (player.getVehicle() instanceof com.tnts.entity.TntRocketEntity rocket
+                && rocket.isFlying()) {
+            rocket.throwTnt(player);
+            event.setCanceled(true);
+        }
+    }
+
+
     /** Clave en los datos persistentes del jugador con el tick del ultimo doble salto. */
     private static final String KEY_BOOT_JUMP = "tnts_last_boot_jump";
 

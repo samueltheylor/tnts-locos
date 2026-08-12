@@ -97,11 +97,11 @@ public class TntsEntities {
                     .fireImmune()
                     .build("tnt_golem"));
 
-    /** TNT MONTABLE (TNT Cohete): se monta y despega al agacharte. */
+    /** AVIÓN DE TNT (TNT Cohete): se monta, despega al agacharte y lanza TNTs. */
     public static final RegistryObject<EntityType<TntRocketEntity>> TNT_ROCKET =
             ENTITIES.register("tnt_rocket", () -> EntityType.Builder
                     .<TntRocketEntity>of(TntRocketEntity::new, net.minecraft.world.entity.MobCategory.MISC)
-                    .sized(0.98F, 0.98F)
+                    .sized(2.6F, 1.2F)
                     .clientTrackingRange(10)
                     .updateInterval(3)
                     .fireImmune()

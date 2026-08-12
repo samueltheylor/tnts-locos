@@ -928,4 +928,31 @@ public class TntsGameTest {
             helper.succeed();
         });
     }
+
+    /** AVIÓN de TNT: el piloto puede lanzar TNTs en vuelo (consume la de la mano). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_rocket_throws_tnt(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        var rocket = new com.tnts.entity.TntRocketEntity(
+                com.tnts.entity.TntsEntities.TNT_ROCKET.get(), helper.getLevel());
+        rocket.setPos(ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5);
+        helper.getLevel().addFreshEntity(rocket);
+
+        helper.runAfterDelay(10, () -> {
+            var player = helper.makeMockPlayer();
+            player.setPos(ap.getX() + 0.5, ap.getY() + 1.0, ap.getZ() + 0.5);
+            // montarlo y ponerlo a volar (estado 2 directo para el test)
+            rocket.interact(player, InteractionHand.MAIN_HAND);
+            // el piloto lleva una Mega TNT en la mano
+            player.getInventory().setItem(player.getInventory().selected,
+                    new ItemStack(ModItems.MEGA_TNT.get()));
+            rocket.throwTnt(player);
+            AABB area = new AABB(ap).inflate(8);
+            var primed = helper.getLevel().getEntitiesOfClass(TntsPrimedTnt.class, area);
+            helper.assertTrue(!primed.isEmpty(), "El avión deberia haber lanzado una TNT");
+            helper.assertTrue("mega_tnt".equals(primed.get(0).getVariantName()),
+                    "La TNT lanzada deberia ser la de la mano (mega)");
+            helper.succeed();
+        });
+    }
 }

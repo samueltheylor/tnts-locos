@@ -1,6 +1,7 @@
 package com.tnts.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.tnts.entity.TntRocketEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -8,7 +9,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * Renderiza el TNT COHETE montable.
+ * Renderiza el AVIÓN de TNT montable. El modelo tiene la base en y=0 y la
+ * nariz mirando +Z; se rota con el yaw de la entidad (que el tick pone en la
+ * dirección de la mirada del piloto).
  */
 public class TntRocketRenderer extends EntityRenderer<TntRocketEntity> {
 
@@ -25,10 +28,11 @@ public class TntRocketRenderer extends EntityRenderer<TntRocketEntity> {
     public void render(TntRocketEntity entity, float yaw, float partialTick, PoseStack pose,
                        MultiBufferSource buffer, int packedLight) {
         pose.pushPose();
-        // centra el cubo: el cuerpo va de y=-16..0, lo bajamos para que el
-        // suelo del cubo toque y=0 (el propulsor queda debajo)
-        pose.translate(0.0F, -0.5F, 0.0F);
-        float bob = (float) Math.sin((entity.tickCount + partialTick) * 0.15F) * 0.02F;
+        // rotacion segun el yaw de la entidad (la direccion de la mirada)
+        pose.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
+        // pequeño rebote en vuelo
+        float bob = entity.isFlying()
+                ? (float) Math.sin((entity.tickCount + partialTick) * 0.3F) * 0.03F : 0.0F;
         pose.translate(0.0F, bob, 0.0F);
         this.model.setupAnim(entity, 0, 0, entity.tickCount + partialTick, 0, 0);
         this.model.renderToBuffer(pose, buffer.getBuffer(this.model.renderType(TEXTURE)),

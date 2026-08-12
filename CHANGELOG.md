@@ -1,5 +1,12 @@
 # TNTs Locos — Changelog
 
+## v1.10.20 — 🛩️ El Cohete ahora es un AVIÓN con lanzador de TNTs + Golem rediseñado (solo Java)
+
+- **✈️ AVIÓN de TNT (el Cohete rediseñado):** ya no es un cubo con propulsor — ahora es un **avión de verdad** hecho de bloques de TNT: fuselaje largo con franja blanca y remaches, **alas de hierro**, cola con timón vertical y plano horizontal, **hélice que gira** en la nariz y llama del propulsor trasera que crece al volar. Se monta encima del fuselaje (asiento en y+1.05), despega al agacharte y vuela girando con la mirada (el modelo se rota con el yaw del piloto).
+- **💣 LANZAR TNTs EN VUELO:** mientras vas montado, click derecho lanza una TNT — **la que lleves en la mano** (si es una TNT del mod, consume 1) o una Mini TNT gratis si vas con la mano vacía. La TNT sale disparada con la velocidad del avión + tu mirada. Bombardeo aéreo incluido.
+- **🤖 GOLEM rediseñado:** ahora es un **golem de verdad** — cabeza grande con cara amigable, cuerpo ancho de TNT, **brazos gruesos** que cuelgan hasta la cadera y **piernas cortas y anchas** (antes era un cubo con palitos). Sigue a su dueño, se le cambia la TNT con click derecho, explota con mechero o al morir (igual que en v1.10.19).
+- GameTests: 37 (nuevo `tnt_rocket_throws_tnt`: el piloto lanza la Mega TNT de su mano) → **"All 37 required tests passed"**.
+
 ## v1.10.19 — 🤖 GOLEM de TNT + 🚀 TNT COHETE montable (solo Java)
 
 ### 🤖 GOLEM de TNT (mob aliado nuevo)
