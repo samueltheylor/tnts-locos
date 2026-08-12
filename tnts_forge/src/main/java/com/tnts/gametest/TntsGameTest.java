@@ -800,4 +800,20 @@ public class TntsGameTest {
             helper.succeed();
         });
     }
+
+    /** Todos los bloques del mod deben tener item registrado (evita el crash del inventario creativo). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void all_blocks_have_items(GameTestHelper helper) {
+        for (net.minecraft.world.level.block.Block block : com.tnts.ModBlocks.getAllBlocks()) {
+            net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(block);
+            helper.assertTrue(!stack.isEmpty(),
+                    "El bloque " + net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block)
+                            + " no tiene item registrado: el inventario creativo crashearia ("
+                            + "The stack count must be 1)");
+            helper.assertTrue(stack.getCount() == 1,
+                    "El stack de " + net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block)
+                            + " deberia tener count 1");
+        }
+        helper.succeed();
+    }
 }

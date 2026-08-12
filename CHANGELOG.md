@@ -1,5 +1,12 @@
 # TNTs Locos — Changelog
 
+## v1.10.14 — FIX del crash "The stack count must be 1" al abrir el inventario creativo (solo Java)
+
+- **🐛 FIX del crash:** `java.lang.IllegalArgumentException: The stack count must be 1` al abrir el inventario creativo. **Causa raíz:** las TNT Casa y TNT Mansión (v1.10.12) tenían su **bloque registrado pero NO su item** — al añadirlas a la pestaña creativa, `new ItemStack(bloque)` devolvía un stack **vacío** (item = AIR, count 0) y el hook de Forge que valida `getCount() == 1` en cada item de la pestaña lanzaba la excepción.
+- Además de crashear el creativo, **las TNT Casa/Mansión no se podían obtener de NINGUNA forma** (ni crafting, porque la receta apuntaba a un item inexistente).
+- **El fix:** registrados los block items `tnts:casa_tnt` y `tnts:mansion_tnt` en `ModItems` — ahora salen en la pestaña creativa y se pueden craftear y colocar.
+- **🧪 GameTest nuevo** `all_blocks_have_items`: verifica que **todos los bloques del mod tengan su item registrado** (nunca más se cuela un bloque sin item) → **"All 32 required tests passed"**.
+
 ## v1.10.13 — Fix crash de la Corona 3D ("Can't find part hat") (solo Java)
 
 - **🐛 FIX del crash al renderizar al jugador con la Corona del Rey puesta:** `java.lang.ExceptionInInitializerError: Can't find part hat`. El modelo 3D de la corona (`TntKingCrownModel`) solo creaba la parte `head`, pero el constructor de `HumanoidModel` de 1.20.1 exige **7 partes** en la raíz (`head`, `hat`, `body`, `right_arm`, `left_arm`, `right_leg`, `left_leg`) — al faltar `hat` la clase explotaba en su inicializador y **crasheaba el juego al renderizar la entidad**. Ahora el mesh crea las 7 partes (las 6 extra vacías y ocultas, como antes) → la corona se ve igual que en v1.10.11, pero sin crashear.
