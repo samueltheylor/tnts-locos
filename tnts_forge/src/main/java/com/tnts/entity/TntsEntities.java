@@ -86,4 +86,24 @@ public class TntsEntities {
                     .updateInterval(3)
                     .fireImmune()
                     .build("tnt_king"));
+
+    /** GOLEM DE TNT: mob aliado que sigue a su dueño y explota con su TNT. */
+    public static final RegistryObject<EntityType<TntGolemEntity>> TNT_GOLEM =
+            ENTITIES.register("tnt_golem", () -> EntityType.Builder
+                    .<TntGolemEntity>of(TntGolemEntity::new, net.minecraft.world.entity.MobCategory.CREATURE)
+                    .sized(1.1F, 2.2F)
+                    .clientTrackingRange(10)
+                    .updateInterval(3)
+                    .fireImmune()
+                    .build("tnt_golem"));
+
+    /** TNT MONTABLE (TNT Cohete): se monta y despega al agacharte. */
+    public static final RegistryObject<EntityType<TntRocketEntity>> TNT_ROCKET =
+            ENTITIES.register("tnt_rocket", () -> EntityType.Builder
+                    .<TntRocketEntity>of(TntRocketEntity::new, net.minecraft.world.entity.MobCategory.MISC)
+                    .sized(0.98F, 0.98F)
+                    .clientTrackingRange(10)
+                    .updateInterval(3)
+                    .fireImmune()
+                    .build("tnt_rocket"));
 }

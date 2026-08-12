@@ -1,5 +1,24 @@
 # TNTs Locos — Changelog
 
+## v1.10.19 — 🤖 GOLEM de TNT + 🚀 TNT COHETE montable (solo Java)
+
+### 🤖 GOLEM de TNT (mob aliado nuevo)
+- Un **golem de TNT aliado** que sigue a su dueño como un golem de hierro en miniatura: cubo de TNT con **cara amigable** (ojos y sonrisa), bracitos, piernas cortas, mecha con llama parpadeante y late suavemente como una TNT a punto de explotar.
+- **Lleva EQUIPADA una variante de TNT**: dale click derecho con cualquier TNT del mod para cambiársela (la ves en su bloque).
+- **Explota con el efecto COMPLETO de su variante**: dale click derecho con **mechero** (o carga de fuego) y reutiliza la misma explosión que la TNT real — un golem con una TNT Colosal hace el mismo desastre que la Colosal.
+- **Al morir explota también** (es un golem de TNT, no puede evitarse). 40 de vida, inmune al fuego, sin daño de caída.
+- **Receta**: TNT + hierro en forma de golem. Huevo de invocación en la pestaña creativa. Lang en los 5 idiomas.
+
+### 🚀 TNT COHETE (TNT montable)
+- **Colócala** con el item (o dale click derecho a una ya colocada) y **móntate encima**.
+- **AGÁCHATE para despegar**: 15 ticks de aviso con chispas y pitidos ascendentes, luego empuje vertical + hacia donde miras con **estela densa de fuego, humo y humo grande**.
+- **Vuela libre** mientras no te agaches; agáchate de nuevo (tras 10 ticks de vuelo) para **frenar y bajar con paracaídas de humo**. Límite de altura para no irte al espacio.
+- Al aterrizar tras volar hace una **pequeña explosión** (sin romper bloques si llevas pasajero, para no matarte por tu culpa).
+- **Receta**: TNT + pólvora + hierro → 2. Lang en los 5 idiomas.
+
+### 🧪 Tests
+- GameTests nuevos `tnt_golem_follows_and_explodes` (sigue a su dueño, explota con mechero) y `tnt_rocket_rides_and_takes_off` (monta, despega y sube) → **"All 36 required tests passed"**.
+
 ## v1.10.18 — Fix visual de Casa y Mansión: ya no se construyen dentro de un cráter (solo Java)
 
 - **🐛 EL BUG: la Casa y la Mansión se construían DENTRO de un cráter.** La explosión genérica corría ANTES de la construcción (power 2.0 rompiendo bloques) → la estructura quedaba hundida en un hoyo con los bordes de tierra alrededor. Ahora las TNT que construyen **no explotan** (solo hacen su polvareda de partículas y construyen) → la casa/mansión se levanta sobre el terreno plano, sin hoyo.

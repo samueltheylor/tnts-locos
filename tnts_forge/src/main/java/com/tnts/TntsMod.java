@@ -38,8 +38,9 @@ public class TntsMod {
         ModVillagers.POI_TYPES.register(bus);
         ModVillagers.PROFESSIONS.register(bus);
 
-        // Atributos del Rey TNT
+        // Atributos del Rey TNT y del Golem de TNT
         bus.addListener(com.tnts.entity.TntKingEntity::onAttributeCreate);
+        bus.addListener(com.tnts.entity.TntGolemEntity::onAttributeCreate);
 
         // Estructuras (bunker de TNT)
         TntsStructures.STRUCTURE_TYPES.register(bus);

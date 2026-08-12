@@ -35,6 +35,8 @@ public class ModCreativeTabs {
                         output.accept(new ItemStack(ModItems.TNT_KING_SWORD.get()));
                         output.accept(new ItemStack(ModItems.TNT_SHIELD.get()));
                         output.accept(new ItemStack(ModItems.TNT_KING_SPAWN_EGG.get()));
+                        output.accept(new ItemStack(ModItems.TNT_GOLEM_SPAWN_EGG.get()));
+                        output.accept(new ItemStack(ModItems.TNT_ROCKET.get()));
                     })
                     .build());
 }

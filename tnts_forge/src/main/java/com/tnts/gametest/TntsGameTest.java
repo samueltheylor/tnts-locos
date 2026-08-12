@@ -864,4 +864,68 @@ public class TntsGameTest {
             helper.succeed();
         });
     }
+
+    /** GOLEM de TNT: sigue a su dueño y explota al darle con mechero. */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_golem_follows_and_explodes(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        var golem = new com.tnts.entity.TntGolemEntity(
+                com.tnts.entity.TntsEntities.TNT_GOLEM.get(), helper.getLevel());
+        golem.setPos(ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5);
+        golem.setVariant("mini_tnt");
+        golem.setOwner(new java.util.UUID(0, 1)); // dueño ficticio (solo guardado)
+        helper.getLevel().addFreshEntity(golem);
+
+        helper.runAfterDelay(10, () -> {
+            // el golem deberia estar vivo y con su variante
+            helper.assertTrue(golem.isAlive(), "El Golem deberia estar vivo");
+            helper.assertTrue("mini_tnt".equals(golem.getVariant()),
+                    "El Golem deberia llevar la variante mini_tnt");
+            // darle con MECHERO -> explota (desaparece y spawna la TNT fantasma)
+            var player = helper.makeMockPlayer();
+            player.getInventory().setItem(player.getInventory().selected,
+                    new ItemStack(Items.FLINT_AND_STEEL));
+            var result = golem.mobInteract(player, InteractionHand.MAIN_HAND);
+            helper.assertTrue(result == InteractionResult.sidedSuccess(true),
+                    "Dar con mechero al Golem deberia devolver exito");
+            helper.assertTrue(!golem.isAlive() || golem.isRemoved(),
+                    "El Golem deberia haber explotado y desaparecido");
+            helper.succeed();
+        });
+    }
+
+    /** TNT COHETE: se monta y despega al agacharse (empuje + estela). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void tnt_rocket_rides_and_takes_off(GameTestHelper helper) {
+        BlockPos ap = helper.absolutePos(new BlockPos(8, 2, 8));
+        var rocket = new com.tnts.entity.TntRocketEntity(
+                com.tnts.entity.TntsEntities.TNT_ROCKET.get(), helper.getLevel());
+        rocket.setPos(ap.getX() + 0.5, ap.getY(), ap.getZ() + 0.5);
+        helper.getLevel().addFreshEntity(rocket);
+
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(!rocket.isRemoved(), "El Cohete deberia estar en el mundo");
+            // montarlo
+            var player = helper.makeMockPlayer();
+            player.setPos(ap.getX() + 0.5, ap.getY() + 1.0, ap.getZ() + 0.5);
+            var result = rocket.interact(player, InteractionHand.MAIN_HAND);
+            helper.assertTrue(result == InteractionResult.sidedSuccess(true),
+                    "Montar el Cohete deberia devolver exito");
+            // agacharse -> despega (15 ticks de aviso + vuelo). El cohete
+            // necesita que sueltes el shift tras despegar para seguir volando
+            // (mantenerlo frena). Se simula: agachar 20 ticks, soltar, volar.
+            player.setShiftKeyDown(true);
+            for (int i = 0; i < 20; i++) {
+                rocket.tick();
+            }
+            player.setShiftKeyDown(false);
+            for (int i = 0; i < 20; i++) {
+                rocket.tick();
+            }
+            helper.assertTrue(rocket.isFlying(),
+                    "El Cohete deberia estar volando tras despegar");
+            helper.assertTrue(rocket.getY() > ap.getY(), "El Cohete deberia haber subido");
+            helper.succeed();
+        });
+    }
 }

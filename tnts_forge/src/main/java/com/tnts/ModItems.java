@@ -133,6 +133,16 @@ public class ModItems {
             () -> new com.tnts.item.TntShieldItem(
                     new Item.Properties().durability(480).rarity(net.minecraft.world.item.Rarity.EPIC)));
 
+    /** Huevo de invocacion del GOLEM de TNT (mob aliado). */
+    public static final RegistryObject<Item> TNT_GOLEM_SPAWN_EGG = ITEMS.register("tnt_golem_spawn_egg",
+            () -> new net.minecraftforge.common.ForgeSpawnEggItem(
+                    com.tnts.entity.TntsEntities.TNT_GOLEM, 0x7f1d1d, 0xc8b8a0,
+                    new Item.Properties()));
+
+    /** TNT COHETE (montable): se coloca y despega al agacharte. */
+    public static final RegistryObject<Item> TNT_ROCKET = ITEMS.register("tnt_rocket",
+            () -> new com.tnts.item.TntRocketItem(new Item.Properties().stacksTo(16)));
+
     private static RegistryObject<Item> blockItem(String name, RegistryObject<Block> block) {
         return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
