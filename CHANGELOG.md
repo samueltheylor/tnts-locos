@@ -1,5 +1,10 @@
 # TNTs Locos — Changelog
 
+## v1.10.13 — Fix crash de la Corona 3D ("Can't find part hat") (solo Java)
+
+- **🐛 FIX del crash al renderizar al jugador con la Corona del Rey puesta:** `java.lang.ExceptionInInitializerError: Can't find part hat`. El modelo 3D de la corona (`TntKingCrownModel`) solo creaba la parte `head`, pero el constructor de `HumanoidModel` de 1.20.1 exige **7 partes** en la raíz (`head`, `hat`, `body`, `right_arm`, `left_arm`, `right_leg`, `left_leg`) — al faltar `hat` la clase explotaba en su inicializador y **crasheaba el juego al renderizar la entidad**. Ahora el mesh crea las 7 partes (las 6 extra vacías y ocultas, como antes) → la corona se ve igual que en v1.10.11, pero sin crashear.
+- El bug solo afectaba al **cliente** (render), por eso los GameTests de servidor no lo cazaban — verificado contra el bytecode real de `HumanoidModel` de 1.20.1.
+
 ## v1.10.12 — TNT Casa y TNT Mansión: ¡construyen estructuras al explotar! (solo Java)
 
 - **🏠 TNT Casa:** al explotar construye una **casa acogedora de madera** (4x4 interior, paredes de roble y abeto, tejado a dos aguas, ventanas, puerta, chimenea de piedra y antorcha) en el punto de explosión. Receta barata: TNT + 4 tablones de roble + puerta.

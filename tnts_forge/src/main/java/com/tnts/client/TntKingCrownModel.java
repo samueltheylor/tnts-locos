@@ -38,6 +38,16 @@ public class TntKingCrownModel extends HumanoidModel<LivingEntity> {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
 
+        // HumanoidModel requiere TODOS estos parts en el root (su constructor
+        // hace root.getChild("hat"), ...). Los demas quedan vacios y ocultos
+        // en el constructor — solo se renderiza la corona sobre la cabeza.
+        root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
+        root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
+        root.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.ZERO);
+        root.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.ZERO);
+        root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.ZERO);
+        root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.ZERO);
+
         PartDefinition head = root.addOrReplaceChild("head",
                 CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
