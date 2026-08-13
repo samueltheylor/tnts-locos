@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/kola_borehole_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/kola_borehole_tnt_lit"
+    }
+  }
+}

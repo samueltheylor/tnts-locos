@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:inferno_tnt"
+    },
+    "G": {
+      "item": "minecraft:magma_cream"
+    },
+    "I": {
+      "item": "minecraft:blaze_rod"
+    },
+    "A": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "tnts:fiery_hell_tnt",
+    "count": 1
+  }
+}

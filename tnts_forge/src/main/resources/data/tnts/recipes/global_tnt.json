@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:colossal_tnt"
+    },
+    "G": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:dragon_breath"
+    }
+  },
+  "result": {
+    "item": "tnts:global_tnt",
+    "count": 1
+  }
+}

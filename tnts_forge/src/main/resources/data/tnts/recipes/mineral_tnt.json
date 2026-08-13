@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:diamante_tnt"
+    },
+    "G": {
+      "item": "minecraft:diamond_ore"
+    },
+    "I": {
+      "item": "minecraft:emerald_ore"
+    }
+  },
+  "result": {
+    "item": "tnts:mineral_tnt",
+    "count": 1
+  }
+}

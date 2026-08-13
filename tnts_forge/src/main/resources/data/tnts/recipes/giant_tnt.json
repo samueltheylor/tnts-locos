@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TG ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:mega_tnt"
+    },
+    "G": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "tnts:giant_tnt",
+    "count": 2
+  }
+}

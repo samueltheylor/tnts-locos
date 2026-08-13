@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:luck_tnt"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "I": {
+      "item": "minecraft:spider_eye"
+    }
+  },
+  "result": {
+    "item": "tnts:roulette_tnt",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:pointed_dripstone"
+    },
+    "I": {
+      "item": "minecraft:stone"
+    },
+    "A": {
+      "item": "minecraft:gravel"
+    }
+  },
+  "result": {
+    "item": "tnts:mountaintop_tnt",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/hellfire_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/hellfire_dynamite_lit"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "I": {
+      "item": "minecraft:soul_sand"
+    },
+    "A": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "tnts:wither_storm_tnt",
+    "count": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:firework_rocket"
+    },
+    "I": {
+      "item": "minecraft:glowstone_dust"
+    }
+  },
+  "result": {
+    "item": "tnts:dynamite_firework",
+    "count": 1
+  }
+}

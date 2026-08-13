@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:fuegos_tnt"
+    },
+    "G": {
+      "item": "minecraft:firework_rocket"
+    },
+    "I": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "tnts:grande_finale_tnt",
+    "count": 1
+  }
+}

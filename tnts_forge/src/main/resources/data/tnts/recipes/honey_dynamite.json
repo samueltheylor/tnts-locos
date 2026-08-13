@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:honeycomb"
+    },
+    "I": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "result": {
+    "item": "tnts:honey_dynamite",
+    "count": 1
+  }
+}

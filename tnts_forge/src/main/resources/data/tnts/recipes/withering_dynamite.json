@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:wither_rose"
+    },
+    "I": {
+      "item": "minecraft:soul_sand"
+    },
+    "A": {
+      "item": "minecraft:wither_skeleton_skull"
+    }
+  },
+  "result": {
+    "item": "tnts:withering_dynamite",
+    "count": 1
+  }
+}

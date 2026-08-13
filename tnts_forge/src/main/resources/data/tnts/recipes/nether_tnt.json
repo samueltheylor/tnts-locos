@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:netherrack"
+    },
+    "I": {
+      "item": "minecraft:magma_cream"
+    },
+    "A": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "result": {
+    "item": "tnts:nether_tnt",
+    "count": 1
+  }
+}

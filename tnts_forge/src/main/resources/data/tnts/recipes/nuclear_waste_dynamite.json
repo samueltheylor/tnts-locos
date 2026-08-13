@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:nuclear_dynamite"
+    },
+    "G": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "I": {
+      "item": "minecraft:poisonous_potato"
+    }
+  },
+  "result": {
+    "item": "tnts:nuclear_waste_dynamite",
+    "count": 1
+  }
+}

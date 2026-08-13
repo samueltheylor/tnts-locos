@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:tormenta_tnt"
+    },
+    "G": {
+      "item": "minecraft:tnt"
+    },
+    "I": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "tnts:tnt_rain_tnt",
+    "count": 1
+  }
+}

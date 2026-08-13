@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/prism_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/prism_dynamite_lit"
+    }
+  }
+}

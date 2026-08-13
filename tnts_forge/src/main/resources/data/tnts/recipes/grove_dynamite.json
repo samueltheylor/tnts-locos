@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:oak_sapling"
+    },
+    "I": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "result": {
+    "item": "tnts:grove_dynamite",
+    "count": 1
+  }
+}

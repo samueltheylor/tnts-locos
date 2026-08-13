@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "A": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "item": "tnts:sphere_dynamite",
+    "count": 1
+  }
+}

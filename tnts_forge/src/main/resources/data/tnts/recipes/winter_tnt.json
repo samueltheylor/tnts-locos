@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:snowstorm_tnt"
+    },
+    "G": {
+      "item": "minecraft:snow_block"
+    },
+    "I": {
+      "item": "minecraft:blue_ice"
+    },
+    "A": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "tnts:winter_tnt",
+    "count": 1
+  }
+}

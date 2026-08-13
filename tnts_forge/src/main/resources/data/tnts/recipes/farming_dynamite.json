@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:wheat_seeds"
+    },
+    "I": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "result": {
+    "item": "tnts:farming_dynamite",
+    "count": 1
+  }
+}

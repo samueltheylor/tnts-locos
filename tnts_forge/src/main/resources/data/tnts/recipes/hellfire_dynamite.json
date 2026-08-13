@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:blaze_rod"
+    },
+    "I": {
+      "item": "minecraft:magma_cream"
+    },
+    "A": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "result": {
+    "item": "tnts:hellfire_dynamite",
+    "count": 1
+  }
+}

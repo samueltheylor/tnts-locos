@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/spiral_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/spiral_dynamite_lit"
+    }
+  }
+}

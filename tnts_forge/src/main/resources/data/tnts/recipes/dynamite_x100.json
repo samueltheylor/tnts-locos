@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T  ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite_x20"
+    }
+  },
+  "result": {
+    "item": "tnts:dynamite_x100",
+    "count": 5
+  }
+}

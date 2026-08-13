@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:magma_cream"
+    },
+    "I": {
+      "item": "minecraft:soul_sand"
+    },
+    "A": {
+      "item": "minecraft:ancient_debris"
+    }
+  },
+  "result": {
+    "item": "tnts:pompeii_tnt",
+    "count": 1
+  }
+}

@@ -267,6 +267,942 @@
       "conditions": {
         "block": "tnts:portal_tnt"
       }
+    },
+    "explode_acidic_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:acidic_tnt"
+      }
+    },
+    "explode_animal_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:animal_tnt"
+      }
+    },
+    "explode_cannon_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:cannon_tnt"
+      }
+    },
+    "explode_catalyst_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:catalyst_tnt"
+      }
+    },
+    "explode_chicxulub_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:chicxulub_tnt"
+      }
+    },
+    "explode_continental_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:continental_tnt"
+      }
+    },
+    "explode_custom_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:custom_tnt"
+      }
+    },
+    "explode_deimos_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:deimos_tnt"
+      }
+    },
+    "explode_dense_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dense_tnt"
+      }
+    },
+    "explode_dust_bowl_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dust_bowl_tnt"
+      }
+    },
+    "explode_end_gate_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:end_gate_tnt"
+      }
+    },
+    "explode_firestorm_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:firestorm_tnt"
+      }
+    },
+    "explode_flower_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:flower_tnt"
+      }
+    },
+    "explode_ghost_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ghost_tnt"
+      }
+    },
+    "explode_giant_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:giant_tnt"
+      }
+    },
+    "explode_global_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:global_tnt"
+      }
+    },
+    "explode_gotthard_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:gotthard_tnt"
+      }
+    },
+    "explode_heat_death_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:heat_death_tnt"
+      }
+    },
+    "explode_heavens_gate_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:heavens_gate_tnt"
+      }
+    },
+    "explode_hells_gate_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hells_gate_tnt"
+      }
+    },
+    "explode_hexahedron_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hexahedron_tnt"
+      }
+    },
+    "explode_hungry_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hungry_tnt"
+      }
+    },
+    "explode_hyperion_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hyperion_tnt"
+      }
+    },
+    "explode_ice_age_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ice_age_tnt"
+      }
+    },
+    "explode_icy_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:icy_tnt"
+      }
+    },
+    "explode_knockback_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:knockback_tnt"
+      }
+    },
+    "explode_leaping_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:leaping_tnt"
+      }
+    },
+    "explode_levitating_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:levitating_tnt"
+      }
+    },
+    "explode_lightning_storm_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lightning_storm_tnt"
+      }
+    },
+    "explode_lucky_god_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lucky_god_tnt"
+      }
+    },
+    "explode_mankind_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mankind_tnt"
+      }
+    },
+    "explode_midas_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:midas_tnt"
+      }
+    },
+    "explode_mineral_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mineral_tnt"
+      }
+    },
+    "explode_mountaintop_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:mountaintop_tnt"
+      }
+    },
+    "explode_particle_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:particle_tnt"
+      }
+    },
+    "explode_plantation_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:plantation_tnt"
+      }
+    },
+    "explode_pompeii_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:pompeii_tnt"
+      }
+    },
+    "explode_poseidon_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:poseidon_tnt"
+      }
+    },
+    "explode_present_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:present_tnt"
+      }
+    },
+    "explode_pulsar_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:pulsar_tnt"
+      }
+    },
+    "explode_reset_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:reset_tnt"
+      }
+    },
+    "explode_reversed_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:reversed_tnt"
+      }
+    },
+    "explode_roulette_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:roulette_tnt"
+      }
+    },
+    "explode_sinkhole_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:sinkhole_tnt"
+      }
+    },
+    "explode_snowstorm_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:snowstorm_tnt"
+      }
+    },
+    "explode_squaring_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:squaring_tnt"
+      }
+    },
+    "explode_tetrahedron_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tetrahedron_tnt"
+      }
+    },
+    "explode_revolution_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:revolution_tnt"
+      }
+    },
+    "explode_tnt_x2000": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tnt_x2000"
+      }
+    },
+    "explode_toxic_clouds_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:toxic_clouds_tnt"
+      }
+    },
+    "explode_tsar_bomba_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tsar_bomba_tnt"
+      }
+    },
+    "explode_unbreakable_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:unbreakable_tnt"
+      }
+    },
+    "explode_vicious_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:vicious_tnt"
+      }
+    },
+    "explode_wither_storm_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:wither_storm_tnt"
+      }
+    },
+    "explode_world_wools_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:world_wools_tnt"
+      }
+    },
+    "explode_aether_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:aether_tnt"
+      }
+    },
+    "explode_asteroid_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:asteroid_tnt"
+      }
+    },
+    "explode_atlantis_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:atlantis_tnt"
+      }
+    },
+    "explode_city_firework_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:city_firework_tnt"
+      }
+    },
+    "explode_compressed_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:compressed_tnt"
+      }
+    },
+    "explode_death_ray_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:death_ray_tnt"
+      }
+    },
+    "explode_disintegrating_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:disintegrating_tnt"
+      }
+    },
+    "explode_doomsday_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:doomsday_tnt"
+      }
+    },
+    "explode_evil_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:evil_tnt"
+      }
+    },
+    "explode_extinction_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:extinction_tnt"
+      }
+    },
+    "explode_fiery_hell_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:fiery_hell_tnt"
+      }
+    },
+    "explode_flak_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:flak_tnt"
+      }
+    },
+    "explode_flat_earth_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:flat_earth_tnt"
+      }
+    },
+    "explode_fluorine_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:fluorine_tnt"
+      }
+    },
+    "explode_flying_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:flying_tnt"
+      }
+    },
+    "explode_grande_finale_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:grande_finale_tnt"
+      }
+    },
+    "explode_heat_wave_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:heat_wave_tnt"
+      }
+    },
+    "explode_helix_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:helix_tnt"
+      }
+    },
+    "explode_hydrogen_bomb_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hydrogen_bomb_tnt"
+      }
+    },
+    "explode_illuminati_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:illuminati_tnt"
+      }
+    },
+    "explode_jumping_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:jumping_tnt"
+      }
+    },
+    "explode_kola_borehole_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:kola_borehole_tnt"
+      }
+    },
+    "explode_lucky_doomsday_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lucky_doomsday_tnt"
+      }
+    },
+    "explode_meteor_storm_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:meteor_storm_tnt"
+      }
+    },
+    "explode_nether_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:nether_tnt"
+      }
+    },
+    "explode_phobos_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:phobos_tnt"
+      }
+    },
+    "explode_solar_eruption_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:solar_eruption_tnt"
+      }
+    },
+    "explode_stone_cold_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:stone_cold_tnt"
+      }
+    },
+    "explode_structure_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:structure_tnt"
+      }
+    },
+    "explode_tnt_rain_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tnt_rain_tnt"
+      }
+    },
+    "explode_tnt_x10000": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tnt_x10000"
+      }
+    },
+    "explode_vredefort_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:vredefort_tnt"
+      }
+    },
+    "explode_wasteland_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:wasteland_tnt"
+      }
+    },
+    "explode_winter_tnt": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:winter_tnt"
+      }
+    },
+    "explode_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite"
+      }
+    },
+    "explode_accelerating_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:accelerating_dynamite"
+      }
+    },
+    "explode_animal_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:animal_dynamite"
+      }
+    },
+    "explode_arrow_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:arrow_dynamite"
+      }
+    },
+    "explode_big_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:big_dynamite"
+      }
+    },
+    "explode_bouncing_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:bouncing_dynamite"
+      }
+    },
+    "explode_chemical_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:chemical_dynamite"
+      }
+    },
+    "explode_christmas_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:christmas_dynamite"
+      }
+    },
+    "explode_cluster_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:cluster_dynamite"
+      }
+    },
+    "explode_compact_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:compact_dynamite"
+      }
+    },
+    "explode_cubic_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:cubic_dynamite"
+      }
+    },
+    "explode_digging_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:digging_dynamite"
+      }
+    },
+    "explode_dripstone_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dripstone_dynamite"
+      }
+    },
+    "explode_dynamite_firework": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite_firework"
+      }
+    },
+    "explode_dynamite_x5": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite_x5"
+      }
+    },
+    "explode_dynamite_x20": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite_x20"
+      }
+    },
+    "explode_dynamite_x100": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite_x100"
+      }
+    },
+    "explode_dynamite_x500": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:dynamite_x500"
+      }
+    },
+    "explode_end_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:end_dynamite"
+      }
+    },
+    "explode_ender_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ender_dynamite"
+      }
+    },
+    "explode_erupting_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:erupting_dynamite"
+      }
+    },
+    "explode_farming_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:farming_dynamite"
+      }
+    },
+    "explode_fire_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:fire_dynamite"
+      }
+    },
+    "explode_flat_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:flat_dynamite"
+      }
+    },
+    "explode_floating_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:floating_dynamite"
+      }
+    },
+    "explode_floating_island_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:floating_island_dynamite"
+      }
+    },
+    "explode_freeze_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:freeze_dynamite"
+      }
+    },
+    "explode_gravity_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:gravity_dynamite"
+      }
+    },
+    "explode_grove_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:grove_dynamite"
+      }
+    },
+    "explode_hellfire_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:hellfire_dynamite"
+      }
+    },
+    "explode_homing_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:homing_dynamite"
+      }
+    },
+    "explode_honey_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:honey_dynamite"
+      }
+    },
+    "explode_ice_meteor_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ice_meteor_dynamite"
+      }
+    },
+    "explode_igniter_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:igniter_dynamite"
+      }
+    },
+    "explode_lava_ocean_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lava_ocean_dynamite"
+      }
+    },
+    "explode_lightning_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lightning_dynamite"
+      }
+    },
+    "explode_lucky_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lucky_dynamite"
+      }
+    },
+    "explode_lush_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:lush_dynamite"
+      }
+    },
+    "explode_meteor_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:meteor_dynamite"
+      }
+    },
+    "explode_miningflat_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:miningflat_dynamite"
+      }
+    },
+    "explode_multiplying_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:multiplying_dynamite"
+      }
+    },
+    "explode_nether_grove_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:nether_grove_dynamite"
+      }
+    },
+    "explode_nuclear_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:nuclear_dynamite"
+      }
+    },
+    "explode_nuclear_waste_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:nuclear_waste_dynamite"
+      }
+    },
+    "explode_ocean_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ocean_dynamite"
+      }
+    },
+    "explode_physics_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:physics_dynamite"
+      }
+    },
+    "explode_picky_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:picky_dynamite"
+      }
+    },
+    "explode_prism_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:prism_dynamite"
+      }
+    },
+    "explode_pulse_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:pulse_dynamite"
+      }
+    },
+    "explode_rainbow_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:rainbow_dynamite"
+      }
+    },
+    "explode_random_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:random_dynamite"
+      }
+    },
+    "explode_reaction_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:reaction_dynamite"
+      }
+    },
+    "explode_ring_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ring_dynamite"
+      }
+    },
+    "explode_roulette_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:roulette_dynamite"
+      }
+    },
+    "explode_sculk_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:sculk_dynamite"
+      }
+    },
+    "explode_sensor_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:sensor_dynamite"
+      }
+    },
+    "explode_shatterproof_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:shatterproof_dynamite"
+      }
+    },
+    "explode_snow_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:snow_dynamite"
+      }
+    },
+    "explode_sphere_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:sphere_dynamite"
+      }
+    },
+    "explode_spiral_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:spiral_dynamite"
+      }
+    },
+    "explode_timer_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:timer_dynamite"
+      }
+    },
+    "explode_tunneling_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:tunneling_dynamite"
+      }
+    },
+    "explode_ultralight_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:ultralight_dynamite"
+      }
+    },
+    "explode_vaporize_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:vaporize_dynamite"
+      }
+    },
+    "explode_withering_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:withering_dynamite"
+      }
+    },
+    "explode_wool_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:wool_dynamite"
+      }
+    },
+    "explode_xray_dynamite": {
+      "trigger": "tnts:exploded",
+      "conditions": {
+        "block": "tnts:xray_dynamite"
+      }
     }
   }
 }

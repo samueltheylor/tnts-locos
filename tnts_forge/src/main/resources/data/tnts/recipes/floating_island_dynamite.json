@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:dirt"
+    },
+    "I": {
+      "item": "minecraft:grass_block"
+    },
+    "A": {
+      "item": "minecraft:oak_log"
+    }
+  },
+  "result": {
+    "item": "tnts:floating_island_dynamite",
+    "count": 1
+  }
+}

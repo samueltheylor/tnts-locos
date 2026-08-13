@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:agua_tnt"
+    },
+    "G": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "I": {
+      "item": "minecraft:nautilus_shell"
+    }
+  },
+  "result": {
+    "item": "tnts:poseidon_tnt",
+    "count": 1
+  }
+}

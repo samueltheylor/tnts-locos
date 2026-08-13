@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:global_tnt"
+    },
+    "G": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:dragon_breath"
+    },
+    "A": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "tnts:tsar_bomba_tnt",
+    "count": 1
+  }
+}

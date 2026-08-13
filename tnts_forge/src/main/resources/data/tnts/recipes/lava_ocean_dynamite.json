@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:lava_bucket"
+    },
+    "I": {
+      "item": "minecraft:magma_block"
+    },
+    "A": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "tnts:lava_ocean_dynamite",
+    "count": 1
+  }
+}

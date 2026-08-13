@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:hielo_tnt"
+    },
+    "G": {
+      "item": "minecraft:snow_block"
+    },
+    "I": {
+      "item": "minecraft:powder_snow_bucket"
+    }
+  },
+  "result": {
+    "item": "tnts:snowstorm_tnt",
+    "count": 1
+  }
+}

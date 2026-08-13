@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/sculk_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/sculk_dynamite_lit"
+    }
+  }
+}

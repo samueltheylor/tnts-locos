@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/tsar_bomba_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/tsar_bomba_tnt_lit"
+    }
+  }
+}

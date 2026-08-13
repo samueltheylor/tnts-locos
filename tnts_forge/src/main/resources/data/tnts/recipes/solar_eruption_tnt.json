@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:solar_tnt"
+    },
+    "G": {
+      "item": "minecraft:blaze_powder"
+    },
+    "I": {
+      "item": "minecraft:glowstone"
+    },
+    "A": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "tnts:solar_eruption_tnt",
+    "count": 1
+  }
+}

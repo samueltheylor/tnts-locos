@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/reversed_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/reversed_tnt_lit"
+    }
+  }
+}

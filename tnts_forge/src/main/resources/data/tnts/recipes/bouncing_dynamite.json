@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:slime_ball"
+    },
+    "I": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "tnts:bouncing_dynamite",
+    "count": 1
+  }
+}

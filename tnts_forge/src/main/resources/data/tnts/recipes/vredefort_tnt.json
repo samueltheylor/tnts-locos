@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:chicxulub_tnt"
+    },
+    "G": {
+      "item": "minecraft:pointed_dripstone"
+    },
+    "I": {
+      "item": "minecraft:magma_block"
+    },
+    "A": {
+      "item": "minecraft:ancient_debris"
+    }
+  },
+  "result": {
+    "item": "tnts:vredefort_tnt",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:continental_tnt"
+    },
+    "G": {
+      "item": "minecraft:stone"
+    },
+    "I": {
+      "item": "minecraft:dirt"
+    },
+    "A": {
+      "item": "minecraft:gravel"
+    }
+  },
+  "result": {
+    "item": "tnts:flat_earth_tnt",
+    "count": 1
+  }
+}

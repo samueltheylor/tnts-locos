@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:spider_eye"
+    },
+    "I": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "result": {
+    "item": "tnts:lucky_dynamite",
+    "count": 1
+  }
+}

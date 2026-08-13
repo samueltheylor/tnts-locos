@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/death_ray_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/death_ray_tnt_lit"
+    }
+  }
+}

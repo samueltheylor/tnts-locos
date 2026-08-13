@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/grove_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/grove_dynamite_lit"
+    }
+  }
+}

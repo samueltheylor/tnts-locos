@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/rainbow_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/rainbow_dynamite_lit"
+    }
+  }
+}

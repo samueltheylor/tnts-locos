@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/disintegrating_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/disintegrating_tnt_lit"
+    }
+  }
+}

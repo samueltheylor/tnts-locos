@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "I": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "tnts:knockback_tnt",
+    "count": 1
+  }
+}

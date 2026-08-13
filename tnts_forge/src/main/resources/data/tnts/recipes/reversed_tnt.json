@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:ender_pearl"
+    },
+    "I": {
+      "item": "minecraft:chorus_fruit"
+    }
+  },
+  "result": {
+    "item": "tnts:reversed_tnt",
+    "count": 1
+  }
+}

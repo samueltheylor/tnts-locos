@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/erupting_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/erupting_dynamite_lit"
+    }
+  }
+}

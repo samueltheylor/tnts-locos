@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/helix_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/helix_tnt_lit"
+    }
+  }
+}

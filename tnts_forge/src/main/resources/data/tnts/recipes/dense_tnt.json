@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:mega_tnt"
+    },
+    "G": {
+      "item": "minecraft:iron_block"
+    },
+    "I": {
+      "item": "minecraft:anvil"
+    }
+  },
+  "result": {
+    "item": "tnts:dense_tnt",
+    "count": 1
+  }
+}

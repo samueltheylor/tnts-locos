@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:shulker_shell"
+    },
+    "I": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "result": {
+    "item": "tnts:levitating_tnt",
+    "count": 1
+  }
+}

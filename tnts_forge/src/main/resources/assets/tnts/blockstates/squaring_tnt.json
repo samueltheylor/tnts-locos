@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/squaring_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/squaring_tnt_lit"
+    }
+  }
+}

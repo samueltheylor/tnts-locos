@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:redstone"
+    },
+    "I": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "tnts:accelerating_dynamite",
+    "count": 1
+  }
+}

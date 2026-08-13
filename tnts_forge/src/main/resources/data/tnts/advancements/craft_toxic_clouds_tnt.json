@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:toxic_clouds_tnt"
+    },
+    "title": {
+      "translate": "advancements.tnts.craft.toxic_clouds_tnt.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.craft.toxic_clouds_tnt.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "tnts:toxic_clouds_tnt"
+      }
+    }
+  }
+}

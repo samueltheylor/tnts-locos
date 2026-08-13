@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:red_dye"
+    },
+    "I": {
+      "item": "minecraft:green_dye"
+    },
+    "A": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "result": {
+    "item": "tnts:christmas_dynamite",
+    "count": 1
+  }
+}

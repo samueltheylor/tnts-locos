@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:toxica_tnt"
+    },
+    "G": {
+      "item": "minecraft:dead_bush"
+    },
+    "I": {
+      "item": "minecraft:soul_sand"
+    },
+    "A": {
+      "item": "minecraft:magma_cream"
+    }
+  },
+  "result": {
+    "item": "tnts:wasteland_tnt",
+    "count": 1
+  }
+}

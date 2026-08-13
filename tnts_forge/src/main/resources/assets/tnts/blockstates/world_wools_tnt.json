@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/world_wools_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/world_wools_tnt_lit"
+    }
+  }
+}

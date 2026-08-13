@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:end_stone"
+    },
+    "I": {
+      "item": "minecraft:fire_charge"
+    }
+  },
+  "result": {
+    "item": "tnts:meteor_dynamite",
+    "count": 1
+  }
+}

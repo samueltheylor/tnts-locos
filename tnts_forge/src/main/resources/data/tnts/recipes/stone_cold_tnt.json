@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:hielo_tnt"
+    },
+    "G": {
+      "item": "minecraft:stone"
+    },
+    "I": {
+      "item": "minecraft:blue_ice"
+    },
+    "A": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "tnts:stone_cold_tnt",
+    "count": 1
+  }
+}

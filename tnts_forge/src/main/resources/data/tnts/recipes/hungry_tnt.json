@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:negra_tnt"
+    },
+    "G": {
+      "item": "minecraft:soul_sand"
+    },
+    "I": {
+      "item": "minecraft:wither_skeleton_skull"
+    }
+  },
+  "result": {
+    "item": "tnts:hungry_tnt",
+    "count": 1
+  }
+}

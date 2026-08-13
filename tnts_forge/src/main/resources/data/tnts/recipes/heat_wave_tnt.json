@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:solar_tnt"
+    },
+    "G": {
+      "item": "minecraft:blaze_powder"
+    },
+    "I": {
+      "item": "minecraft:magma_cream"
+    }
+  },
+  "result": {
+    "item": "tnts:heat_wave_tnt",
+    "count": 1
+  }
+}

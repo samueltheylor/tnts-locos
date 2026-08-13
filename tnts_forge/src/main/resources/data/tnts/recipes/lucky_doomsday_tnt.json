@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:lucky_god_tnt"
+    },
+    "G": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "result": {
+    "item": "tnts:lucky_doomsday_tnt",
+    "count": 1
+  }
+}

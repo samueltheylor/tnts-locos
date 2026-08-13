@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/aether_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/aether_tnt_lit"
+    }
+  }
+}

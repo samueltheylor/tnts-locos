@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:nether_wart"
+    },
+    "I": {
+      "item": "minecraft:soul_sand"
+    },
+    "A": {
+      "item": "minecraft:warped_fungus"
+    }
+  },
+  "result": {
+    "item": "tnts:nether_grove_dynamite",
+    "count": 1
+  }
+}

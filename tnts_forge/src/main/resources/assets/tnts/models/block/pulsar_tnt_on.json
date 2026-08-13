@@ -1,0 +1,81 @@
+{
+  "textures": {
+    "particle": "tnts:block/pulsar_tnt",
+    "down": "tnts:block/pulsar_tnt_bottom",
+    "up": "tnts:block/pulsar_tnt_top_on",
+    "north": "tnts:block/pulsar_tnt_on",
+    "east": "tnts:block/pulsar_tnt_on",
+    "south": "tnts:block/pulsar_tnt_on",
+    "west": "tnts:block/pulsar_tnt_on"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_bottom"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_top_on"
+        },
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_on"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_on"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_on"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/pulsar_tnt_on"
+        }
+      }
+    }
+  ]
+}

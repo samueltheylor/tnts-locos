@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/hungry_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/hungry_tnt_lit"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:magma_cream"
+    },
+    "I": {
+      "item": "minecraft:blaze_rod"
+    },
+    "A": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "tnts:hells_gate_tnt",
+    "count": 1
+  }
+}

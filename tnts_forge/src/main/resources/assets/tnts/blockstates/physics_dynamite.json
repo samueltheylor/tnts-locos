@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/physics_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/physics_dynamite_lit"
+    }
+  }
+}

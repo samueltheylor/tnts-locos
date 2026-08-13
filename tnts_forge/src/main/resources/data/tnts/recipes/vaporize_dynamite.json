@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:blaze_powder"
+    },
+    "I": {
+      "item": "minecraft:fire_charge"
+    },
+    "A": {
+      "item": "minecraft:nether_wart"
+    }
+  },
+  "result": {
+    "item": "tnts:vaporize_dynamite",
+    "count": 1
+  }
+}

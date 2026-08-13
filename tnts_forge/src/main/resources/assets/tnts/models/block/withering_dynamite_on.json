@@ -1,0 +1,81 @@
+{
+  "textures": {
+    "particle": "tnts:block/withering_dynamite",
+    "down": "tnts:block/withering_dynamite_bottom",
+    "up": "tnts:block/withering_dynamite_top_on",
+    "north": "tnts:block/withering_dynamite_on",
+    "east": "tnts:block/withering_dynamite_on",
+    "south": "tnts:block/withering_dynamite_on",
+    "west": "tnts:block/withering_dynamite_on"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_bottom"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_top_on"
+        },
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_on"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_on"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_on"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "tnts:block/withering_dynamite_on"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TG ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:limpia_tnt"
+    },
+    "G": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "tnts:reset_tnt",
+    "count": 2
+  }
+}

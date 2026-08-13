@@ -357,6 +357,9 @@ public class TntsPrimedTnt extends PrimedTnt {
         // === NUEVAS 1.10.21 ===
         if (p.has(TntEffect.LUCKY)) luckyBlast(sl, x, y, z);
         if (p.has(TntEffect.PORTAL)) buildNetherPortal(sl, center);
+        // === NUEVAS 1.11.0 ===
+        if (p.has(TntEffect.FIRE)) fireSpread(lvl, center, 8);
+        if (p.has(TntEffect.TUNNEL)) tunnelBlast(lvl, x, y, z, center);
 
         // REACCION EN CADENA: enciende TNTs del mod cercanas
         chainReaction(lvl, x, y, z, center);
@@ -2104,6 +2107,73 @@ public class TntsPrimedTnt extends PrimedTnt {
         sl.playSound(null, new BlockPos(bx, by, bz),
                 net.minecraft.sounds.SoundEvents.PORTAL_TRIGGER,
                 SoundSource.BLOCKS, 1.2F, 0.7F);
+    }
+
+    // === EFECTOS 1.11.0 ===
+
+    /**
+     * TNT de Fuego: incendia el area circundante con bloques de fuego,
+     * similar al Inferno pero mas limpio y sin mobs del Nether.
+     */
+    private void fireSpread(Level lvl, BlockPos center, int radius) {
+        for (BlockPos p : BlockPos.betweenClosed(
+                center.offset(-radius, -2, -radius),
+                center.offset(radius, 3, radius))) {
+            if (lvl.isEmptyBlock(p) && lvl.getBlockState(p.below()).isSolid()
+                    && lvl.random.nextInt(3) != 0) {
+                lvl.setBlock(p, Blocks.FIRE.defaultBlockState(), 3);
+            }
+        }
+        // particulas de fuego
+        if (lvl instanceof ServerLevel sl) {
+            for (int i = 0; i < 40; i++) {
+                double a = sl.random.nextDouble() * Math.PI * 2;
+                double r = sl.random.nextDouble() * radius;
+                sl.sendParticles(ParticleTypes.FLAME,
+                        center.getX() + Math.cos(a) * r, center.getY() + 0.5 + sl.random.nextDouble() * 2,
+                        center.getZ() + Math.sin(a) * r,
+                        2, 0.1, 0.1, 0.1, 0.01);
+            }
+        }
+    }
+
+    /**
+     * TNT Tuneladora: excava un tunel horizontal en 4 direcciones desde el
+     * punto de explosion, destruyendo bloques en un patron de tunel (3 alto x
+     * 3 ancho) con particulas de polvo y piedra.
+     */
+    private void tunnelBlast(Level lvl, double x, double y, double z, BlockPos center) {
+        if (!(lvl instanceof ServerLevel sl)) return;
+        // 4 direcciones: N, S, E, W
+        int[][] dirs = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
+        int tunnelRadius = 3;  // 3 bloques de largo por lado
+        for (int[] dir : dirs) {
+            for (int d = 1; d <= tunnelRadius; d++) {
+                int tx = center.getX() + dir[0] * d;
+                int tz = center.getZ() + dir[1] * d;
+                // Tunel 3 alto x 3 ancho
+                for (int dy = 0; dy <= 2; dy++) {
+                    for (int dx = -1; dx <= 1; dx++) {
+                        BlockPos tp = new BlockPos(tx + (dir[1] != 0 ? dx : 0),
+                                center.getY() + dy, tz + (dir[0] != 0 ? dx : 0));
+                        BlockState state = lvl.getBlockState(tp);
+                        if (!state.isAir() && canDestroy(state, lvl, tp)) {
+                            lvl.destroyBlock(tp, true);
+                        }
+                    }
+                }
+            }
+        }
+        // particulas de polvo y piedra
+        for (int i = 0; i < 80; i++) {
+            double a = sl.random.nextDouble() * Math.PI * 2;
+            double r = sl.random.nextDouble() * 6;
+            sl.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.STONE.defaultBlockState()),
+                    x + Math.cos(a) * r, y + 0.5 + sl.random.nextDouble() * 3,
+                    z + Math.sin(a) * r,
+                    2, 0.2, 0.2, 0.2, 0);
+        }
+        sl.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 4, 1, 0.5, 1, 0.1);
     }
 
     @Override

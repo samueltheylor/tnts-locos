@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/hydrogen_bomb_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/hydrogen_bomb_tnt_lit"
+    }
+  }
+}

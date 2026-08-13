@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/picky_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/picky_dynamite_lit"
+    }
+  }
+}

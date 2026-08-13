@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:dynamite_x5"
+    },
+    "title": {
+      "translate": "advancements.tnts.craft.dynamite_x5.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.craft.dynamite_x5.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "tnts:dynamite_x5"
+      }
+    }
+  }
+}

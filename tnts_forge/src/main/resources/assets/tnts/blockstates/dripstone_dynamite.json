@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/dripstone_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/dripstone_dynamite_lit"
+    }
+  }
+}

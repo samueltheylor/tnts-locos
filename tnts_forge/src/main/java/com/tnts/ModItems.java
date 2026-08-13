@@ -148,4 +148,23 @@ public class ModItems {
     private static RegistryObject<Item> blockItem(String name, RegistryObject<Block> block) {
         return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
+
+    // === REGISTRO DINAMICO: items de las TNTs nuevas ===
+    /** Mapa dinamico: nombre -> RegistryObject para items de TNTs. */
+    public static final java.util.Map<String, RegistryObject<Item>> DYNAMIC_ITEMS = new java.util.LinkedHashMap<>();
+
+    static {
+        // Registra items para TODAS las TNTs de TntDefaults que no tengan campo estatico
+        java.util.Set<String> staticNames = new java.util.HashSet<>();
+        for (var f : ModBlocks.DYNAMIC_BLOCKS.keySet()) {
+            staticNames.add(f);
+        }
+        for (var entry : ModBlocks.DYNAMIC_BLOCKS.entrySet()) {
+            String name = entry.getKey();
+            // Solo registrar si no existe ya un campo estatico para este nombre
+            if (!DYNAMIC_ITEMS.containsKey(name)) {
+                DYNAMIC_ITEMS.put(name, blockItem(name, entry.getValue()));
+            }
+        }
+    }
 }

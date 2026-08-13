@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:magma_cream"
+    },
+    "I": {
+      "item": "minecraft:blaze_powder"
+    }
+  },
+  "result": {
+    "item": "tnts:erupting_dynamite",
+    "count": 1
+  }
+}

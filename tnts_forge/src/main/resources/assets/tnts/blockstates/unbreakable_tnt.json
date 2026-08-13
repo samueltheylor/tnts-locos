@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/unbreakable_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/unbreakable_tnt_lit"
+    }
+  }
+}

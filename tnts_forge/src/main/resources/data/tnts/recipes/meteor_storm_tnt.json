@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:meteorito_tnt"
+    },
+    "G": {
+      "item": "minecraft:fire_charge"
+    },
+    "I": {
+      "item": "minecraft:end_stone"
+    },
+    "A": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "result": {
+    "item": "tnts:meteor_storm_tnt",
+    "count": 1
+  }
+}

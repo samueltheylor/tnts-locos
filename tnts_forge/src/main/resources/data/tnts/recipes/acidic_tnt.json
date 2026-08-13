@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:spider_eye"
+    },
+    "I": {
+      "item": "minecraft:vine"
+    }
+  },
+  "result": {
+    "item": "tnts:acidic_tnt",
+    "count": 1
+  }
+}

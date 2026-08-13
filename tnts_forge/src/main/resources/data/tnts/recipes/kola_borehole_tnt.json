@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:pointed_dripstone"
+    },
+    "I": {
+      "item": "minecraft:deepslate"
+    },
+    "A": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "result": {
+    "item": "tnts:kola_borehole_tnt",
+    "count": 1
+  }
+}

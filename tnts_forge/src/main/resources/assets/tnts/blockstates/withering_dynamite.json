@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/withering_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/withering_dynamite_lit"
+    }
+  }
+}

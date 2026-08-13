@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/continental_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/continental_tnt_lit"
+    }
+  }
+}

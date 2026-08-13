@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/nether_grove_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/nether_grove_dynamite_lit"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "tnts:block/tnts_random_dynamite_top_lit",
+    "bottom": "tnts:block/tnts_random_dynamite_bottom",
+    "side": "tnts:block/tnts_random_dynamite_lit"
+  }
+}

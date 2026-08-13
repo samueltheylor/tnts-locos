@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:leaping_tnt"
+    },
+    "G": {
+      "item": "minecraft:slime_ball"
+    },
+    "I": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "tnts:jumping_tnt",
+    "count": 1
+  }
+}

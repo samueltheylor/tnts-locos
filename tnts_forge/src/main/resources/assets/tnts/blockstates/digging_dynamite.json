@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/digging_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/digging_dynamite_lit"
+    }
+  }
+}

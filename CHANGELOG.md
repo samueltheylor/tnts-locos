@@ -1,5 +1,17 @@
 # TNTs Locos — Changelog
 
+## v1.11.0 — 💣 MASSIVE UPDATE: 156 TNTs y Dinamitas nuevas (198 total)
+
+- **156 bloques explosivos nuevos**: Acidic, Animal Kingdom, Cannon, Catalyst, Chicxulub, Continental Drift, Custom, Deimos, Dense, Dust Bowl, End Gate, Firestorm, Flower Forest, Ghost, Giant, Global Disaster, Gotthard Tunnel, Heat Death, Heavens Gate, Hells Gate, Hexahedron, Hungry, Hyperion, Ice Age, Icy, Knockback, Leaping, Levitating, Lightning Storm, Lucky God, Mankind's Mark, Midas, Mineral, Mountaintop Removal, Particle Physics, Plantation, Pompeii, Poseidon's Wave, Present Drop, Pulsar, Reset, Reversed, Russian Roulette, Sinkhole, Snowstorm, Squaring, Tetrahedron, Revolution, TNT x2000, Toxic Clouds, Tsar Bomba, Unbreakable, Vicious, Wither Storm, World of Wools.
+- **38 Doomsday TNTs**: Aether, Asteroid Belt, Atlantis, Chunk, City Firework, Colossal, Compressed, Death Ray, Disintegrating, Doomsday, Evil, Extinction, Fiery Hell, Flak, Flat Earth, Fluorine, Flying, Grande Finale, Heat Wave, Helix, Hydrogen Bomb, Illuminati, Jumping, Kola Borehole, Lucky Doomsday, Mansion, Meteor Storm, Nether, Phobos, Solar Eruption, Stone Cold, Structure, Supernova, TNT Rain, TNTx10000, Vredefort, Wasteland, Winter.
+- **62 Dinamitas**: Todas las variantes de dinamita con efectos unicos (Accelerating, Animal, Arrow, Big, Bouncing, Chemical, Christmas, Cluster, Compact, Cubic, Digging, Dripstone, x5, x20, x100, x500, End, Ender, Erupting, Farming, Fire, Flat, Floating, Floating Island, Freeze, Gravity, Grove, Hellfire, Homing, Honey, Ice Meteor, Igniter, Lava Ocean, Lightning, Lucky, Lush, Meteor, Miningflat, Multiplying, Nether Grove, Nuclear, Nuclear Waste, Ocean, Physics, Picky, Prism, Pulse, Rainbow, Random, Reaction, Ring, Roulette, Sculk, Sensor, Shatterproof, Snow, Sphere, Spiral, Timer, Tunneling, Ultralight, Vaporize, Withering, Wool, XRay).
+- **Efectos nuevos**: FIRE (incendio limpio), TUNNEL (excavacion en 4 direcciones).
+- **Texturas unicas** para cada TNT/dinamita con paleta de colores propia.
+- **Recetas** para todas las nuevas TNTs y dinamitas.
+- **Traducciones** en 5 idiomas (ES, EN, FR, DE, PT).
+- **Sistema generativo** de texturas y recursos para mantenimiento facil.
+- **198 bloques explosivos totales** — el mod de TNTs mas grande de Modrinth.
+
 ## v1.10.21 — ⌨️ Comando /tnts + 🎲 TNT de la Suerte + ⛩️ TNT Portal (solo Java)
 
 - **⌨️ Comando `/tnts`:** darte cualquier TNT o item del mod al instante. `/tnts give <nombre> [cantidad]` (acepta `mega_tnt` o `tnts:mega_tnt`, si el inventario está lleno lo deja caer) y `/tnts list` para ver todos los items. Requiere permiso de operador. Se acabó ir a craftear para probar: `tnts give colosal_tnt 5` y a volar.

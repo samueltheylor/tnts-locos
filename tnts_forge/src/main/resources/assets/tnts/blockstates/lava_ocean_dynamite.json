@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/lava_ocean_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/lava_ocean_dynamite_lit"
+    }
+  }
+}

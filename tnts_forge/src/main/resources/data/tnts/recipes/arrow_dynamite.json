@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:arrow"
+    },
+    "I": {
+      "item": "minecraft:flint"
+    }
+  },
+  "result": {
+    "item": "tnts:arrow_dynamite",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/shatterproof_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/shatterproof_dynamite_lit"
+    }
+  }
+}

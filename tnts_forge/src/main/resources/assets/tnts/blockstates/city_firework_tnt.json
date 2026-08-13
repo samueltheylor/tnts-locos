@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/city_firework_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/city_firework_tnt_lit"
+    }
+  }
+}

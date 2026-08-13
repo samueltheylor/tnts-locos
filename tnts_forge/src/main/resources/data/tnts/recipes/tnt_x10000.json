@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T  ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:tnt_x2000"
+    }
+  },
+  "result": {
+    "item": "tnts:tnt_x10000",
+    "count": 5
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:blue_ice"
+    },
+    "I": {
+      "item": "minecraft:end_stone"
+    },
+    "A": {
+      "item": "minecraft:snowball"
+    }
+  },
+  "result": {
+    "item": "tnts:ice_meteor_dynamite",
+    "count": 1
+  }
+}

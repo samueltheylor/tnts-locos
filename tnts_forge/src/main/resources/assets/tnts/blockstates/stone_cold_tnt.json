@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/stone_cold_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/stone_cold_tnt_lit"
+    }
+  }
+}

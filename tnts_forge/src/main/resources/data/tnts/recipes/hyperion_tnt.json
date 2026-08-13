@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:supernova_tnt"
+    },
+    "G": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "result": {
+    "item": "tnts:hyperion_tnt",
+    "count": 1
+  }
+}

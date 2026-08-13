@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/bouncing_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/bouncing_dynamite_lit"
+    }
+  }
+}

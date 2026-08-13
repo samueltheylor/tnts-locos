@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:casa_tnt"
+    },
+    "G": {
+      "item": "minecraft:oak_log"
+    },
+    "I": {
+      "item": "minecraft:oak_planks"
+    }
+  },
+  "result": {
+    "item": "tnts:structure_tnt",
+    "count": 1
+  }
+}

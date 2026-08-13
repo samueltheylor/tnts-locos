@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:clock"
+    },
+    "I": {
+      "item": "minecraft:redstone"
+    },
+    "A": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "tnts:timer_dynamite",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/meteor_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/meteor_dynamite_lit"
+    }
+  }
+}

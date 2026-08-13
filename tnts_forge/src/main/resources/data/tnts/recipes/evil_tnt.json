@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:soul_sand"
+    },
+    "I": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "A": {
+      "item": "minecraft:nether_wart"
+    }
+  },
+  "result": {
+    "item": "tnts:evil_tnt",
+    "count": 1
+  }
+}

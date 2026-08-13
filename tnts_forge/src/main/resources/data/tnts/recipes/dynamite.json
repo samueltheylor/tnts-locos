@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:gunpowder"
+    },
+    "G": {
+      "item": "minecraft:string"
+    },
+    "I": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "tnts:dynamite",
+    "count": 1
+  }
+}

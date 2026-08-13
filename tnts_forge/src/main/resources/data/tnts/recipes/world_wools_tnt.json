@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "AB ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:white_wool"
+    },
+    "I": {
+      "item": "minecraft:red_wool"
+    },
+    "A": {
+      "item": "minecraft:blue_wool"
+    },
+    "B": {
+      "item": "minecraft:yellow_wool"
+    }
+  },
+  "result": {
+    "item": "tnts:world_wools_tnt",
+    "count": 1
+  }
+}

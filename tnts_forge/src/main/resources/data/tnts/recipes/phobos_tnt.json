@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:deimos_tnt"
+    },
+    "G": {
+      "item": "minecraft:end_stone"
+    },
+    "I": {
+      "item": "minecraft:fire_charge"
+    }
+  },
+  "result": {
+    "item": "tnts:phobos_tnt",
+    "count": 1
+  }
+}

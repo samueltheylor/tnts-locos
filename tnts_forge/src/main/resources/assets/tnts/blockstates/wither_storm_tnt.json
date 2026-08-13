@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/wither_storm_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/wither_storm_tnt_lit"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/fiery_hell_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/fiery_hell_tnt_lit"
+    }
+  }
+}

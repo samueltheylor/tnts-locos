@@ -77,5 +77,9 @@ public enum TntEffect {
     /** Suerte: elige OTRA TNT del mod al azar y hace SU efecto completo (TNT de la Suerte). */
     LUCKY,
     /** Portal: construye un portal al Nether completo y encendido (TNT Portal). */
-    PORTAL
+    PORTAL,
+    /** Fuego: incendia el area circundante con bloques de fuego (TNTs de Fuego). */
+    FIRE,
+    /** Tunel: excava un tunel horizontal en la direccion mas cercana (TNTs Tuneladoras). */
+    TUNNEL
 }

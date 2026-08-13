@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/miningflat_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/miningflat_dynamite_lit"
+    }
+  }
+}

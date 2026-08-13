@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:gravel"
+    },
+    "I": {
+      "item": "minecraft:sand"
+    },
+    "A": {
+      "item": "minecraft:clay"
+    }
+  },
+  "result": {
+    "item": "tnts:sinkhole_tnt",
+    "count": 1
+  }
+}

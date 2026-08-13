@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "AB ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:red_dye"
+    },
+    "I": {
+      "item": "minecraft:yellow_dye"
+    },
+    "A": {
+      "item": "minecraft:blue_dye"
+    },
+    "B": {
+      "item": "minecraft:green_dye"
+    }
+  },
+  "result": {
+    "item": "tnts:rainbow_dynamite",
+    "count": 1
+  }
+}

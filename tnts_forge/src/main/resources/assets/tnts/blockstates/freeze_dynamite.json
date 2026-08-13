@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/freeze_dynamite"
+    },
+    "lit=true": {
+      "model": "tnts:block/freeze_dynamite_lit"
+    }
+  }
+}

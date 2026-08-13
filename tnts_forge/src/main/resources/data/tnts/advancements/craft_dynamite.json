@@ -1,0 +1,26 @@
+{
+  "parent": "tnts:root",
+  "display": {
+    "icon": {
+      "item": "tnts:dynamite"
+    },
+    "title": {
+      "translate": "advancements.tnts.craft.dynamite.title"
+    },
+    "description": {
+      "translate": "advancements.tnts.craft.dynamite.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "tnts:dynamite"
+      }
+    }
+  }
+}

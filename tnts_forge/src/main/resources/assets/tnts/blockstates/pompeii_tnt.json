@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/pompeii_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/pompeii_tnt_lit"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "G": {
+      "item": "minecraft:pointed_dripstone"
+    },
+    "I": {
+      "item": "minecraft:magma_block"
+    },
+    "A": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "tnts:continental_tnt",
+    "count": 1
+  }
+}

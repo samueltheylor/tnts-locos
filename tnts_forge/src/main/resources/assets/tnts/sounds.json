@@ -463,5 +463,1565 @@
     "sounds": [
       "tnts:block/tnt/explode_portal_tnt"
     ]
+  },
+  "block.tnt.fuse.acidic_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_acidic_tnt"
+    ]
+  },
+  "block.tnt.explode.acidic_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_acidic_tnt"
+    ]
+  },
+  "block.tnt.fuse.animal_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_animal_tnt"
+    ]
+  },
+  "block.tnt.explode.animal_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_animal_tnt"
+    ]
+  },
+  "block.tnt.fuse.cannon_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_cannon_tnt"
+    ]
+  },
+  "block.tnt.explode.cannon_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_cannon_tnt"
+    ]
+  },
+  "block.tnt.fuse.catalyst_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_catalyst_tnt"
+    ]
+  },
+  "block.tnt.explode.catalyst_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_catalyst_tnt"
+    ]
+  },
+  "block.tnt.fuse.chicxulub_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_chicxulub_tnt"
+    ]
+  },
+  "block.tnt.explode.chicxulub_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_chicxulub_tnt"
+    ]
+  },
+  "block.tnt.fuse.continental_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_continental_tnt"
+    ]
+  },
+  "block.tnt.explode.continental_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_continental_tnt"
+    ]
+  },
+  "block.tnt.fuse.custom_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_custom_tnt"
+    ]
+  },
+  "block.tnt.explode.custom_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_custom_tnt"
+    ]
+  },
+  "block.tnt.fuse.deimos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_deimos_tnt"
+    ]
+  },
+  "block.tnt.explode.deimos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_deimos_tnt"
+    ]
+  },
+  "block.tnt.fuse.dense_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dense_tnt"
+    ]
+  },
+  "block.tnt.explode.dense_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_dense_tnt"
+    ]
+  },
+  "block.tnt.fuse.dust_bowl_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dust_bowl_tnt"
+    ]
+  },
+  "block.tnt.explode.dust_bowl_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_dust_bowl_tnt"
+    ]
+  },
+  "block.tnt.fuse.end_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_end_gate_tnt"
+    ]
+  },
+  "block.tnt.explode.end_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_end_gate_tnt"
+    ]
+  },
+  "block.tnt.fuse.firestorm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_firestorm_tnt"
+    ]
+  },
+  "block.tnt.explode.firestorm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_firestorm_tnt"
+    ]
+  },
+  "block.tnt.fuse.flower_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_flower_tnt"
+    ]
+  },
+  "block.tnt.explode.flower_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_flower_tnt"
+    ]
+  },
+  "block.tnt.fuse.ghost_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ghost_tnt"
+    ]
+  },
+  "block.tnt.explode.ghost_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_ghost_tnt"
+    ]
+  },
+  "block.tnt.fuse.giant_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_giant_tnt"
+    ]
+  },
+  "block.tnt.explode.giant_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_giant_tnt"
+    ]
+  },
+  "block.tnt.fuse.global_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_global_tnt"
+    ]
+  },
+  "block.tnt.explode.global_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_global_tnt"
+    ]
+  },
+  "block.tnt.fuse.gotthard_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_gotthard_tnt"
+    ]
+  },
+  "block.tnt.explode.gotthard_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_gotthard_tnt"
+    ]
+  },
+  "block.tnt.fuse.heat_death_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_heat_death_tnt"
+    ]
+  },
+  "block.tnt.explode.heat_death_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_heat_death_tnt"
+    ]
+  },
+  "block.tnt.fuse.heavens_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_heavens_gate_tnt"
+    ]
+  },
+  "block.tnt.explode.heavens_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_heavens_gate_tnt"
+    ]
+  },
+  "block.tnt.fuse.hells_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hells_gate_tnt"
+    ]
+  },
+  "block.tnt.explode.hells_gate_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_hells_gate_tnt"
+    ]
+  },
+  "block.tnt.fuse.hexahedron_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hexahedron_tnt"
+    ]
+  },
+  "block.tnt.explode.hexahedron_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_hexahedron_tnt"
+    ]
+  },
+  "block.tnt.fuse.hungry_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hungry_tnt"
+    ]
+  },
+  "block.tnt.explode.hungry_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_hungry_tnt"
+    ]
+  },
+  "block.tnt.fuse.hyperion_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hyperion_tnt"
+    ]
+  },
+  "block.tnt.explode.hyperion_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_hyperion_tnt"
+    ]
+  },
+  "block.tnt.fuse.ice_age_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ice_age_tnt"
+    ]
+  },
+  "block.tnt.explode.ice_age_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_ice_age_tnt"
+    ]
+  },
+  "block.tnt.fuse.icy_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_icy_tnt"
+    ]
+  },
+  "block.tnt.explode.icy_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_icy_tnt"
+    ]
+  },
+  "block.tnt.fuse.knockback_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_knockback_tnt"
+    ]
+  },
+  "block.tnt.explode.knockback_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_knockback_tnt"
+    ]
+  },
+  "block.tnt.fuse.leaping_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_leaping_tnt"
+    ]
+  },
+  "block.tnt.explode.leaping_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_leaping_tnt"
+    ]
+  },
+  "block.tnt.fuse.levitating_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_levitating_tnt"
+    ]
+  },
+  "block.tnt.explode.levitating_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_levitating_tnt"
+    ]
+  },
+  "block.tnt.fuse.lightning_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lightning_storm_tnt"
+    ]
+  },
+  "block.tnt.explode.lightning_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_lightning_storm_tnt"
+    ]
+  },
+  "block.tnt.fuse.lucky_god_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lucky_god_tnt"
+    ]
+  },
+  "block.tnt.explode.lucky_god_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_lucky_god_tnt"
+    ]
+  },
+  "block.tnt.fuse.mankind_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_mankind_tnt"
+    ]
+  },
+  "block.tnt.explode.mankind_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_mankind_tnt"
+    ]
+  },
+  "block.tnt.fuse.midas_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_midas_tnt"
+    ]
+  },
+  "block.tnt.explode.midas_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_midas_tnt"
+    ]
+  },
+  "block.tnt.fuse.mineral_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_mineral_tnt"
+    ]
+  },
+  "block.tnt.explode.mineral_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_mineral_tnt"
+    ]
+  },
+  "block.tnt.fuse.mountaintop_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_mountaintop_tnt"
+    ]
+  },
+  "block.tnt.explode.mountaintop_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_mountaintop_tnt"
+    ]
+  },
+  "block.tnt.fuse.particle_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_particle_tnt"
+    ]
+  },
+  "block.tnt.explode.particle_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_particle_tnt"
+    ]
+  },
+  "block.tnt.fuse.plantation_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_plantation_tnt"
+    ]
+  },
+  "block.tnt.explode.plantation_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_plantation_tnt"
+    ]
+  },
+  "block.tnt.fuse.pompeii_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_pompeii_tnt"
+    ]
+  },
+  "block.tnt.explode.pompeii_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_pompeii_tnt"
+    ]
+  },
+  "block.tnt.fuse.poseidon_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_poseidon_tnt"
+    ]
+  },
+  "block.tnt.explode.poseidon_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_poseidon_tnt"
+    ]
+  },
+  "block.tnt.fuse.present_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_present_tnt"
+    ]
+  },
+  "block.tnt.explode.present_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_present_tnt"
+    ]
+  },
+  "block.tnt.fuse.pulsar_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_pulsar_tnt"
+    ]
+  },
+  "block.tnt.explode.pulsar_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_pulsar_tnt"
+    ]
+  },
+  "block.tnt.fuse.reset_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_reset_tnt"
+    ]
+  },
+  "block.tnt.explode.reset_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_reset_tnt"
+    ]
+  },
+  "block.tnt.fuse.reversed_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_reversed_tnt"
+    ]
+  },
+  "block.tnt.explode.reversed_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_reversed_tnt"
+    ]
+  },
+  "block.tnt.fuse.roulette_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_roulette_tnt"
+    ]
+  },
+  "block.tnt.explode.roulette_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_roulette_tnt"
+    ]
+  },
+  "block.tnt.fuse.sinkhole_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_sinkhole_tnt"
+    ]
+  },
+  "block.tnt.explode.sinkhole_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_sinkhole_tnt"
+    ]
+  },
+  "block.tnt.fuse.snowstorm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_snowstorm_tnt"
+    ]
+  },
+  "block.tnt.explode.snowstorm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_snowstorm_tnt"
+    ]
+  },
+  "block.tnt.fuse.squaring_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_squaring_tnt"
+    ]
+  },
+  "block.tnt.explode.squaring_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_squaring_tnt"
+    ]
+  },
+  "block.tnt.fuse.tetrahedron_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tetrahedron_tnt"
+    ]
+  },
+  "block.tnt.explode.tetrahedron_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_tetrahedron_tnt"
+    ]
+  },
+  "block.tnt.fuse.revolution_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_revolution_tnt"
+    ]
+  },
+  "block.tnt.explode.revolution_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_revolution_tnt"
+    ]
+  },
+  "block.tnt.fuse.tnt_x2000": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tnt_x2000"
+    ]
+  },
+  "block.tnt.explode.tnt_x2000": {
+    "sounds": [
+      "tnts:block/tnt/explode_tnt_x2000"
+    ]
+  },
+  "block.tnt.fuse.toxic_clouds_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_toxic_clouds_tnt"
+    ]
+  },
+  "block.tnt.explode.toxic_clouds_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_toxic_clouds_tnt"
+    ]
+  },
+  "block.tnt.fuse.tsar_bomba_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tsar_bomba_tnt"
+    ]
+  },
+  "block.tnt.explode.tsar_bomba_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_tsar_bomba_tnt"
+    ]
+  },
+  "block.tnt.fuse.unbreakable_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_unbreakable_tnt"
+    ]
+  },
+  "block.tnt.explode.unbreakable_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_unbreakable_tnt"
+    ]
+  },
+  "block.tnt.fuse.vicious_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_vicious_tnt"
+    ]
+  },
+  "block.tnt.explode.vicious_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_vicious_tnt"
+    ]
+  },
+  "block.tnt.fuse.wither_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_wither_storm_tnt"
+    ]
+  },
+  "block.tnt.explode.wither_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_wither_storm_tnt"
+    ]
+  },
+  "block.tnt.fuse.world_wools_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_world_wools_tnt"
+    ]
+  },
+  "block.tnt.explode.world_wools_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_world_wools_tnt"
+    ]
+  },
+  "block.tnt.fuse.aether_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_aether_tnt"
+    ]
+  },
+  "block.tnt.explode.aether_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_aether_tnt"
+    ]
+  },
+  "block.tnt.fuse.asteroid_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_asteroid_tnt"
+    ]
+  },
+  "block.tnt.explode.asteroid_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_asteroid_tnt"
+    ]
+  },
+  "block.tnt.fuse.atlantis_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_atlantis_tnt"
+    ]
+  },
+  "block.tnt.explode.atlantis_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_atlantis_tnt"
+    ]
+  },
+  "block.tnt.fuse.city_firework_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_city_firework_tnt"
+    ]
+  },
+  "block.tnt.explode.city_firework_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_city_firework_tnt"
+    ]
+  },
+  "block.tnt.fuse.compressed_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_compressed_tnt"
+    ]
+  },
+  "block.tnt.explode.compressed_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_compressed_tnt"
+    ]
+  },
+  "block.tnt.fuse.death_ray_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_death_ray_tnt"
+    ]
+  },
+  "block.tnt.explode.death_ray_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_death_ray_tnt"
+    ]
+  },
+  "block.tnt.fuse.disintegrating_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_disintegrating_tnt"
+    ]
+  },
+  "block.tnt.explode.disintegrating_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_disintegrating_tnt"
+    ]
+  },
+  "block.tnt.fuse.doomsday_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_doomsday_tnt"
+    ]
+  },
+  "block.tnt.explode.doomsday_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_doomsday_tnt"
+    ]
+  },
+  "block.tnt.fuse.evil_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_evil_tnt"
+    ]
+  },
+  "block.tnt.explode.evil_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_evil_tnt"
+    ]
+  },
+  "block.tnt.fuse.extinction_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_extinction_tnt"
+    ]
+  },
+  "block.tnt.explode.extinction_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_extinction_tnt"
+    ]
+  },
+  "block.tnt.fuse.fiery_hell_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_fiery_hell_tnt"
+    ]
+  },
+  "block.tnt.explode.fiery_hell_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_fiery_hell_tnt"
+    ]
+  },
+  "block.tnt.fuse.flak_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_flak_tnt"
+    ]
+  },
+  "block.tnt.explode.flak_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_flak_tnt"
+    ]
+  },
+  "block.tnt.fuse.flat_earth_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_flat_earth_tnt"
+    ]
+  },
+  "block.tnt.explode.flat_earth_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_flat_earth_tnt"
+    ]
+  },
+  "block.tnt.fuse.fluorine_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_fluorine_tnt"
+    ]
+  },
+  "block.tnt.explode.fluorine_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_fluorine_tnt"
+    ]
+  },
+  "block.tnt.fuse.flying_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_flying_tnt"
+    ]
+  },
+  "block.tnt.explode.flying_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_flying_tnt"
+    ]
+  },
+  "block.tnt.fuse.grande_finale_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_grande_finale_tnt"
+    ]
+  },
+  "block.tnt.explode.grande_finale_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_grande_finale_tnt"
+    ]
+  },
+  "block.tnt.fuse.heat_wave_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_heat_wave_tnt"
+    ]
+  },
+  "block.tnt.explode.heat_wave_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_heat_wave_tnt"
+    ]
+  },
+  "block.tnt.fuse.helix_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_helix_tnt"
+    ]
+  },
+  "block.tnt.explode.helix_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_helix_tnt"
+    ]
+  },
+  "block.tnt.fuse.hydrogen_bomb_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hydrogen_bomb_tnt"
+    ]
+  },
+  "block.tnt.explode.hydrogen_bomb_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_hydrogen_bomb_tnt"
+    ]
+  },
+  "block.tnt.fuse.illuminati_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_illuminati_tnt"
+    ]
+  },
+  "block.tnt.explode.illuminati_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_illuminati_tnt"
+    ]
+  },
+  "block.tnt.fuse.jumping_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_jumping_tnt"
+    ]
+  },
+  "block.tnt.explode.jumping_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_jumping_tnt"
+    ]
+  },
+  "block.tnt.fuse.kola_borehole_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_kola_borehole_tnt"
+    ]
+  },
+  "block.tnt.explode.kola_borehole_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_kola_borehole_tnt"
+    ]
+  },
+  "block.tnt.fuse.lucky_doomsday_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lucky_doomsday_tnt"
+    ]
+  },
+  "block.tnt.explode.lucky_doomsday_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_lucky_doomsday_tnt"
+    ]
+  },
+  "block.tnt.fuse.meteor_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_meteor_storm_tnt"
+    ]
+  },
+  "block.tnt.explode.meteor_storm_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_meteor_storm_tnt"
+    ]
+  },
+  "block.tnt.fuse.nether_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_nether_tnt"
+    ]
+  },
+  "block.tnt.explode.nether_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_nether_tnt"
+    ]
+  },
+  "block.tnt.fuse.phobos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_phobos_tnt"
+    ]
+  },
+  "block.tnt.explode.phobos_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_phobos_tnt"
+    ]
+  },
+  "block.tnt.fuse.solar_eruption_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_solar_eruption_tnt"
+    ]
+  },
+  "block.tnt.explode.solar_eruption_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_solar_eruption_tnt"
+    ]
+  },
+  "block.tnt.fuse.stone_cold_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_stone_cold_tnt"
+    ]
+  },
+  "block.tnt.explode.stone_cold_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_stone_cold_tnt"
+    ]
+  },
+  "block.tnt.fuse.structure_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_structure_tnt"
+    ]
+  },
+  "block.tnt.explode.structure_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_structure_tnt"
+    ]
+  },
+  "block.tnt.fuse.tnt_rain_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tnt_rain_tnt"
+    ]
+  },
+  "block.tnt.explode.tnt_rain_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_tnt_rain_tnt"
+    ]
+  },
+  "block.tnt.fuse.tnt_x10000": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tnt_x10000"
+    ]
+  },
+  "block.tnt.explode.tnt_x10000": {
+    "sounds": [
+      "tnts:block/tnt/explode_tnt_x10000"
+    ]
+  },
+  "block.tnt.fuse.vredefort_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_vredefort_tnt"
+    ]
+  },
+  "block.tnt.explode.vredefort_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_vredefort_tnt"
+    ]
+  },
+  "block.tnt.fuse.wasteland_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_wasteland_tnt"
+    ]
+  },
+  "block.tnt.explode.wasteland_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_wasteland_tnt"
+    ]
+  },
+  "block.tnt.fuse.winter_tnt": {
+    "sounds": [
+      "tnts:block/tnt/fuse_winter_tnt"
+    ]
+  },
+  "block.tnt.explode.winter_tnt": {
+    "sounds": [
+      "tnts:block/tnt/explode_winter_tnt"
+    ]
+  },
+  "block.tnt.fuse.dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite"
+    ]
+  },
+  "block.tnt.explode.dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite"
+    ]
+  },
+  "block.tnt.fuse.accelerating_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_accelerating_dynamite"
+    ]
+  },
+  "block.tnt.explode.accelerating_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_accelerating_dynamite"
+    ]
+  },
+  "block.tnt.fuse.animal_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_animal_dynamite"
+    ]
+  },
+  "block.tnt.explode.animal_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_animal_dynamite"
+    ]
+  },
+  "block.tnt.fuse.arrow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_arrow_dynamite"
+    ]
+  },
+  "block.tnt.explode.arrow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_arrow_dynamite"
+    ]
+  },
+  "block.tnt.fuse.big_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_big_dynamite"
+    ]
+  },
+  "block.tnt.explode.big_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_big_dynamite"
+    ]
+  },
+  "block.tnt.fuse.bouncing_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_bouncing_dynamite"
+    ]
+  },
+  "block.tnt.explode.bouncing_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_bouncing_dynamite"
+    ]
+  },
+  "block.tnt.fuse.chemical_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_chemical_dynamite"
+    ]
+  },
+  "block.tnt.explode.chemical_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_chemical_dynamite"
+    ]
+  },
+  "block.tnt.fuse.christmas_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_christmas_dynamite"
+    ]
+  },
+  "block.tnt.explode.christmas_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_christmas_dynamite"
+    ]
+  },
+  "block.tnt.fuse.cluster_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_cluster_dynamite"
+    ]
+  },
+  "block.tnt.explode.cluster_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_cluster_dynamite"
+    ]
+  },
+  "block.tnt.fuse.compact_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_compact_dynamite"
+    ]
+  },
+  "block.tnt.explode.compact_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_compact_dynamite"
+    ]
+  },
+  "block.tnt.fuse.cubic_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_cubic_dynamite"
+    ]
+  },
+  "block.tnt.explode.cubic_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_cubic_dynamite"
+    ]
+  },
+  "block.tnt.fuse.digging_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_digging_dynamite"
+    ]
+  },
+  "block.tnt.explode.digging_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_digging_dynamite"
+    ]
+  },
+  "block.tnt.fuse.dripstone_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dripstone_dynamite"
+    ]
+  },
+  "block.tnt.explode.dripstone_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_dripstone_dynamite"
+    ]
+  },
+  "block.tnt.fuse.dynamite_firework": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite_firework"
+    ]
+  },
+  "block.tnt.explode.dynamite_firework": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite_firework"
+    ]
+  },
+  "block.tnt.fuse.dynamite_x5": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite_x5"
+    ]
+  },
+  "block.tnt.explode.dynamite_x5": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite_x5"
+    ]
+  },
+  "block.tnt.fuse.dynamite_x20": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite_x20"
+    ]
+  },
+  "block.tnt.explode.dynamite_x20": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite_x20"
+    ]
+  },
+  "block.tnt.fuse.dynamite_x100": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite_x100"
+    ]
+  },
+  "block.tnt.explode.dynamite_x100": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite_x100"
+    ]
+  },
+  "block.tnt.fuse.dynamite_x500": {
+    "sounds": [
+      "tnts:block/tnt/fuse_dynamite_x500"
+    ]
+  },
+  "block.tnt.explode.dynamite_x500": {
+    "sounds": [
+      "tnts:block/tnt/explode_dynamite_x500"
+    ]
+  },
+  "block.tnt.fuse.end_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_end_dynamite"
+    ]
+  },
+  "block.tnt.explode.end_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_end_dynamite"
+    ]
+  },
+  "block.tnt.fuse.ender_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ender_dynamite"
+    ]
+  },
+  "block.tnt.explode.ender_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_ender_dynamite"
+    ]
+  },
+  "block.tnt.fuse.erupting_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_erupting_dynamite"
+    ]
+  },
+  "block.tnt.explode.erupting_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_erupting_dynamite"
+    ]
+  },
+  "block.tnt.fuse.farming_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_farming_dynamite"
+    ]
+  },
+  "block.tnt.explode.farming_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_farming_dynamite"
+    ]
+  },
+  "block.tnt.fuse.fire_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_fire_dynamite"
+    ]
+  },
+  "block.tnt.explode.fire_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_fire_dynamite"
+    ]
+  },
+  "block.tnt.fuse.flat_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_flat_dynamite"
+    ]
+  },
+  "block.tnt.explode.flat_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_flat_dynamite"
+    ]
+  },
+  "block.tnt.fuse.floating_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_floating_dynamite"
+    ]
+  },
+  "block.tnt.explode.floating_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_floating_dynamite"
+    ]
+  },
+  "block.tnt.fuse.floating_island_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_floating_island_dynamite"
+    ]
+  },
+  "block.tnt.explode.floating_island_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_floating_island_dynamite"
+    ]
+  },
+  "block.tnt.fuse.freeze_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_freeze_dynamite"
+    ]
+  },
+  "block.tnt.explode.freeze_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_freeze_dynamite"
+    ]
+  },
+  "block.tnt.fuse.gravity_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_gravity_dynamite"
+    ]
+  },
+  "block.tnt.explode.gravity_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_gravity_dynamite"
+    ]
+  },
+  "block.tnt.fuse.grove_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_grove_dynamite"
+    ]
+  },
+  "block.tnt.explode.grove_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_grove_dynamite"
+    ]
+  },
+  "block.tnt.fuse.hellfire_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_hellfire_dynamite"
+    ]
+  },
+  "block.tnt.explode.hellfire_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_hellfire_dynamite"
+    ]
+  },
+  "block.tnt.fuse.homing_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_homing_dynamite"
+    ]
+  },
+  "block.tnt.explode.homing_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_homing_dynamite"
+    ]
+  },
+  "block.tnt.fuse.honey_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_honey_dynamite"
+    ]
+  },
+  "block.tnt.explode.honey_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_honey_dynamite"
+    ]
+  },
+  "block.tnt.fuse.ice_meteor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ice_meteor_dynamite"
+    ]
+  },
+  "block.tnt.explode.ice_meteor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_ice_meteor_dynamite"
+    ]
+  },
+  "block.tnt.fuse.igniter_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_igniter_dynamite"
+    ]
+  },
+  "block.tnt.explode.igniter_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_igniter_dynamite"
+    ]
+  },
+  "block.tnt.fuse.lava_ocean_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lava_ocean_dynamite"
+    ]
+  },
+  "block.tnt.explode.lava_ocean_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_lava_ocean_dynamite"
+    ]
+  },
+  "block.tnt.fuse.lightning_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lightning_dynamite"
+    ]
+  },
+  "block.tnt.explode.lightning_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_lightning_dynamite"
+    ]
+  },
+  "block.tnt.fuse.lucky_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lucky_dynamite"
+    ]
+  },
+  "block.tnt.explode.lucky_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_lucky_dynamite"
+    ]
+  },
+  "block.tnt.fuse.lush_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_lush_dynamite"
+    ]
+  },
+  "block.tnt.explode.lush_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_lush_dynamite"
+    ]
+  },
+  "block.tnt.fuse.meteor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_meteor_dynamite"
+    ]
+  },
+  "block.tnt.explode.meteor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_meteor_dynamite"
+    ]
+  },
+  "block.tnt.fuse.miningflat_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_miningflat_dynamite"
+    ]
+  },
+  "block.tnt.explode.miningflat_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_miningflat_dynamite"
+    ]
+  },
+  "block.tnt.fuse.multiplying_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_multiplying_dynamite"
+    ]
+  },
+  "block.tnt.explode.multiplying_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_multiplying_dynamite"
+    ]
+  },
+  "block.tnt.fuse.nether_grove_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_nether_grove_dynamite"
+    ]
+  },
+  "block.tnt.explode.nether_grove_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_nether_grove_dynamite"
+    ]
+  },
+  "block.tnt.fuse.nuclear_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_nuclear_dynamite"
+    ]
+  },
+  "block.tnt.explode.nuclear_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_nuclear_dynamite"
+    ]
+  },
+  "block.tnt.fuse.nuclear_waste_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_nuclear_waste_dynamite"
+    ]
+  },
+  "block.tnt.explode.nuclear_waste_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_nuclear_waste_dynamite"
+    ]
+  },
+  "block.tnt.fuse.ocean_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ocean_dynamite"
+    ]
+  },
+  "block.tnt.explode.ocean_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_ocean_dynamite"
+    ]
+  },
+  "block.tnt.fuse.physics_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_physics_dynamite"
+    ]
+  },
+  "block.tnt.explode.physics_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_physics_dynamite"
+    ]
+  },
+  "block.tnt.fuse.picky_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_picky_dynamite"
+    ]
+  },
+  "block.tnt.explode.picky_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_picky_dynamite"
+    ]
+  },
+  "block.tnt.fuse.prism_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_prism_dynamite"
+    ]
+  },
+  "block.tnt.explode.prism_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_prism_dynamite"
+    ]
+  },
+  "block.tnt.fuse.pulse_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_pulse_dynamite"
+    ]
+  },
+  "block.tnt.explode.pulse_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_pulse_dynamite"
+    ]
+  },
+  "block.tnt.fuse.rainbow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_rainbow_dynamite"
+    ]
+  },
+  "block.tnt.explode.rainbow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_rainbow_dynamite"
+    ]
+  },
+  "block.tnt.fuse.random_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_random_dynamite"
+    ]
+  },
+  "block.tnt.explode.random_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_random_dynamite"
+    ]
+  },
+  "block.tnt.fuse.reaction_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_reaction_dynamite"
+    ]
+  },
+  "block.tnt.explode.reaction_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_reaction_dynamite"
+    ]
+  },
+  "block.tnt.fuse.ring_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ring_dynamite"
+    ]
+  },
+  "block.tnt.explode.ring_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_ring_dynamite"
+    ]
+  },
+  "block.tnt.fuse.roulette_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_roulette_dynamite"
+    ]
+  },
+  "block.tnt.explode.roulette_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_roulette_dynamite"
+    ]
+  },
+  "block.tnt.fuse.sculk_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_sculk_dynamite"
+    ]
+  },
+  "block.tnt.explode.sculk_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_sculk_dynamite"
+    ]
+  },
+  "block.tnt.fuse.sensor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_sensor_dynamite"
+    ]
+  },
+  "block.tnt.explode.sensor_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_sensor_dynamite"
+    ]
+  },
+  "block.tnt.fuse.shatterproof_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_shatterproof_dynamite"
+    ]
+  },
+  "block.tnt.explode.shatterproof_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_shatterproof_dynamite"
+    ]
+  },
+  "block.tnt.fuse.snow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_snow_dynamite"
+    ]
+  },
+  "block.tnt.explode.snow_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_snow_dynamite"
+    ]
+  },
+  "block.tnt.fuse.sphere_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_sphere_dynamite"
+    ]
+  },
+  "block.tnt.explode.sphere_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_sphere_dynamite"
+    ]
+  },
+  "block.tnt.fuse.spiral_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_spiral_dynamite"
+    ]
+  },
+  "block.tnt.explode.spiral_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_spiral_dynamite"
+    ]
+  },
+  "block.tnt.fuse.timer_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_timer_dynamite"
+    ]
+  },
+  "block.tnt.explode.timer_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_timer_dynamite"
+    ]
+  },
+  "block.tnt.fuse.tunneling_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_tunneling_dynamite"
+    ]
+  },
+  "block.tnt.explode.tunneling_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_tunneling_dynamite"
+    ]
+  },
+  "block.tnt.fuse.ultralight_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_ultralight_dynamite"
+    ]
+  },
+  "block.tnt.explode.ultralight_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_ultralight_dynamite"
+    ]
+  },
+  "block.tnt.fuse.vaporize_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_vaporize_dynamite"
+    ]
+  },
+  "block.tnt.explode.vaporize_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_vaporize_dynamite"
+    ]
+  },
+  "block.tnt.fuse.withering_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_withering_dynamite"
+    ]
+  },
+  "block.tnt.explode.withering_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_withering_dynamite"
+    ]
+  },
+  "block.tnt.fuse.wool_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_wool_dynamite"
+    ]
+  },
+  "block.tnt.explode.wool_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_wool_dynamite"
+    ]
+  },
+  "block.tnt.fuse.xray_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/fuse_xray_dynamite"
+    ]
+  },
+  "block.tnt.explode.xray_dynamite": {
+    "sounds": [
+      "tnts:block/tnt/explode_xray_dynamite"
+    ]
   }
 }

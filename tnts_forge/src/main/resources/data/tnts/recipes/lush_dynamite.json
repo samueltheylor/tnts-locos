@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:azalea"
+    },
+    "I": {
+      "item": "minecraft:moss_block"
+    },
+    "A": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "result": {
+    "item": "tnts:lush_dynamite",
+    "count": 1
+  }
+}

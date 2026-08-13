@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnts:block/solar_eruption_tnt"
+    },
+    "lit=true": {
+      "model": "tnts:block/solar_eruption_tnt_lit"
+    }
+  }
+}

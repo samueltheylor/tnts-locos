@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGI",
+    "A  ",
+    "   "
+  ],
+  "key": {
+    "T": {
+      "item": "tnts:dynamite"
+    },
+    "G": {
+      "item": "minecraft:sculk_sensor"
+    },
+    "I": {
+      "item": "minecraft:echo_shard"
+    },
+    "A": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "tnts:sculk_dynamite",
+    "count": 1
+  }
+}
